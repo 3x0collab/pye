@@ -3,10 +3,6 @@ from django.contrib.auth.models import User
 from . import models
 
 
-from .models import Transformer
-
-
-
 class CustomerUserForm(forms.ModelForm):
     class Meta:
         model=User
@@ -21,3 +17,11 @@ class CustomerForm(forms.ModelForm):
         fields=['email']
 
 
+
+class CodeForm(forms.ModelForm):
+    class Meta:
+        model = models.Transformer
+        fields = ('code', 'name',"description","is_public")
+        widgets = {
+                "code": forms.Textarea(),
+            }

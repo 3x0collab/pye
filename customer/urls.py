@@ -36,6 +36,8 @@ urlpatterns = [
     path('coinbase-checkout/<int:pk>', views.coinbase_checkout_view,name='coinbase-checkout'),
     #path('ask-question', views.ask_question_view,name='ask-question'),
     path('transformer', views.question_history_view,name='question-history'),
+    path('code_editor', views.code_editor,name='code_editor'),
+    path('code_editor/<int:pk>', views.code_editor,name='edit_code_editor'),
     path('history', views.history_view, name='history'), 
 
     path(route='course', view=views.movie_recommendation_view, name='recommendations'),

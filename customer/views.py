@@ -497,32 +497,68 @@ def delete_question_view(request,pk):
     question.delete()
     return redirect('question-history')
 
-def question_history_view(request):
+def code_editor(request,pk=None): 
+
+    if request.method == 'POST':  
+        try:
+            code_Form=forms.CodeForm(request.POST)
+            if code_Form.is_valid() :
+                code_save = code_Form.save(commit=False)
+                code_save.created_by = request.user
+                code_save.save()
+            # saved_transformer = models.Transformer.objects.create(**save_data) 
+            return redirect('question-history')
+        except Exception as e:
+            print(e)
+            form = forms.CodeForm()
+            return render(request,'home/code_editor.html',{'code':request.POST.get("code"),'form':form,"update":1,
+                'name':request.POST.get("name"),'description':request.POST.get("description"),"error":e }) 
+    else:
+        form = forms.CodeForm()
+        if pk:
+            transformer = models.Transformer.objects.get(pk=pk)
+            return render(request,'home/code_editor.html',{'code':transformer.code,'form':form,"update":1,
+                'name':transformer.name,'description':transformer.description }) 
+        return render(request,'home/code_editor.html',{'code':""" 
+    # This Python 3 environment comes with many helpful analytics libraries installed
+    # It is defined by the kaggle/python Docker image: https://github.com/kaggle/docker-python
+    # For example, here's several helpful packages to load
+
+    import numpy as np # linear algebra
+    import pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)
+
+    # Input data files are available in the read-only "../input/" directory
+    # For example, running this (by clicking run or pressing Shift+Enter) will list all files under the input directory
+
+    import os
+    for dirname, _, filenames in os.walk('/kaggle/input'):
+        for filename in filenames:
+            print(os.path.join(dirname, filename))
+
+    # You can write up to 20GB to the current directory (/kaggle/working/) that gets preserved as output when you create a version using "Save & Run All" 
+    # You can also write temporary files to /kaggle/temp/, but they won't be saved outside of the current session
+            """}) 
+
+
+
+def question_history_view(request): 
     # customer = models.Customer.objects.get(user_id=request.user.id)
-    query = request.GET.get('q')
-    transformers = models.Transformer.objects.filter(is_public="True")
+    query = request.GET.get('q',"")
+    transformers = models.Transformer.objects.filter(is_public="True").order_by('-last_modified')
+    my_work = models.Transformer.objects.filter(created_by=request.user).count()  
 
     if query:
         transformers = transformers.filter(
             Q(name__icontains=query) |
             Q(description__icontains=query)
-        ) 
-
-
-    if request.method=='POST':
-        # questionForm=forms.EditorForm(request.POST)
-        # if questionForm.is_valid():
-        #     question = questionForm.save(commit=False)
-        #     question.customer=customer
-        #     question.save()
-            return redirect('question-history')
+        )  
 
     paginator = Paginator(transformers, 10) # Display 10 transformers per page
     page = request.GET.get('page')
     transformers = paginator.get_page(page)
 
     return render(request,'home/my-questions.html',{'transformers':transformers,
-                                                    'segment' : "question-history","q":query})
+                                                    'segment' : "question-history","q":query,"my_work":my_work})
 
 
 def download_attendance(request):

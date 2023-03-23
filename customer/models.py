@@ -30,15 +30,20 @@ class Customer(models.Model):
         return self.user.first_name
 
 
+ 
 class Transformer(models.Model):
-    name = models.CharField(max_length=100,null=False,default='')
+    name = models.CharField(max_length=200,null=False,default='')
     description = models.TextField(null=True,blank=True)
-    created_by=models.OneToOneField(User,on_delete=models.CASCADE,null=True,blank=True)
+    created_by=models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     last_modified = models.DateTimeField(default=timezone.now)
     is_public = models.CharField(max_length=20,null=True,blank=True,default='False')
     views = models.IntegerField(default=0,null=True,blank=True)
-    code = models.TextField(null=True,blank=True,default='False')
+    code = models.TextField(null=True,blank=True,default='')
 
     def __str__(self):
-        return self.user.first_name + " : "+ self.name
+        return self.created_by.first_name + " : "+ self.name
 
+    def save(self, *args, **kwargs):
+        self.views = self.views + 1
+        super().save(*args, **kwargs)
+ 
