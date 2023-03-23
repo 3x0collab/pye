@@ -30,6 +30,19 @@ class Customer(models.Model):
         return self.user.first_name
 
 
+
+
+class Connector(models.Model):
+    name = models.CharField(max_length=200,null=False,default='')
+    connector_type = models.CharField(max_length=150,null=True,blank=True)
+    parameters = models.TextField(null=True,blank=True)
+
+    def __str__(self):
+        return self.name + " : "+ self.connector_type
+
+
+
+
  
 class Transformer(models.Model):
     name = models.CharField(max_length=200,null=False,default='')
@@ -47,3 +60,25 @@ class Transformer(models.Model):
         self.views = self.views + 1
         super().save(*args, **kwargs)
  
+
+
+
+
+class Task(models.Model):
+    name = models.CharField(max_length=200,null=False,default='')
+    description = models.TextField(null=True,blank=True)
+    created_by=models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    date_created = models.DateField(default=timezone.now)
+    time_created = models.TimeField(default=timezone.now)
+    last_run = models.DateTimeField(default=timezone.now)  
+    source=models.ForeignKey(Connector, on_delete=models.CASCADE, null=True, blank=True,related_name="connector_source")
+    target=models.ForeignKey(Connector, on_delete=models.CASCADE, null=True, blank=True,related_name="connector_target")
+    transformers=models.ManyToManyField(Transformer, null=True, blank=True)
+
+    def __str__(self):
+        return self.created_by.first_name + " : "+ self.name
+
+ 
+
+
+
