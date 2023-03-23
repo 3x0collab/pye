@@ -11,6 +11,7 @@ from django.shortcuts import get_object_or_404
 from django.conf import settings
 from coinbase_commerce.client import Client
 from decimal import Decimal
+from django.core.paginator import Paginator
 from datetime import date, datetime
 from django.utils.datastructures import MultiValueDictKeyError
 import mimetypes
@@ -497,18 +498,31 @@ def delete_question_view(request,pk):
     return redirect('question-history')
 
 def question_history_view(request):
-    customer = models.Customer.objects.get(user_id=request.user.id)
-    questions = CMODEL.Question.objects.all().filter(customer=customer)
-    questionForm=forms.EditorForm() 
+    # customer = models.Customer.objects.get(user_id=request.user.id)
+    query = request.GET.get('q')
+    transformers = models.Transformer.objects.filter(is_public="True")
+
+    if query:
+        transformers = transformers.filter(
+            Q(name__icontains=query) |
+            Q(description__icontains=query)
+        ) 
+
+
     if request.method=='POST':
-        questionForm=forms.EditorForm(request.POST)
-        if questionForm.is_valid():
-            question = questionForm.save(commit=False)
-            question.customer=customer
-            question.save()
+        # questionForm=forms.EditorForm(request.POST)
+        # if questionForm.is_valid():
+        #     question = questionForm.save(commit=False)
+        #     question.customer=customer
+        #     question.save()
             return redirect('question-history')
-    return render(request,'home/my-questions.html',{'questionForm':questionForm,
-                                                    'segment' : "question-history"})
+
+    paginator = Paginator(transformers, 10) # Display 10 transformers per page
+    page = request.GET.get('page')
+    transformers = paginator.get_page(page)
+
+    return render(request,'home/my-questions.html',{'transformers':transformers,
+                                                    'segment' : "question-history","q":query})
 
 
 def download_attendance(request):

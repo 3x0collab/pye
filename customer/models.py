@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils import timezone
+
 
 class Customer(models.Model):
     user=models.OneToOneField(User,on_delete=models.CASCADE)
@@ -30,5 +32,13 @@ class Customer(models.Model):
 
 class Transformer(models.Model):
     name = models.CharField(max_length=100,null=False,default='')
-    text = models.TextField(null=True,blank=True)
+    description = models.TextField(null=True,blank=True)
+    created_by=models.OneToOneField(User,on_delete=models.CASCADE,null=True,blank=True)
+    last_modified = models.DateTimeField(default=timezone.now)
+    is_public = models.CharField(max_length=20,null=True,blank=True,default='False')
+    views = models.IntegerField(default=0,null=True,blank=True)
+    code = models.TextField(null=True,blank=True,default='False')
+
+    def __str__(self):
+        return self.user.first_name + " : "+ self.name
 
