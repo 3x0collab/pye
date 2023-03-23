@@ -3,10 +3,6 @@ from django.contrib.auth.models import User
 from . import models
 
 
-from .models import Transformer
-
-
-
 class CustomerUserForm(forms.ModelForm):
     class Meta:
         model=User

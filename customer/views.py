@@ -499,9 +499,9 @@ def delete_question_view(request,pk):
 def question_history_view(request):
     customer = models.Customer.objects.get(user_id=request.user.id)
     questions = CMODEL.Question.objects.all().filter(customer=customer)
-    questionForm=forms.EditorForm() 
+    questionForm= CFORM.QuestionForm()
     if request.method=='POST':
-        questionForm=forms.EditorForm(request.POST)
+        questionForm= CFORM.QuestionForm(request.POST)
         if questionForm.is_valid():
             question = questionForm.save(commit=False)
             question.customer=customer

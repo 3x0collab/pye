@@ -28,7 +28,7 @@ class Customer(models.Model):
         return self.user.first_name
 
 
-class Transformer(models.Model):
-    name = models.CharField(max_length=100,null=False,default='')
-    text = models.TextField(null=True,blank=True)
+
+
+
 
