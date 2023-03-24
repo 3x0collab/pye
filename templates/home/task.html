@@ -25,20 +25,20 @@
 <div class="card w-70  my-3 py-2 px-5" style="display: flex; align-items: center; flex-direction: column; ">
 
 
-<div class="card source w-100 mt-4 mb-3 py-2 px-5" style="border-radius: 100px; border: 1px solid green;" >
+<div class="card source w-100 mt-4 mb-3 py-2 px-5 " id="hover" source-val="dummy" style="border-radius: 100px;"  >
     <div style="display:flex; flex-direction:row; align-items: center; justify-content: space-between; "  >
     <div  style="width: 15%;" >
 
 <img src="{% static 'assets/img/icons8-3d-design-64.png''%}" width="52px">
     </div>
     <div  style="width: 85%;"  >
-        <h1  class="wow fadeInDown" data-wow-duration="1s" style="font-size:20px; font-weight: bolder; "  >Dummy Connector</h1>
+        <h1  class="wow fadeInDown" data-wow-duration="1s" style="font-size:20px; font-weight: bolder; "  >Datasets Connector</h1>
      <strong>Extract data from long selections of real world sample data.</strong> 
                    </div>
     </div>
 </div>
 
-<div class="card source w-100 mb-3 py-2 px-5" style="border-radius: 100px;">
+<div class="card source w-100 mb-3 py-2 px-5" source-val="task" style="border-radius: 100px;">
     <div style="display:flex; flex-direction:row; align-items: center; justify-content: space-between; "  >
     <div  style="width: 15%;" >
 
@@ -53,7 +53,7 @@
 </div>
 
 
-<div class="card source w-100 mb-3 py-2 px-5" style="border-radius: 100px;">
+<div class="card source w-100 mb-3 py-2 px-5" source-val="database" style="border-radius: 100px;">
     <div style="display:flex; flex-direction:row; align-items: center; justify-content: space-between; "  >
     <div  style="width: 15%;" >
 
@@ -67,7 +67,7 @@
     </div>
 </div>
 
-<div class="card source w-100 mb-3 py-2 px-5" style="border-radius: 100px;">
+<div class="card source w-100 mb-3 py-2 px-5" source-val="flatfile" style="border-radius: 100px;">
     <div style="display:flex; flex-direction:row; align-items: center; justify-content: space-between; "  >
     <div  style="width: 15%;" >
 
@@ -82,7 +82,7 @@
     </div>
 </div>
 
-<div class="card source w-100 mb-3 py-2 px-5" style="border-radius: 100px;">
+<div class="card source w-100 mb-3 py-2 px-5" source-val="api" style="border-radius: 100px;">
     <div style="display:flex; flex-direction:row; align-items: center; justify-content: space-between; "  >
     <div  style="width: 15%;" >
 
@@ -96,7 +96,7 @@
     </div>
 </div>
 
-<div class="card source w-100 mb-3 py-2 px-5" style="border-radius: 100px;">
+<div class="card source w-100 mb-3 py-2 px-5" source-val="application" style="border-radius: 100px;">
     <div style="display:flex; flex-direction:row; align-items: center; justify-content: space-between; "  >
     <div  style="width: 15%;" >
 
@@ -110,7 +110,7 @@
     </div>
 </div>
 
-<div class="card source w-100 mb-3 py-2 px-5" style="border-radius: 100px;">
+<div class="card source w-100 mb-3 py-2 px-5" source-val="cloud" style="border-radius: 100px;">
     <div style="display:flex; flex-direction:row; align-items: center; justify-content: space-between; "  >
     <div  style="width: 15%;" >
 
@@ -125,7 +125,7 @@
 </div>
 
 
-<div class="card source w-100 mb-3 py-2 px-5" style="border-radius: 100px;">
+<div class="card source w-100 mb-3 py-2 px-5"  source-val="iot" style="border-radius: 100px;">
     <div style="display:flex; flex-direction:row; align-items: center; justify-content: space-between; "  >
     <div  style="width: 15%;" >
 
@@ -139,7 +139,7 @@
     </div>
 </div>
 
-<a href="{% url 'source-credential'  %}" class="btn btn-primary btn-lg active my-3" role="button" aria-pressed="true">Next</a>
+<a id='next' href="/customer/source-credential?source-val=dummy" class="btn btn-primary btn-lg active my-3" role="button" aria-pressed="true">Next</a>
 </div>
 
                         </div>  
@@ -196,10 +196,29 @@
     border: 1px solid green;
 
 }
+
+#hover {
+    border: 1px solid green;
+
+}
 </style>
 
 
   <script>
+
+ const source =  $(".source")
+ source.click(function(e){
+ source.removeAttr("id")
+ $(this).attr('id','hover')
+// localStorage.set("source-val", $(this).attr('source-val'))
+$("#next").attr("href","/customer/source-credential?source-val="+$(this).attr('source-val')||'dummy')
+
+    })
+
+
+ 
+
+
     var win = navigator.platform.indexOf('Win') > -1;
     if (win && document.querySelector('#sidenav-scrollbar')) {
       var options = {

@@ -427,14 +427,23 @@ def profile_view(request):
 
 @login_required(login_url='login')
 def select_source_view(request):
-    customer = models.Customer.objects.get(user_id=request.user.id)
-    dict={'customer':customer,"segment":"select-source"}
+    dict={"segment":"select-source"}
     return render(request,'home/task.html',context=dict) 
     
 @login_required(login_url='login')
-def source_credential_view(request):
-    customer = models.Customer.objects.get(user_id=request.user.id)
-    dict={'customer':customer,"segment":"source-credential"}
+def source_credential_view(request):    
+    source_val = request.GET.get("source-val","dummy")
+    data = []
+    if source_val =='dummy':
+        json_path = os.path.join(os.getcwd(),   'static', 'json', 'sample_data.json')
+        with open(json_path,encoding="utf8") as f:
+            data = json.load(f)['sample_data']
+
+    if source_val=='task':
+        data =  models.Task.objects.filter(created_by=request.user).order_by('-date_created').values("name")
+
+
+    dict={"segment":"source-credential","source_val":source_val,"data":data}
     return render(request,'home/credential.html',context=dict)     
 
 @login_required(login_url='login')

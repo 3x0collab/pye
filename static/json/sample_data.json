@@ -1,713 +1,846 @@
 {
-"sample_data":[
-{
-	"name":"Basic User",
-	"data":{
-  "user_id": "USR001",
-  "username": "johndoe",
-  "first_name": "John",
-  "last_name": "Doe",
-  "email": "johndoe@example.com",
-  "phone_number": "+1 (555) 123-4567",
-  "address": {
-    "street": "123 Main St",
-    "city": "Anytown",
-    "state": "CA",
-    "zip_code": "12345",
-    "country": "USA"
-  },
-  "birthdate": "01/01/1990",
-  "gender": "Male",
-  "occupation": "Software Engineer",
-  "interests": [
-    "Reading",
-    "Hiking",
-    "Photography"
-  ]
-}
-},{
-	"name":"Products - Electronics",
-	"data":{ 
-   "product_id": "PRD001",
-   "product_name": "Smartphone",
-   "brand": "Samsung",
-   "price": 799,
-   "in_stock": true,
-   "category": "Electronics",
-       "screen_size": "6.2 inch",
-       "resolution": "1440 x 3200 pixels",
-       "camera": "Quad Camera (64 MP + 12 MP + 12 MP + 3D ToF)",
-       "battery": "4000 mAh"
-}},{
-	"name":"Products - Clothing",
-	"data":{
-   "product_id": "PRD002",
-   "product_name": "Men's T-Shirt",
-   "brand": "Nike",
-   "price": 25,
-   "in_stock": true,
-   "category": "Clothing",
-       "color": "White",
-       "size": "M",
-       "material": "Cotton"
-    
-}},{
-	"name":"Products - Beauty",
-	"data":{ 
-   "product_id": "PRD003",
-   "product_name": "Lipstick",
-   "brand": "MAC",
-   "price": 20,
-   "in_stock": true,
-   "category": "Beauty",
-    "color": "Ruby Woo",
-       "finish": "Matte",
-       "longevity": "8 Hours"
-  
-}},{
-	"name":"Financial - Credit Card Transactions",
-	"data":{  
-    "card_number": "1234 5678 9012 3456",
-    "transaction_date": "2022-03-10",
-    "merchant_name": "Amazon.com",
-    "amount": 58.99,
-    "currency": "USD",
-    "category": "Online Shopping",
-    "location": {
-        "address": "410 Terry Ave N",
-        "city": "Seattle",
-        "state": "WA",
-        "country": "USA",
-        "zip_code": "98109"
-    }
-}},{
-	"name":"Financial - Loan Applications",
-	"data":{  
-    "applicant_name": "John Smith",
-    "applicant_age": 35,
-    "income": 80000,
-    "credit_score": 720,
-    "loan_amount": 50000,
-    "interest_rate": 5.5,
-    "term_in_years": 5,
-    "collateral": {
-        "type": "Real Estate",
-        "address": "123 Main St",
-        "city": "New York",
-        "state": "NY",
-        "country": "USA",
-        "zip_code": "10001"
-    }
-}},{
-	"name":"Financial - Stock Prices - Extended",
-	"data":{   
-  "company": "Apple Inc.",
-  "symbol": "AAPL",
-  "exchange": "NASDAQ",
-  "date": "2022-03-15",
-  "open_price": 175.25,
-  "close_price": 178.65,
-  "high_price": 180.00,
-  "low_price": 173.80,
-  "volume": 23456789,
-  "market_cap": 220345678901.00,
-  "pe_ratio": 30.56,
-  "52_week_high": 185.20,
-  "52_week_low": 100.01,
-  "dividend_yield": 0.78
-}},{
-	"name":"Financial - Global Stock Prices",
-	"data":{  
-  "company": "Toyota Motor Corporation",
-  "symbol": "TM",
-  "exchange": "NYSE",
-  "country": "Japan",
-  "currency": "JPY",
-  "date": "2022-03-15",
-  "open_price": 8250.00,
-  "close_price": 8500.00,
-  "high_price": 8650.00,
-  "low_price": 8100.00,
-  "volume": 1234567,
-  "market_cap": 30123456789.00,
-  "pe_ratio": 11.22,
-  "52_week_high": 9000.00,
-  "52_week_low": 6300.00,
-  "dividend_yield": 3.50
-}},{
-	"name":"Financial - Cryptocurrency Prices",
-	"data":{   
-  "crypto": "Bitcoin",
-  "symbol": "BTC",
-  "date": "2022-03-15",
-  "open_price": 58976.98,
-  "close_price": 61345.01,
-  "high_price": 61890.56,
-  "low_price": 57300.00,
-  "volume": 234567890,
-  "market_cap": 1156789012345.00,
-  "circulating_supply": 18762545.00,
-  "max_supply": 21000000.00,
-  "ath": 64849.00,
-  "atl": 3129.00,
-  "change_24h": 0.0456,
-  "change_7d": -0.0234,
-  "change_30d": 0.1221
-}},{
-	"name":"Social Media - Basic Analytics",
-	"data":{   
-  "timestamp": "2022-03-15T10:30:00Z",
-  "username": "john_doe",
-  "platform": "Twitter",
-  "post": "Just had a great workout at the gym!",
-  "likes": 56,
-  "comments": 12,
-  "shares": 8,
-  "hashtags": ["fitness", "workout"],
-  "mentions": ["gym"],
-  "location": {
-    "country": "United States",
-    "city": "New York",
-    "latitude": 40.7128,
-    "longitude": -74.0060
-  }
-}},{
-	"name":"Social Media - Sentiment Analysis",
-	"data":{    
-  "timestamp": "2022-03-14T18:45:00Z",
-  "username": "jane_smith",
-  "platform": "Instagram",
-  "post": "Just got a promotion at work! Feeling grateful and blessed. 🙏🏼",
-  "likes": 102,
-  "comments": 7,
-  "shares": 0,
-  "hashtags": ["work", "promotion", "grateful", "blessed"],
-  "mentions": [],
-  "location": {
-    "country": "United States",
-    "city": "Los Angeles",
-    "latitude": 34.0522,
-    "longitude": -118.2437
-  },
-  "sentiment": "Positive"
-}},{
-	"name":"Social Media - Influencer Marketing",
-	"data":{   
-  "timestamp": "2022-03-13T12:00:00Z",
-  "username": "lifestylebyemily",
-  "platform": "TikTok",
-  "post": "Trying out this new skincare routine! I'm obsessed with these products from @glowbeautyco 😍 #skincare #beauty",
-  "likes": 1265,
-  "comments": 32,
-  "shares": 4,
-  "hashtags": ["skincare", "beauty"],
-  "mentions": ["glowbeautyco"],
-  "location": {
-    "country": "United States",
-    "city": "Miami",
-    "latitude": 25.7617,
-    "longitude": -80.1918
-  },
-  "product_name": "Glow Beauty Co. Skincare Bundle",
-  "product_description": "A complete skincare bundle"
-}},{
-	"name":"Healthcare - Patient Information",
-	"data":{   
-   "patient_id": "PA101",
-   "name": {
-      "first_name": "John",
-      "last_name": "Doe"
-   },
-   "age": 42,
-   "gender": "male",
-   "address": {
-      "street": "123 Main St",
-      "city": "Anytown",
-      "state": "CA",
-      "zip": "12345"
-   },
-   "phone": "555-555-1234",
-   "email": "johndoe@example.com",
-   "blood_type": "O+",
-   "medical_history": [
-      {
-         "condition": "Asthma",
-         "treatment": "Albuterol Inhaler",
-         "start_date": "01/01/2010",
-         "end_date": "N/A"
-      },
-      {
-         "condition": "High Blood Pressure",
-         "treatment": "Lisinopril",
-         "start_date": "01/01/2015",
-         "end_date": "N/A"
+  "sample_data": [
+    {
+      "name":"Empty Data",
+      "id":"EmptyData",
+      "data":{}
+    },
+    {
+      "name": "Basic - User Profile",
+      "id": "BasicUserProfile",
+      "data": {
+        "user_id": "USR001",
+        "username": "johndoe",
+        "first_name": "John",
+        "last_name": "Doe",
+        "email": "johndoe@example.com",
+        "phone_number": "+1 (555) 123-4567",
+        "address": {
+          "street": "123 Main St",
+          "city": "Anytown",
+          "state": "CA",
+          "zip_code": "12345",
+          "country": "USA"
+        },
+        "birthdate": "01/01/1990",
+        "gender": "Male",
+        "occupation": "Software Engineer",
+        "interests": [
+          "Reading",
+          "Hiking",
+          "Photography"
+        ]
       }
-   ],
-   "allergies": [
-      "Penicillin",
-      "Peanuts"
-   ],
-   "insurance_provider": "Blue Cross Blue Shield",
-   "policy_number": "1234567890"
-}},{
-	"name":"Healthcare - Medical Claim",
-	"data":{   
-   "claim_id": "CLM001",
-   "patient_id": "PA101",
-   "provider": {
-      "name": "ABC Hospital",
-      "address": {
-         "street": "456 Main St",
-         "city": "Anytown",
-         "state": "CA",
-         "zip": "12345"
-      },
-      "phone": "555-555-5678"
-   },
-   "diagnosis": [
-      {
-         "code": "J45.909",
-         "description": "Asthma, Unspecified"
-      },
-      {
-         "code": "I10",
-         "description": "Essential (primary) hypertension"
-      }
-   ],
-   "procedures": [
-      {
-         "code": "94010",
-         "description": "Spirometry, including graphic record, total and timed vital capacity, expiratory flow rate measurement(s), with or without maximal voluntary ventilation"
-      },
-      {
-         "code": "36415",
-         "description": "Routine venipuncture"
-      }
-   ],
-   "date_of_service": "03/15/2023",
-   "total_charge": 250.00,
-   "amount_paid": 200.00,
-   "status": "Processed"
-}},{
-	"name":"Healthcare - Clinical Trial Participant",
-	"data":{  
-   "trial_id": "TRIAL001",
-   "patient_id": "PA101",
-   "trial_name": "Treatment of Asthma with Experimental Drug",
-   "enrollment_date": "01/01/2023",
-   "treatment_start_date": "02/01/2023",
-   "treatment_end_date": "03/15/2023",
-   "treatment": {
-      "drug_name": "Experimental Drug",
-      "dose": "100 mg",
-      "frequency": "Once daily"
-   },
-   "follow_ups": [
-      {
-         "visit_number": 1,
-         "visit_date": "02/15/2023",
-         "symptoms": [
-            "Coughing",
-            "Wheezing"
-         ],
-         "peak_flow": 250,
-         "FEV1": 2.5,
-         "treatment_changes": [
-"Increased dose to 150 mg"
-],
-"comments": "Patient reported improvement in symptoms"
-},
-{
-"visit_number": 2,
-"visit_date": "03/01/2023",
-"symptoms": [
-"Coughing",
-"Wheezing"
-],
-"peak_flow": 280,
-"FEV1": 2.8,
-"treatment_changes": [],
-"comments": "No significant change in symptoms"
-},
-{
-"visit_number": 3,
-"visit_date": "03/15/2023",
-"symptoms": [
-"No coughing",
-"No wheezing"
-],
-"peak_flow": 350,
-"FEV1": 3.5,
-"treatment_changes": [],
-"comments": "Patient reported significant improvement in symptoms"
-}
-]
-}},{
-	"name":"Weather - Basic City Data",
-	"data":{ 
-   "city": "New York",
-   "state": "NY",
-   "country": "US",
-   "latitude": 40.7128,
-   "longitude": -74.006,
-   "temperature": 32,
-   "humidity": 50,
-   "wind_speed": 12,
-   "wind_direction": "N",
-   "pressure": 1016,
-   "visibility": 10,
-   "precipitation": 0.01,
-   "sunrise": "06:30",
-   "sunset": "18:30",
-   "weather_description": "Light snow"
-}},{
-	"name":"Weather - Historical Data",
-	"data":{   
-   "city": "Sydney",
-   "country": "Australia",
-   "latitude": -33.8688,
-   "longitude": 151.2093,
-   "date": "03/15/2022",
-   "max_temperature": 27,
-   "min_temperature": 21,
-   "average_temperature": 24,
-   "humidity": 70,
-   "wind_speed": 20,
-   "wind_direction": "NE",
-   "pressure": 1014,
-   "visibility": 12,
-   "precipitation": 0.0,
-   "sunrise": "06:30",
-   "sunset": "18:30",
-   "weather_description": "Sunny"
-}},{
-	"name":"Sports - NBA Player Stats",
-	"data":{    
-   "player_id": "1234",
-   "player_name": "LeBron James",
-   "team_name": "Los Angeles Lakers",
-   "points_per_game": 25.4,
-   "rebounds_per_game": 7.9,
-   "assists_per_game": 7.6,
-   "steals_per_game": 1.2,
-   "blocks_per_game": 0.8,
-   "field_goal_percentage": 0.511,
-   "three_point_percentage": 0.363,
-   "free_throw_percentage": 0.703,
-   "games_played": 60,
-   "minutes_played": 35.0,
-   "jersey_number": 23,
-   "position": "Small Forward"
-}},{
-	"name":"Sports - NFL Game Statistics",
-	"data":{    
-   "game_id": "3456",
-   "home_team": "New England Patriots",
-   "away_team": "Pittsburgh Steelers",
-   "date": "10/10/2023",
-   "time": "8:20 PM",
-   "stadium": "Gillette Stadium",
-   "weather": "Cloudy",
-   "temperature": 55,
-   "home_team_stats": {
-      "total_yards": 415,
-      "passing_yards": 280,
-      "rushing_yards": 135,
-      "first_downs": 22,
-      "turnovers": 1,
-      "time_of_possession": "30:15",
-      "red_zone_scoring_attempts": 4,
-      "red_zone_scores": 3
-   },
-   "away_team_stats": {
-      "total_yards": 358,
-      "passing_yards": 245,
-      "rushing_yards": 113,
-      "first_downs": 19,
-      "turnovers": 2,
-      "time_of_possession": "29:45",
-      "red_zone_scoring_attempts": 2,
-      "red_zone_scores": 1
-   }
-}},{
-	"name":"Sports - MLB Pitcher Stats",
-	"data":{    
-   "player_id": "5678",
-   "player_name": "Max Scherzer",
-   "team_name": "Los Angeles Dodgers",
-   "wins": 17,
-   "losses": 7,
-   "era": 2.81,
-   "innings_pitched": 220.0,
-   "strikeouts": 276,
-   "walks": 48,
-   "hits_allowed": 164,
-   "home_runs_allowed": 25,
-   "games_started": 32,
-   "complete_games": 2,
-   "shutouts": 1,
-   "saves": 0,
-   "holds": 0
-}},{
-	"name":"Geographic - National Parks",
-	"data":{ 
-   "park_id": "NP001",
-   "park_name": "Yellowstone National Park",
-   "location": {
-      "latitude": "44.427963",
-      "longitude": "-110.588455",
-      "state": "Wyoming"
-   },
-   "size": "2.2 million acres",
-   "established_date": "March 1, 1872",
-   "annual_visitors": "4.2 million",
-   "trails": [
-      {
-         "trail_id": "T001",
-         "trail_name": "Uncle Tom's Trail",
-         "length": "0.6 miles",
-         "difficulty": "Moderate"
-      },
-      {
-         "trail_id": "T002",
-         "trail_name": "Mystic Falls Trail",
-         "length": "2.5 miles",
-         "difficulty": "Easy"
-      }
-   ],
-   "wildlife": [
-      "Bison",
-      "Elk",
-      "Grizzly Bear",
-      "Wolf"
-   ],
-   "campgrounds": [
-      {
-         "campground_id": "CG001",
-         "campground_name": "Bridge Bay Campground",
-         "location": "Yellowstone Lake",
-         "availability": true,
-         "cost": "$27-$47 per night"
-      },
-      {
-         "campground_id": "CG002",
-         "campground_name": "Mammoth Hot Springs Campground",
-         "location": "Mammoth Hot Springs",
-         "availability": false,
-         "cost": "$20 per night"
-      }
-   ]
-}},{
-	"name":"Geographic - World Heritage Sites",
-	"data":{  
-   "site_id": "WHS001",
-   "site_name": "Machu Picchu",
-   "location": {
-      "latitude": "-13.1631",
-      "longitude": "-72.5450",
-      "country": "Peru"
-   },
-   "date_inscribed": "1983",
-   "type": "Cultural",
-   "criteria": [
-      "Criterion (i): a masterpiece of human creative genius",
-      "Criterion (iii): bears a unique or at least exceptional testimony to a cultural tradition or to a civilization which is living or which has disappeared",
-      "Criterion (vii): contains superlative natural phenomena or areas of exceptional natural beauty and aesthetic importance"
-   ],
-   "description": "Machu Picchu is a 15th-century Inca citadel, located in the Eastern Cordillera of southern Peru, on a mountain ridge 2,430 metres (7,970 ft) above sea level. It is located in the Cusco Region, Urubamba Province, Machupicchu District above the Sacred Valley, which is 80 kilometres (50 mi) northwest of Cuzco.",
-   "images": [
-      {
-         "url": "https://www.example.com/machupicchu1.jpg",
-         "description": "View of Machu Picchu from above"
-      },
-      {
-         "url": "https://www.example.com/machupicchu2.jpg",
-         "description": "The Temple of the Sun"
-      }
-   ],
-   "visitors": {
-      "annual_visitors": 1.5 million,
-      "peak_month": "July",
-      "average_daily_visitors": 4000
-   }
-}},{
-	"name":"Geographic - Natural Wonders",
-	"data":{  
-  "wonder_id": "NW001",
-  "wonder_name": "Grand Canyon",
-  "location": {
-    "latitude": "36.1069° N",
-    "longitude": "112.1121° W"
-  },
-  "country": "USA",
-  "city": "Arizona",
-  "date_discovered": "1869-09-20",
-  "height": "1,857 m",
-  "type": "Canyon",
-  "visitor_count": 6.3,
-  "description": "The Grand Canyon is a steep-sided canyon carved by the Colorado River in Arizona, United States."
-}},{
-	"name":"Basic - Movie Reviews",
-	"data":{   
-    "review_id": "REV001",
-    "movie_name": "The Godfather",
-    "review_text": "The Godfather is a cinematic masterpiece. The acting, directing, and cinematography are all top-notch. It's a must-watch for any movie buff.",
-    "reviewer_name": "John Doe",
-    "review_date": "03/15/2023",
-    "rating": 9.5,
-    "sentiment": "Positive",
-    "keywords": [
-        "cinematic masterpiece",
-        "acting",
-        "directing",
-        "cinematography",
-        "movie buff"
-    ],
-    "entities": [
-        {
+    },{
+      "name": "Basic - Movie Reviews",
+      "id": "BasicMovieReviews",
+      "data": {
+        "review_id": "REV001",
+        "movie_name": "The Godfather",
+        "review_text": "The Godfather is a cinematic masterpiece. The acting, directing, and cinematography are all top-notch. It's a must-watch for any movie buff.",
+        "reviewer_name": "John Doe",
+        "review_date": "03/15/2023",
+        "rating": 9.5,
+        "sentiment": "Positive",
+        "keywords": [
+          "cinematic masterpiece",
+          "acting",
+          "directing",
+          "cinematography",
+          "movie buff"
+        ],
+        "entities": [
+          {
             "entity_name": "The Godfather",
             "entity_type": "Movie"
-        },
-        {
+          },
+          {
             "entity_name": "John Doe",
             "entity_type": "Person"
-        }
-    ]
-}},{
-	"name":"Basic - Restaurant Reviews",
-	"data":{   
-    "review_id": "REV002",
-    "restaurant_name": "Le Bernardin",
-    "review_text": "Le Bernardin is hands down the best restaurant in NYC. The food is exceptional, the service is impeccable, and the atmosphere is perfect for a romantic dinner.",
-    "reviewer_name": "Jane Smith",
-    "review_date": "03/14/2023",
-    "rating": 10,
-    "sentiment": "Positive",
-    "keywords": [
-        "best restaurant",
-        "exceptional food",
-        "impeccable service",
-        "romantic dinner"
-    ],
-    "entities": [
-        {
-            "entity_name": "Le Bernardin",
-            "entity_type": "Restaurant"
-        },
-        {
-            "entity_name": "NYC",
-            "entity_type": "Location"
-        },
-        {
-            "entity_name": "Jane Smith",
-            "entity_type": "Person"
-        }
-    ]
-}},{
-	"name":"Basic - News Articles",
-	"data":{    
-    "article_id": "ART001",
-    "headline": "COVID-19 Cases Continue to Rise Across the Globe",
-    "article_text": "As the Omicron variant spreads, COVID-19 cases are surging worldwide. Health officials are urging people to get vaccinated and follow safety guidelines to help slow the spread of the virus.",
-    "publish_date": "03/13/2023",
-    "source": "CNN",
-    "keywords": [
-        "COVID-19",
-        "Omicron variant",
-        "health officials",
-        "vaccinated",
-        "safety guidelines",
-        "slow the spread"
-    ],
-    "entities": [
-        {
-            "entity_name": "COVID-19",
-            "entity_type": "Disease"
-        },
-        {
-            "entity_name": "Omicron",
-            "entity_type": "Variant"
-        },
-        {
-            "entity_name": "CNN",
-            "entity_type": "Organization"
-        }
-    ]
-}},{
-	"name":"Map - City Map",
-	"data":{   
-  "map_id": "MAP001",
-  "map_name": "New York City Map",
-  "map_provider": "Google Maps",
-  "map_type": "Road Map",
-  "map_resolution": "High",
-  "map_size": "1000 x 1000",
-  "map_center": {
-    "latitude": 40.7128,
-    "longitude": -74.0060
-  },
-  "map_zoom_level": 12,
-  "map_theme": "Light",
-  "map_layers": [
-    {
-      "layer_id": 1,
-      "layer_name": "Parks",
-      "layer_type": "Polygon",
-      "layer_color": "Green",
-      "layer_opacity": 0.7,
-      "layer_data": {
-        "type": "FeatureCollection",
-        "features": [
-          {
-            "type": "Feature",
-            "geometry": {
-              "type": "Polygon",
-              "coordinates": [
-                [
-                  [-74.0146, 40.7175],
-                  [-74.0146, 40.7149],
-                  [-74.0176, 40.7149],
-                  [-74.0176, 40.7175],
-                  [-74.0146, 40.7175]
-                ]
-              ]
-            },
-            "properties": {
-              "name": "Central Park"
-            }
           }
         ]
       }
     },
     {
-      "layer_id": 2,
-      "layer_name": "Subway Stations",
-      "layer_type": "Point",
-      "layer_color": "Red",
-      "layer_opacity": 1,
-      "layer_data": {
-        "type": "FeatureCollection",
-        "features": [
+      "name": "Basic - Restaurant Reviews",
+      "id": "BasicRestaurantReviews",
+      "data": {
+        "review_id": "REV002",
+        "restaurant_name": "Le Bernardin",
+        "review_text": "Le Bernardin is hands down the best restaurant in NYC. The food is exceptional, the service is impeccable, and the atmosphere is perfect for a romantic dinner.",
+        "reviewer_name": "Jane Smith",
+        "review_date": "03/14/2023",
+        "rating": 10,
+        "sentiment": "Positive",
+        "keywords": [
+          "best restaurant",
+          "exceptional food",
+          "impeccable service",
+          "romantic dinner"
+        ],
+        "entities": [
           {
-            "type": "Feature",
-            "geometry": {
-              "type": "Point",
-              "coordinates": [-74.0059, 40.7128]
-            },
-            "properties": {
-              "name": "Times Square - 42nd St. Subway Station",
-              "lines": ["1", "2", "3", "N", "Q", "R", "W"]
+            "entity_name": "Le Bernardin",
+            "entity_type": "Restaurant"
+          },
+          {
+            "entity_name": "NYC",
+            "entity_type": "Location"
+          },
+          {
+            "entity_name": "Jane Smith",
+            "entity_type": "Person"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Basic - News Articles",
+      "id": "BasicNewsArticles",
+      "data": {
+        "article_id": "ART001",
+        "headline": "COVID-19 Cases Continue to Rise Across the Globe",
+        "article_text": "As the Omicron variant spreads, COVID-19 cases are surging worldwide. Health officials are urging people to get vaccinated and follow safety guidelines to help slow the spread of the virus.",
+        "publish_date": "03/13/2023",
+        "source": "CNN",
+        "keywords": [
+          "COVID-19",
+          "Omicron variant",
+          "health officials",
+          "vaccinated",
+          "safety guidelines",
+          "slow the spread"
+        ],
+        "entities": [
+          {
+            "entity_name": "COVID-19",
+            "entity_type": "Disease"
+          },
+          {
+            "entity_name": "Omicron",
+            "entity_type": "Variant"
+          },
+          {
+            "entity_name": "CNN",
+            "entity_type": "Organization"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Products - Electronics",
+      "id": "ProductsElectronics",
+      "data": {
+        "product_id": "PRD001",
+        "product_name": "Smartphone",
+        "brand": "Samsung",
+        "price": 799,
+        "in_stock": "true"	,
+        "category": "Electronics",
+        "screen_size": "6.2 inch",
+        "resolution": "1440 x 3200 pixels",
+        "camera": "Quad Camera (64 MP + 12 MP + 12 MP + 3D ToF)",
+        "battery": "4000 mAh"
+      }
+    },
+    {
+      "name": "Products - Clothing",
+      "id": "ProductsClothing",
+      "data": {
+        "product_id": "PRD002",
+        "product_name": "Men's T-Shirt",
+        "brand": "Nike",
+        "price": 25,
+        "in_stock": "true"	,
+        "category": "Clothing",
+        "color": "White",
+        "size": "M",
+        "material": "Cotton"
+      }
+    },
+    {
+      "name": "Products - Beauty",
+      "id": "ProductsBeauty",
+      "data": {
+        "product_id": "PRD003",
+        "product_name": "Lipstick",
+        "brand": "MAC",
+        "price": 20,
+        "in_stock": "true"	,
+        "category": "Beauty",
+        "color": "Ruby Woo",
+        "finish": "Matte",
+        "longevity": "8 Hours"
+      }
+    },
+    {
+      "name": "Financial - Credit Card Transactions",
+      "id": "FinancialCreditCardTransactions",
+      "data": {
+        "card_number": "1234 5678 9012 3456",
+        "transaction_date": "2022-03-10",
+        "merchant_name": "Amazon.com",
+        "amount": 58.99,
+        "currency": "USD",
+        "category": "Online Shopping",
+        "location": {
+          "address": "410 Terry Ave N",
+          "city": "Seattle",
+          "state": "WA",
+          "country": "USA",
+          "zip_code": "98109"
+        }
+      }
+    },
+    {
+      "name": "Financial - Loan Applications",
+      "id": "FinancialLoanApplications",
+      "data": {
+        "applicant_name": "John Smith",
+        "applicant_age": 35,
+        "income": 80000,
+        "credit_score": 720,
+        "loan_amount": 50000,
+        "interest_rate": 5.5,
+        "term_in_years": 5,
+        "collateral": {
+          "type": "Real Estate",
+          "address": "123 Main St",
+          "city": "New York",
+          "state": "NY",
+          "country": "USA",
+          "zip_code": "10001"
+        }
+      }
+    },
+    {
+      "name": "Financial - Stock Prices - Extended",
+      "id": "FinancialStockPricesExtended",
+      "data": {
+        "company": "Apple Inc.",
+        "symbol": "AAPL",
+        "exchange": "NASDAQ",
+        "date": "2022-03-15",
+        "open_price": 175.25,
+        "close_price": 178.65,
+        "high_price": 180,
+        "low_price": 173.8,
+        "volume": 23456789,
+        "market_cap": 220345678901,
+        "pe_ratio": 30.56,
+        "52_week_high": 185.2,
+        "52_week_low": 100.01,
+        "dividend_yield": 0.78
+      }
+    },
+    {
+      "name": "Financial - Global Stock Prices",
+      "id": "FinancialGlobalStockPrices",
+      "data": {
+        "company": "Toyota Motor Corporation",
+        "symbol": "TM",
+        "exchange": "NYSE",
+        "country": "Japan",
+        "currency": "JPY",
+        "date": "2022-03-15",
+        "open_price": 8250,
+        "close_price": 8500,
+        "high_price": 8650,
+        "low_price": 8100,
+        "volume": 1234567,
+        "market_cap": 30123456789,
+        "pe_ratio": 11.22,
+        "52_week_high": 9000,
+        "52_week_low": 6300,
+        "dividend_yield": 3.5
+      }
+    },
+    {
+      "name": "Financial - Cryptocurrency Prices",
+      "id": "FinancialCryptocurrencyPrices",
+      "data": {
+        "crypto": "Bitcoin",
+        "symbol": "BTC",
+        "date": "2022-03-15",
+        "open_price": 58976.98,
+        "close_price": 61345.01,
+        "high_price": 61890.56,
+        "low_price": 57300,
+        "volume": 234567890,
+        "market_cap": 1156789012345,
+        "circulating_supply": 18762545,
+        "max_supply": 21000000,
+        "ath": 64849,
+        "atl": 3129,
+        "change_24h": 0.0456,
+        "change_7d": -0.0234,
+        "change_30d": 0.1221
+      }
+    },
+    {
+      "name": "Social Media - Basic Analytics",
+      "id": "SocialMediaBasicAnalytics",
+      "data": {
+        "timestamp": "2022-03-15T10:30:00Z",
+        "username": "john_doe",
+        "platform": "Twitter",
+        "post": "Just had a great workout at the gym!",
+        "likes": 56,
+        "comments": 12,
+        "shares": 8,
+        "hashtags": [
+          "fitness",
+          "workout"
+        ],
+        "mentions": [
+          "gym"
+        ],
+        "location": {
+          "country": "United States",
+          "city": "New York",
+          "latitude": 40.7128,
+          "longitude": -74.006
+        }
+      }
+    },
+    {
+      "name": "Social Media - Sentiment Analysis",
+      "id": "SocialMediaSentimentAnalysis",
+      "data": {
+        "timestamp": "2022-03-14T18:45:00Z",
+        "username": "jane_smith",
+        "platform": "Instagram",
+        "post": "Just got a promotion at work! Feeling grateful and blessed. 🙏🏼",
+        "likes": 102,
+        "comments": 7,
+        "shares": 0,
+        "hashtags": [
+          "work",
+          "promotion",
+          "grateful",
+          "blessed"
+        ],
+        "mentions": [],
+        "location": {
+          "country": "United States",
+          "city": "Los Angeles",
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "sentiment": "Positive"
+      }
+    },
+    {
+      "name": "Social Media - Influencer Marketing",
+      "id": "SocialMediaInfluencerMarketing",
+      "data": {
+        "timestamp": "2022-03-13T12:00:00Z",
+        "username": "lifestylebyemily",
+        "platform": "TikTok",
+        "post": "Trying out this new skincare routine! I'm obsessed with these products from @glowbeautyco 😍 #skincare #beauty",
+        "likes": 1265,
+        "comments": 32,
+        "shares": 4,
+        "hashtags": [
+          "skincare",
+          "beauty"
+        ],
+        "mentions": [
+          "glowbeautyco"
+        ],
+        "location": {
+          "country": "United States",
+          "city": "Miami",
+          "latitude": 25.7617,
+          "longitude": -80.1918
+        },
+        "product_name": "Glow Beauty Co. Skincare Bundle",
+        "product_description": "A complete skincare bundle"
+      }
+    },
+    {
+      "name": "Healthcare - Patient Information",
+      "id": "HealthcarePatientInformation",
+      "data": {
+        "patient_id": "PA101",
+        "name": {
+          "first_name": "John",
+          "last_name": "Doe"
+        },
+        "age": 42,
+        "gender": "male",
+        "address": {
+          "street": "123 Main St",
+          "city": "Anytown",
+          "state": "CA",
+          "zip": "12345"
+        },
+        "phone": "555-555-1234",
+        "email": "johndoe@example.com",
+        "blood_type": "O+",
+        "medical_history": [
+          {
+            "condition": "Asthma",
+            "treatment": "Albuterol Inhaler",
+            "start_date": "01/01/2010",
+            "end_date": "N/A"
+          },
+          {
+            "condition": "High Blood Pressure",
+            "treatment": "Lisinopril",
+            "start_date": "01/01/2015",
+            "end_date": "N/A"
+          }
+        ],
+        "allergies": [
+          "Penicillin",
+          "Peanuts"
+        ],
+        "insurance_provider": "Blue Cross Blue Shield",
+        "policy_number": "1234567890"
+      }
+    },
+    {
+      "name": "Healthcare - Medical Claim",
+      "id": "HealthcareMedicalClaim",
+      "data": {
+        "claim_id": "CLM001",
+        "patient_id": "PA101",
+        "provider": {
+          "name": "ABC Hospital",
+          "address": {
+            "street": "456 Main St",
+            "city": "Anytown",
+            "state": "CA",
+            "zip": "12345"
+          },
+          "phone": "555-555-5678"
+        },
+        "diagnosis": [
+          {
+            "code": "J45.909",
+            "description": "Asthma, Unspecified"
+          },
+          {
+            "code": "I10",
+            "description": "Essential (primary) hypertension"
+          }
+        ],
+        "procedures": [
+          {
+            "code": "94010",
+            "description": "Spirometry, including graphic record, total and timed vital capacity, expiratory flow rate measurement(s), with or without maximal voluntary ventilation"
+          },
+          {
+            "code": "36415",
+            "description": "Routine venipuncture"
+          }
+        ],
+        "date_of_service": "03/15/2023",
+        "total_charge": 250,
+        "amount_paid": 200,
+        "status": "Processed"
+      }
+    },
+    {
+      "name": "Healthcare - Clinical Trial Participant",
+      "id": "HealthcareClinicalTrialParticipant",
+      "data": {
+        "trial_id": "TRIAL001",
+        "patient_id": "PA101",
+        "trial_name": "Treatment of Asthma with Experimental Drug",
+        "enrollment_date": "01/01/2023",
+        "treatment_start_date": "02/01/2023",
+        "treatment_end_date": "03/15/2023",
+        "treatment": {
+          "drug_name": "Experimental Drug",
+          "dose": "100 mg",
+          "frequency": "Once daily"
+        },
+        "follow_ups": [
+          {
+            "visit_number": 1,
+            "visit_date": "02/15/2023",
+            "symptoms": [
+              "Coughing",
+              "Wheezing"
+            ],
+            "peak_flow": 250,
+            "FEV1": 2.5,
+            "treatment_changes": [
+              "Increased dose to 150 mg"
+            ],
+            "comments": "Patient reported improvement in symptoms"
+          },
+          {
+            "visit_number": 2,
+            "visit_date": "03/01/2023",
+            "symptoms": [
+              "Coughing",
+              "Wheezing"
+            ],
+            "peak_flow": 280,
+            "FEV1": 2.8,
+            "treatment_changes": [],
+            "comments": "No significant change in symptoms"
+          },
+          {
+            "visit_number": 3,
+            "visit_date": "03/15/2023",
+            "symptoms": [
+              "No coughing",
+              "No wheezing"
+            ],
+            "peak_flow": 350,
+            "FEV1": 3.5,
+            "treatment_changes": [],
+            "comments": "Patient reported significant improvement in symptoms"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Weather - Basic City Data",
+      "id": "WeatherBasicCityData",
+      "data": {
+        "city": "New York",
+        "state": "NY",
+        "country": "US",
+        "latitude": 40.7128,
+        "longitude": -74.006,
+        "temperature": 32,
+        "humidity": 50,
+        "wind_speed": 12,
+        "wind_direction": "N",
+        "pressure": 1016,
+        "visibility": 10,
+        "precipitation": 0.01,
+        "sunrise": "06:30",
+        "sunset": "18:30",
+        "weather_description": "Light snow"
+      }
+    },
+    {
+      "name": "Weather - Historical Data",
+      "id": "WeatherHistoricalData",
+      "data": {
+        "city": "Sydney",
+        "country": "Australia",
+        "latitude": -33.8688,
+        "longitude": 151.2093,
+        "date": "03/15/2022",
+        "max_temperature": 27,
+        "min_temperature": 21,
+        "average_temperature": 24,
+        "humidity": 70,
+        "wind_speed": 20,
+        "wind_direction": "NE",
+        "pressure": 1014,
+        "visibility": 12,
+        "precipitation": 0,
+        "sunrise": "06:30",
+        "sunset": "18:30",
+        "weather_description": "Sunny"
+      }
+    },
+    {
+      "name": "Sports - NBA Player Stats",
+      "id": "SportsNBAPlayerStats",
+      "data": {
+        "player_id": "1234",
+        "player_name": "LeBron James",
+        "team_name": "Los Angeles Lakers",
+        "points_per_game": 25.4,
+        "rebounds_per_game": 7.9,
+        "assists_per_game": 7.6,
+        "steals_per_game": 1.2,
+        "blocks_per_game": 0.8,
+        "field_goal_percentage": 0.511,
+        "three_point_percentage": 0.363,
+        "free_throw_percentage": 0.703,
+        "games_played": 60,
+        "minutes_played": 35,
+        "jersey_number": 23,
+        "position": "Small Forward"
+      }
+    },
+    {
+      "name": "Sports - NFL Game Statistics",
+      "id": "SportsNFLGameStatistics",
+      "data": {
+        "game_id": "3456",
+        "home_team": "New England Patriots",
+        "away_team": "Pittsburgh Steelers",
+        "date": "10/10/2023",
+        "time": "8:20 PM",
+        "stadium": "Gillette Stadium",
+        "weather": "Cloudy",
+        "temperature": 55,
+        "home_team_stats": {
+          "total_yards": 415,
+          "passing_yards": 280,
+          "rushing_yards": 135,
+          "first_downs": 22,
+          "turnovers": 1,
+          "time_of_possession": "30:15",
+          "red_zone_scoring_attempts": 4,
+          "red_zone_scores": 3
+        },
+        "away_team_stats": {
+          "total_yards": 358,
+          "passing_yards": 245,
+          "rushing_yards": 113,
+          "first_downs": 19,
+          "turnovers": 2,
+          "time_of_possession": "29:45",
+          "red_zone_scoring_attempts": 2,
+          "red_zone_scores": 1
+        }
+      }
+    },
+    {
+      "name": "Sports - MLB Pitcher Stats",
+      "id": "SportsMLBPitcherStats",
+      "data": {
+        "player_id": "5678",
+        "player_name": "Max Scherzer",
+        "team_name": "Los Angeles Dodgers",
+        "wins": 17,
+        "losses": 7,
+        "era": 2.81,
+        "innings_pitched": 220,
+        "strikeouts": 276,
+        "walks": 48,
+        "hits_allowed": 164,
+        "home_runs_allowed": 25,
+        "games_started": 32,
+        "complete_games": 2,
+        "shutouts": 1,
+        "saves": 0,
+        "holds": 0
+      }
+    },
+    {
+      "name": "Geographic - National Parks",
+      "id": "GeographicNationalParks",
+      "data": {
+        "park_id": "NP001",
+        "park_name": "Yellowstone National Park",
+        "location": {
+          "latitude": "44.427963",
+          "longitude": "-110.588455",
+          "state": "Wyoming"
+        },
+        "size": "2.2 million acres",
+        "established_date": "March 1, 1872",
+        "annual_visitors": "4.2 million",
+        "trails": [
+          {
+            "trail_id": "T001",
+            "trail_name": "Uncle Tom's Trail",
+            "length": "0.6 miles",
+            "difficulty": "Moderate"
+          },
+          {
+            "trail_id": "T002",
+            "trail_name": "Mystic Falls Trail",
+            "length": "2.5 miles",
+            "difficulty": "Easy"
+          }
+        ],
+        "wildlife": [
+          "Bison",
+          "Elk",
+          "Grizzly Bear",
+          "Wolf"
+        ],
+        "campgrounds": [
+          {
+            "campground_id": "CG001",
+            "campground_name": "Bridge Bay Campground",
+            "location": "Yellowstone Lake",
+            "availability": "true"	,
+            "cost": "$27-$47 per night"
+          },
+          {
+            "campground_id": "CG002",
+            "campground_name": "Mammoth Hot Springs Campground",
+            "location": "Mammoth Hot Springs",
+            "availability": "false"	,
+            "cost": "$20 per night"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Geographic - World Heritage Sites",
+      "id": "GeographicWorldHeritageSites",
+      "data": {
+        "site_id": "WHS001",
+        "site_name": "Machu Picchu",
+        "location": {
+          "latitude": "-13.1631",
+          "longitude": "-72.5450",
+          "country": "Peru"
+        },
+        "date_inscribed": "1983",
+        "type": "Cultural",
+        "criteria": [
+          "Criterion (i): a masterpiece of human creative genius",
+          "Criterion (iii): bears a unique or at least exceptional testimony to a cultural tradition or to a civilization which is living or which has disappeared",
+          "Criterion (vii): contains superlative natural phenomena or areas of exceptional natural beauty and aesthetic importance"
+        ],
+        "description": "Machu Picchu is a 15th-century Inca citadel, located in the Eastern Cordillera of southern Peru, on a mountain ridge 2,430 metres (7,970 ft) above sea level. It is located in the Cusco Region, Urubamba Province, Machupicchu District above the Sacred Valley, which is 80 kilometres (50 mi) northwest of Cuzco.",
+        "images": [
+          {
+            "url": "https://www.example.com/machupicchu1.jpg",
+            "description": "View of Machu Picchu from above"
+          },
+          {
+            "url": "https://www.example.com/machupicchu2.jpg",
+            "description": "The Temple of the Sun"
+          }
+        ],
+        "visitors": {
+          "annual_visitors": "1.5 million",
+          "peak_month": "July",
+          "average_daily_visitors": 4000
+        }
+      }
+    },
+    {
+      "name": "Geographic - Natural Wonders",
+      "id": "GeographicNaturalWonders",
+      "data": {
+        "wonder_id": "NW001",
+        "wonder_name": "Grand Canyon",
+        "location": {
+          "latitude": "36.1069° N",
+          "longitude": "112.1121° W"
+        },
+        "country": "USA",
+        "city": "Arizona",
+        "date_discovered": "1869-09-20",
+        "height": "1,857 m",
+        "type": "Canyon",
+        "visitor_count": 6.3,
+        "description": "The Grand Canyon is a steep-sided canyon carved by the Colorado River in Arizona, United States."
+      }
+    },
+    {
+      "name": "Map - City Map",
+      "id": "MapCityMap",
+      "data": {
+        "map_id": "MAP001",
+        "map_name": "New York City Map",
+        "map_provider": "Google Maps",
+        "map_type": "Road Map",
+        "map_resolution": "High",
+        "map_size": "1000 x 1000",
+        "map_center": {
+          "latitude": 40.7128,
+          "longitude": -74.006
+        },
+        "map_zoom_level": 12,
+        "map_theme": "Light",
+        "map_layers": [
+          {
+            "layer_id": 1,
+            "layer_name": "Parks",
+            "layer_type": "Polygon",
+            "layer_color": "Green",
+            "layer_opacity": 0.7,
+            "layer_data": {
+              "type": "FeatureCollection",
+              "features": [
+                {
+                  "type": "Feature",
+                  "geometry": {
+                    "type": "Polygon",
+                    "coordinates": [
+                      [
+                        [
+                          -74.0146,
+                          40.7175
+                        ],
+                        [
+                          -74.0146,
+                          40.7149
+                        ],
+                        [
+                          -74.0176,
+                          40.7149
+                        ],
+                        [
+                          -74.0176,
+                          40.7175
+                        ],
+                        [
+                          -74.0146,
+                          40.7175
+                        ]
+                      ]
+                    ]
+                  },
+                  "properties": {
+                    "name": "Central Park"
+                  }
+                }
+              ]
             }
           },
           {
-            "type": "Feature",
-            "geometry": {
-              "type": "Point",
-              "coordinates": [-73.9851, 40.7484]
-            },
-            "properties": {
-              "name": "Grand Central - 42nd St. Subway Station",
-              "lines": ["4", "5", "6", "7", "S"]
+            "layer_id": 2,
+            "layer_name": "Subway Stations",
+            "layer_type": "Point",
+            "layer_color": "Red",
+            "layer_opacity": 1,
+            "layer_data": {
+              "type": "FeatureCollection",
+              "features": [
+                {
+                  "type": "Feature",
+                  "geometry": {
+                    "type": "Point",
+                    "coordinates": [
+                      -74.0059,
+                      40.7128
+                    ]
+                  },
+                  "properties": {
+                    "name": "Times Square - 42nd St. Subway Station",
+                    "lines": [
+                      "1",
+                      "2",
+                      "3",
+                      "N",
+                      "Q",
+                      "R",
+                      "W"
+                    ]
+                  }
+                },
+                {
+                  "type": "Feature",
+                  "geometry": {
+                    "type": "Point",
+                    "coordinates": [
+                      -73.9851,
+                      40.7484
+                    ]
+                  },
+                  "properties": {
+                    "name": "Grand Central - 42nd St. Subway Station",
+                    "lines": [
+                      "4",
+                      "5",
+                      "6",
+                      "7",
+                      "S"
+                    ]
+                  }
+                }
+              ]
             }
           }
         ]
@@ -715,5 +848,3 @@
     }
   ]
 }
-}
-]}
