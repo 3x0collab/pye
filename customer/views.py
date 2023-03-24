@@ -426,6 +426,18 @@ def profile_view(request):
     return render(request,'home/profile.html',context=dict)   
 
 @login_required(login_url='login')
+def select_source_view(request):
+    customer = models.Customer.objects.get(user_id=request.user.id)
+    dict={'customer':customer,"segment":"select-source"}
+    return render(request,'home/task.html',context=dict) 
+    
+@login_required(login_url='login')
+def source_credential_view(request):
+    customer = models.Customer.objects.get(user_id=request.user.id)
+    dict={'customer':customer,"segment":"source-credential"}
+    return render(request,'home/credential.html',context=dict)     
+
+@login_required(login_url='login')
 def billing_view(request):
     customer = models.Customer.objects.get(user_id=request.user.id)
     policies = CMODEL.LeaveRecord.objects.all().filter(customer=customer)
@@ -439,10 +451,22 @@ def billing_view(request):
     return render(request,'home/billing.html',{'segment':"billing",'policies':policies,'newest_card':newest_card,'cards':cards,'customer':customer,'gross':gross,'net':net})
 
 @login_required(login_url='login')
-def apply_policy_view(request):
-    customer = models.Customer.objects.get(user_id=request.user.id)
-    policies = CMODEL.Vocation.objects.all()
-    return render(request,'home/generate_contract.html',{'policies':policies,'customer':customer,'segment':"apply-policy"})
+def apply_policy_view(request): 
+    # customer = models.Customer.objects.get(user_id=request.user.id)
+    query = request.GET.get('q',"") 
+    tasks = models.Task.objects.filter(created_by=request.user).order_by('-date_created')
+    if query:
+        tasks = tasks.filter(
+            Q(name__icontains=query) |
+            Q(description__icontains=query)
+        )  
+
+    paginator = Paginator(tasks, 10) # Display 10 tasks per page
+    page = request.GET.get('page')
+    tasks = paginator.get_page(page)
+
+    return render(request,'home/generate_contract.html',{'tasks':tasks,
+                                                    'segment' : "apply-policy","q":query})
 
 def apply_view(request,pk):
     customer = models.Customer.objects.get(user_id=request.user.id)

@@ -12,6 +12,8 @@ urlpatterns = [
     path('register', views.customer_signup_view,name='register'),
     path('paypal', include('paypal.standard.ipn.urls')),
     path('profile', views.profile_view,name='profile'),
+    path('select-source', views.select_source_view,name='select-source'),
+    path('source-credential', views.source_credential_view,name='source-credential'),
     path('virtual-reality', views.virtual_reality_view,name='virtual-reality'),
     path('rtl', views.rtl_view,name='rtl'),
     path('billing', views.billing_view,name='billing'),

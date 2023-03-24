@@ -34,7 +34,7 @@ urlpatterns = [
 
     path('customer/',include('customer.urls')),
     #path('',views.home_view,name=''),
-    path('logout', LogoutView.as_view(template_name='index.html',next_page=""),name='logout'),
+    path('logout', LogoutView.as_view(template_name='index.html',next_page="/"),name='logout'),
     path('aboutus', views.aboutus_view),
     path('contactus', views.contactus_view),
     path('afterlogin', views.afterlogin_view,name='afterlogin'),
