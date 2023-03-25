@@ -34,8 +34,13 @@ class Customer(models.Model):
 
 class Connector(models.Model):
     name = models.CharField(max_length=200,null=False,default='')
+    description = models.TextField(null=True,blank=True)
     connector_type = models.CharField(max_length=150,null=True,blank=True)
     parameters = models.TextField(null=True,blank=True)
+    created_by=models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    date_created = models.DateField(default=timezone.now)
+    time_created = models.TimeField(default=timezone.now)
+
 
     def __str__(self):
         return self.name + " : "+ self.connector_type

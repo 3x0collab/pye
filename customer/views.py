@@ -427,7 +427,7 @@ def profile_view(request):
 
 @login_required(login_url='login')
 def select_source_view(request):
-    dict={"segment":"select-source"}
+    dict={"segment":"apply-policy"}
     return render(request,'home/task.html',context=dict) 
     
 @login_required(login_url='login')
@@ -443,7 +443,7 @@ def source_credential_view(request):
         data =  models.Task.objects.filter(created_by=request.user).order_by('-date_created').values("name")
 
 
-    dict={"segment":"source-credential","source_val":source_val,"data":data}
+    dict={"segment":"apply-policy","source_val":source_val,"data":data}
     return render(request,'home/credential.html',context=dict)     
 
 @login_required(login_url='login')
@@ -474,8 +474,25 @@ def apply_policy_view(request):
     page = request.GET.get('page')
     tasks = paginator.get_page(page)
 
-    return render(request,'home/generate_contract.html',{'tasks':tasks,
-                                                    'segment' : "apply-policy","q":query})
+    return render(request,'home/generate_contract.html',{'tasks':tasks,'segment' : "apply-policy","q":query})
+
+@login_required(login_url='login')
+def connector_view(request): 
+    # customer = models.Customer.objects.get(user_id=request.user.id)
+    query = request.GET.get('q',"") 
+    connectors = models.Connector.objects.filter(created_by=request.user).order_by('-date_created')
+    if query:
+        connectors = connectors.filter(
+            Q(name__icontains=query) |
+            Q(description__icontains=query)
+        )  
+
+    paginator = Paginator(tasks, 10) # Display 10 tasks per page
+    page = request.GET.get('page')
+    connectors = paginator.get_page(page)
+
+    return render(request,'home/connector.html',{'connectors':connectors,
+                                                    'segment' : "connectors","q":query})
 
 def apply_view(request,pk):
     customer = models.Customer.objects.get(user_id=request.user.id)
