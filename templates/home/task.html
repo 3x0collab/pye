@@ -25,7 +25,13 @@
 <div class="card w-70  my-3 py-2 px-5" style="display: flex; align-items: center; flex-direction: column; ">
 
 
+   {% if connector.connector_type == "dummy" or not connector.connector_type  %}
 <div class="card source w-100 mt-4 mb-3 py-2 px-5 " id="hover" source-val="dummy" style="border-radius: 100px;"  >
+    {% else %}
+<div class="card source w-100 mt-4 mb-3 py-2 px-5 " source-val="dummy" style="border-radius: 100px;"  >
+    {% endif %}
+
+ 
     <div style="display:flex; flex-direction:row; align-items: center; justify-content: space-between; "  >
     <div  style="width: 15%;" >
 
@@ -38,7 +44,15 @@
     </div>
 </div>
 
+
+   {% if connector.connector_type == "task"   %}
+<div class="card source w-100 mt-4 mb-3 py-2 px-5 " id="hover" source-val="task" style="border-radius: 100px;"  >
+
+    {% else %}
 <div class="card source w-100 mb-3 py-2 px-5" source-val="task" style="border-radius: 100px;">
+
+    {% endif %}
+
     <div style="display:flex; flex-direction:row; align-items: center; justify-content: space-between; "  >
     <div  style="width: 15%;" >
 
@@ -53,7 +67,16 @@
 </div>
 
 
+
+   {% if connector.connector_type == "database"   %}
+<div class="card source w-100 mt-4 mb-3 py-2 px-5 " id="hover" source-val="database" style="border-radius: 100px;"  >
+
+    {% else %}
 <div class="card source w-100 mb-3 py-2 px-5" source-val="database" style="border-radius: 100px;">
+
+    {% endif %}
+
+ 
     <div style="display:flex; flex-direction:row; align-items: center; justify-content: space-between; "  >
     <div  style="width: 15%;" >
 
@@ -67,7 +90,14 @@
     </div>
 </div>
 
+   {% if connector.connector_type == "flatfile"   %}
+<div class="card source w-100 mt-4 mb-3 py-2 px-5 " id="hover" source-val="flatfile" style="border-radius: 100px;"  >
+
+    {% else %}
 <div class="card source w-100 mb-3 py-2 px-5" source-val="flatfile" style="border-radius: 100px;">
+
+    {% endif %}
+
     <div style="display:flex; flex-direction:row; align-items: center; justify-content: space-between; "  >
     <div  style="width: 15%;" >
 
@@ -81,8 +111,13 @@
                    </div>
     </div>
 </div>
+{% if connector.connector_type == "api"   %}
+<div class="card source w-100 mt-4 mb-3 py-2 px-5 " id="hover" source-val="api" style="border-radius: 100px;"  >
 
+    {% else %}
 <div class="card source w-100 mb-3 py-2 px-5" source-val="api" style="border-radius: 100px;">
+
+    {% endif %}
     <div style="display:flex; flex-direction:row; align-items: center; justify-content: space-between; "  >
     <div  style="width: 15%;" >
 
@@ -95,8 +130,13 @@
                    </div>
     </div>
 </div>
+{% if connector.connector_type == "application"   %}
+<div class="card source w-100 mt-4 mb-3 py-2 px-5 " id="hover" source-val="application" style="border-radius: 100px;"  >
 
-<div class="card source w-100 mb-3 py-2 px-5" source-val="application" style="border-radius: 100px;">
+    {% else %}
+<div class="card source w-100 mb-3 py-2 px-5" source-val="applicationapplication" style="border-radius: 100px;">
+
+    {% endif %}
     <div style="display:flex; flex-direction:row; align-items: center; justify-content: space-between; "  >
     <div  style="width: 15%;" >
 
@@ -109,8 +149,14 @@
                    </div>
     </div>
 </div>
+{% if connector.connector_type == "cloud"   %}
+<div class="card source w-100 mt-4 mb-3 py-2 px-5 " id="hover" source-val="cloud" style="border-radius: 100px;"  >
 
+    {% else %}
 <div class="card source w-100 mb-3 py-2 px-5" source-val="cloud" style="border-radius: 100px;">
+
+    {% endif %}
+
     <div style="display:flex; flex-direction:row; align-items: center; justify-content: space-between; "  >
     <div  style="width: 15%;" >
 
@@ -124,8 +170,14 @@
     </div>
 </div>
 
+{% if connector.connector_type == "cloud"   %}
+<div class="card source w-100 mt-4 mb-3 py-2 px-5 " id="hover" source-val="iot" style="border-radius: 100px;"  >
 
-<div class="card source w-100 mb-3 py-2 px-5"  source-val="iot" style="border-radius: 100px;">
+    {% else %}
+<div class="card source w-100 mb-3 py-2 px-5" source-val="iot" style="border-radius: 100px;">
+
+    {% endif %}
+
     <div style="display:flex; flex-direction:row; align-items: center; justify-content: space-between; "  >
     <div  style="width: 15%;" >
 

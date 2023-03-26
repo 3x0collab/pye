@@ -25,3 +25,11 @@ class CodeForm(forms.ModelForm):
         widgets = {
                 "code": forms.Textarea(),
             }
+
+class Connectorform(forms.ModelForm):
+    class Meta:
+        model = models.Connector
+        fields = ( 'name',"description")
+        widgets = {
+                "code": forms.Textarea(),
+            }

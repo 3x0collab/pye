@@ -426,9 +426,12 @@ def profile_view(request):
     return render(request,'home/profile.html',context=dict)   
 
 @login_required(login_url='login')
-def select_source_view(request):
-    dict={"segment":"apply-policy"}
+def select_source_view(request,pk):
+    connector= models.Connector.objects.get(pk=pk)
+    dict={"segment":"connector","pk":pk,"connector":connector}
     return render(request,'home/task.html',context=dict) 
+
+
     
 @login_required(login_url='login')
 def source_credential_view(request):    
@@ -443,7 +446,7 @@ def source_credential_view(request):
         data =  models.Task.objects.filter(created_by=request.user).order_by('-date_created').values("name")
 
 
-    dict={"segment":"apply-policy","source_val":source_val,"data":data}
+    dict={"segment":"connector","source_val":source_val,"data":data}
     return render(request,'home/credential.html',context=dict)     
 
 @login_required(login_url='login')
@@ -474,10 +477,13 @@ def apply_policy_view(request):
     page = request.GET.get('page')
     tasks = paginator.get_page(page)
 
-    return render(request,'home/generate_contract.html',{'tasks':tasks,'segment' : "apply-policy","q":query})
+    return render(request,'home/task_list.html',{'tasks':tasks,'segment' : "apply-policy","q":query})
 
 @login_required(login_url='login')
-def connector_view(request): 
+def connector_history_view(request): 
+
+
+    
     # customer = models.Customer.objects.get(user_id=request.user.id)
     query = request.GET.get('q',"") 
     connectors = models.Connector.objects.filter(created_by=request.user).order_by('-date_created')
@@ -487,12 +493,33 @@ def connector_view(request):
             Q(description__icontains=query)
         )  
 
-    paginator = Paginator(tasks, 10) # Display 10 tasks per page
+    paginator = Paginator(connectors, 10) # Display 10 tasks per page
     page = request.GET.get('page')
     connectors = paginator.get_page(page)
 
+    if request.method == 'POST': 
+        print("fffffffff") 
+        try:
+            code_Form=forms.Connectorform(request.POST)
+            if code_Form.is_valid() :
+                code_save = code_Form.save(commit=False)
+                code_save.created_by = request.user
+                code_save.save() 
+
+        except Exception as e:
+
+            print("e",e)
+
+            return  render(request,'home/connector.html',{'connectors':connectors,
+                                                    'segment' : "connectors",
+                                                    "error":e})
+
+        return render(request,'home/task.html',{'connectors':connectors,
+                                                    'segment' : "connectors","pk":code_save.pk,
+                                                    })
+
     return render(request,'home/connector.html',{'connectors':connectors,
-                                                    'segment' : "connectors","q":query})
+                                                    'segment' : "connectors","q":query })
 
 def apply_view(request,pk):
     customer = models.Customer.objects.get(user_id=request.user.id)
