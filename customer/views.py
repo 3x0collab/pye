@@ -53,6 +53,10 @@ from django.http.response import JsonResponse
 from .chat import get_response, predict_class
 import fitz
 from backoffice.models import Course
+import requests
+from django.shortcuts import render, redirect
+from django.http import HttpResponse
+from django.conf import settings
 
 def auto_correction_word(bad_word,model_path,data_path):
     from tensorflow.keras.preprocessing.sequence import pad_sequences
@@ -393,6 +397,9 @@ def customer_dashboard_view(request):
 
 
     return render(request,'home/index.html',context=dict)
+
+def customer_gopro_view(request):
+    return render(request,'home/gopro.html')
 
 def toggle_email_view(request):
     w = models.Customer.objects.get(id=request.POST['id'])
@@ -762,3 +769,43 @@ def generate_movies_context():
     context['movie_list'] = courses
 
     return context
+
+
+
+# views.py
+
+
+
+def process_payment(request):
+    # Retrieve form data
+    amount = "20"
+    card_cvv = request.POST.get('card_cvv')
+    card_expiry_date = request.POST.get('card_expiry_date')
+    card_expiry_month = request.POST.get('card_expiry_month')
+
+    # Create payment payload
+    payload = {
+        'merchantId': settings.REMITA_MERCHANT_ID,
+        'serviceTypeId': '123456789',
+        'amount': amount,
+        'cardCVV': card_cvv,
+        'cardExpiryDate': card_expiry_date,
+        'cardExpiryMonth': card_expiry_month,
+        # Add other required parameters
+    }
+
+    # Make API request to Remita
+    response = requests.post(
+        f"{settings.REMITA_API_BASE_URL}/remita/exapp/api/v1/send/api/echannelsvc/echannel/initialize",
+        json=payload,
+        headers={'Content-Type': 'application/json', 'Authorization': f"Bearer {settings.REMITA_API_KEY}"}
+    )
+
+    # Process the response and redirect the user to the payment page
+    if response.status_code == 200:
+        payment_data = response.json()
+        redirect_url = payment_data['paymentAuthUrl']
+        return redirect(redirect_url)
+    else:
+        # Handle error case
+        return render(request, 'home/paymenterror.html')

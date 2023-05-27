@@ -97,12 +97,11 @@
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse" id="navbar-menu">
                     <ul class="nav navbar-nav navbar-right" data-in="fadeInDown" data-out="fadeOutUp">
-                      
                         <li>
                             <a href="">Home</a>
                         </li>
                         <li>
-                            <a href="presentation">Go Pro</a>
+                            <a style="border-radius: 14px;" href="#" data-toggle="modal" data-target="#exampleModal">Go Pro</a>
                         </li>
                         {% if '0' in auth %}
                         <li>
@@ -119,8 +118,9 @@
                             <a href="logout">Logout</a>
                         </li>
                         {% endif %}
-                    </ul>
+                    </ul> 
                 </div><!-- /.navbar-collapse -->
+<!-- /.navbar-collapse -->
             </div>
 
             <!-- Start Side Menu -->
@@ -203,7 +203,7 @@
 
                                         <a class="btn circle btn-sm btn-success wow fadeInUp" data-wow-duration="1.8s" href="#">
                                             Get started with ETL in the Cloud now! »</a>
-                                       <a class="btn circle btn-sm btn-gradient wow fadeInUp" data-wow-duration="1.8s" href="#">
+                                       <a class="btn circle btn-sm btn-gradient wow fadeInUp" data-wow-duration="1.8s" href="presentation">
                                             Watch our one-minute video »</a>
                                     </div>
                                     <div>
@@ -533,7 +533,7 @@
                             <div class="address">
                                 <ul>
                                     <li>
-                                        <strong>Email:</strong> support@validtheme.com
+                                        <strong>Email:</strong> 3xotech@gmail.com
                                     </li>
                                     <li>
                                         <strong>Contact:</strong> +44-20-7328-4499
@@ -614,4 +614,178 @@
   .youtube-video-alternative{display:none}@media (max-width:480px){.jumbotron{padding:20px}.jumbotron h1{font-size:40px}}@media (max-width:767px){.jumbotron{padding:40px}.bumf-left{margin-left:0;width:100%;float:left}}@media (max-width:979px){.jumbotron{padding:40px}.bumf-left{margin-left:0;width:100%;float:left}}@media (min-width:1200px){.bumf-left{margin-left:0;margin-right:20px;width:40.4255%;float:left}}.jumbotron h1{font-size:50px;margin-top:12px;padding-bottom:25px;font-weight:bold}.bumf-left{margin-right:30px}#id_main_screenshot{margin-top:10px;box-shadow:12px 12px 29px #555}.carousel{height:250px}.details-stripe{padding:20px}.details-stripe p{font-size:16px!important;line-height:150%}#id_buttons{padding-top:20px;padding-bottom:20px}#id_hosting_details{background-color:#5D707F;color:#EEEEEE;margin-top:50px}#id_hosting_details h1{color:#EEEEEE}#id_hosting_details h2{color:#EEEEEE}#id_hosting_details a{color:#BAE0FF!important}#id_hosting_details a.btn{color:#FFFFFF!important}#id_develop_anywhere_details{background-color:white}#id_education_details{background-color:#5D707F;color:#EEEEEE;margin-top:50px}#id_education_details h1{color:#EEEEEE}#id_education_details h2{color:#EEEEEE}#id_education_details h3{color:#EEEEEE}#id_education_details a{color:#BAE0FF!important}#id_education_details a.btn{color:#FFFFFF!important}#id_support_details{background-color:#6DBEFF}#id_support_details table{border-collapse:separate;border-spacing:10px}#id_support_details a{color:#FFFFFF!important}.jumbotron{-webkit-border-radius:0;-moz-border-radius:0;border-radius:0;padding:30px;margin-top:12px}h3{margin-top:0}#id_company_info_strip{color:#888888;padding-top:15px;padding-bottom:15px;margin-left:0;margin-top:30px;margin-bottom:30px;border-radius:6px}
 </style>
 </body>
+<style>
+    .highlight {
+        background-color: #007bff;
+        color: #fff;
+        padding: 8px 12px;
+        border-radius: 100px;
+    }    
+    .highlight1 {
+        color: #000;
+        padding: 10px 12px;
+        border-radius: 4px;
+    }
+    .highlight0 {
+        background-color: #000000e6;
+        color: #fff;
+        padding: 8px 12px;
+        border-radius: 4px;
+    }
+    .highlight2 {
+        background-color: #1289dd;
+        color: #fff;
+        padding: 8px 12px;
+        border-radius: 4px;
+    }
+        .btn-rounded {
+        border-radius: 10px;
+    }
+
+    .btn-black-white {
+        background-color: #dadee3;
+        color: #fff;
+    }
+     .blue-text {
+        color: blue;
+    }
+</style>
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <form action="/customer/connector" method="POST">
+        {% csrf_token %}
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" style="border-radius: 20px;">
+                <div class="modal-header" style="background-color: #dadee3; color: #fff; border-radius: 10px;">
+                    <h5 class="modal-title text-uppercase" id="exampleModalLabel" style="font-weight: bold; font-family: 'Arial', sans-serif; text-transform: uppercase;">Your plan</h5>
+                    <button type="button" class="btn btn-secondary btn-advanced btn-rounded btn-black-white" data-dismiss="modal" onclick="fadeButton(this)">
+                        <span aria-hidden="true" class="blue-text icon">&times;</span>
+                        <span class="blue-text">Close</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                                <p class="lead"><span class="highlight1">Free Plan</span></p>
+                                <p class="lead"><span class="highlight0">Your current plan.</span></p>
+                            </p>
+                            <ul class="text-start">
+                                <li>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2 text-success" viewBox="0 0 16 16">
+                                        <path d="M0 7.477l4.096 4.096L11.74 1.28 10.32 0l-6 6L1.28 4.32 0 5.736V7.48zm13.06-5.354l1.06 1.06L6 12.628.896 7.525l1.061-1.06L6 10.508l5.043-5.042z"/>
+                                    </svg>
+                                    Available when demand is low
+                                </li>
+                                <li>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2 text-success" viewBox="0 0 16 16">
+                                        <path d="M0 7.477l4.096 4.096L11.74 1.28 10.32 0l-6 6L1.28 4.32 0 5.736V7.48zm13.06-5.354l1.06 1.06L6 12.628.896 7.525l1.061-1.06L6 10.508l5.043-5.042z"/>
+                                    </svg>
+                                    Standard response speed
+                                </li>
+                                <li>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2 text-success" viewBox="0 0 16 16">
+                                        <path d="M0 7.477l4.096 4.096L11.74 1.28 10.32 0l-6 6L1.28 4.32 0 5.736V7.48zm13.06-5.354l1.06 1.06L6 12.628.896 7.525l1.061-1.06L6 10.508l5.043-5.042z"/>
+                                    </svg>
+                                    Regular Transformer updates
+                                </li>
+                                <!-- <li>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2 text-success" viewBox="0 0 16 16">
+                                        <path d="M0 7.477l4.096 4.096L11.74 1.28 10.32 0l-6 6L1.28 4.32 0 5.736V7.48zm13.06-5.354l1.06 1.06L6 12.628.896 7.525l1.061-1.06L6 10.508l5.043-5.042z"/>
+                                    </svg>
+                                     Up <span id="jobCount"></span> running jobs
+                                </li> -->
+                                <li>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2 text-success" viewBox="0 0 16 16">
+                                        <path d="M0 7.477l4.096 4.096L11.74 1.28 10.32 0l-6 6L1.28 4.32 0 5.736V7.48zm13.06-5.354l1.06 1.06L6 12.628.896 7.525l1.061-1.06L6 10.508l5.043-5.042z"/>
+                                    </svg>
+                                    Up to <span id="jobCount" class="jobCount"></span> running jobs
+                                </li>
+
+                            </ul>
+                        </div>
+                        <div class="col-md-6" style="border-left: 1px solid #999;">
+                            <!-- <h4><strong>PYE Plus</strong></h4> -->
+                            <!-- <hr style="border: none; border-top: 2px dashed #999; margin: 10px 0;"> -->
+                            <!-- <p class="lead">
+                                <span class="highlight2">PRO Plan</span>
+                            </p> -->
+                            <p class="text-primary">
+                                <span><strong>PYE Plus</strong></span> USD $20/mo
+                            </p>
+                            <p>
+                                <a class="highlight" href="customer/gopro">Upgrade</a>
+                            </p>
+                            <ul class="text-start">
+                                <li>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2 text-success" viewBox="0 0 16 16">
+                                        <path d="M0 7.477l4.096 4.096L11.74 1.28 10.32 0l-6 6L1.28 4.32 0 5.736V7.48zm13.06-5.354l1.06 1.06L6 12.628.896 7.525l1.061-1.06L6 10.508l5.043-5.042z"/>
+                                    </svg>
+                                    Available even when demand is high 
+                                </li>
+                                <li>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2 text-success" viewBox="0 0 16 16">
+                                        <path d="M0 7.477l4.096 4.096L11.74 1.28 10.32 0l-6 6L1.28 4.32 0 5.736V7.48zm13.06-5.354l1.06 1.06L6 12.628.896 7.525l1.061-1.06L6 10.508l5.043-5.042z"/>
+                                    </svg>
+                                    Faster response speed
+                                </li>
+                                <li>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2 text-success" viewBox="0 0 16 16">
+                                        <path d="M0 7.477l4.096 4.096L11.74 1.28 10.32 0l-6 6L1.28 4.32 0 5.736V7.48zm13.06-5.354l1.06 1.06L6 12.628.896 7.525l1.061-1.06L6 10.508l5.043-5.042z"/>
+                                    </svg>
+                                    Priority access to new features
+                                </li>
+                                <li>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2 text-success" viewBox="0 0 16 16">
+                                        <path d="M0 7.477l4.096 4.096L11.74 1.28 10.32 0l-6 6L1.28 4.32 0 5.736V7.48zm13.06-5.354l1.06 1.06L6 12.628.896 7.525l1.061-1.06L6 10.508l5.043-5.042z"/>
+                                    </svg>
+                                    "Unlimited running jobs
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <hr style="border-top: 1px solid #999;">
+                    <a href="billing-issue-page" style="text-decoration: underline;">I need help with a billing issue</a>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<style>
+@keyframes jobCountAnimation {
+    0% {
+        background: radial-gradient(circle at center, black, black 50%, transparent 50%, transparent);
+        color: white;
+    }
+    100% {
+        background: radial-gradient(circle at center, black, black 50%, transparent 50%, transparent);
+        color: white;
+    }
+}
+
+.jobCount {
+    animation: jobCountAnimation 5s steps(5) infinite;
+    display: inline-block;
+    padding: 2px 5px;
+    border-radius: 10px;
+    background-color: blue;
+</style>
+
+<script>
+    const jobCountElement = document.getElementById('jobCount');
+    let count = 1;
+
+    function rotateJobCount() {
+        jobCountElement.textContent = count;
+        if (count === 5) {
+            clearInterval(interval);
+        }
+        count++;
+    }
+
+    const interval = setInterval(rotateJobCount, 1000); // Change the value (in milliseconds) to adjust the rotation speed
+</script>
+
+
+
 </html>
