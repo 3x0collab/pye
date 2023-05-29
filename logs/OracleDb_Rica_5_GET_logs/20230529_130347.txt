@@ -1,0 +1,2 @@
+Connector GET method run succesfully, with 2 records.
+Connector GET method run succesfully, with 2 records.
