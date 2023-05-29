@@ -59,7 +59,13 @@ Create Transformer
         <div class="modal-body">
           <div class="mb-3">
             <label for="name" class="form-label">Name</label>
+
+            {% if is_public %}
             <input required type="text" class="form-control" id="name" name="name" placeholder="Transformer Name" value={{name}} >
+
+            {% else %}
+ <input required type="text" class="form-control" id="name" name="name" placeholder="Transformer Name" value={{name}} disabled >
+            {% endif %}
           </div>
           <div class="mb-3">
             <label for="description" class="form-label">Description</label>
@@ -72,6 +78,21 @@ Create Transformer
         <option value="">Select Option</option>
         <option value="True">Yes</option>
         <option value="False">No</option>
+    </select>
+</div>
+
+      <div class="mb-3">
+    <label for="transfomer_type" class="form-label">Type</label>
+    <select class="form-select" id="transfomer_type" name="transfomer_type">
+        <option value="">Select Option</option>
+        <option value="custom">Custom</option>
+       
+        {% for type in transformers_type %}
+      {% if type.transformer_type %}
+          <option value="{{ type.transformer_type }}">{{ type.transformer_type }} </option>
+          {% endif %}
+
+          {% endfor %}
     </select>
 </div>
 

@@ -31,6 +31,11 @@ class Customer(models.Model):
 
 
 
+class FilesModel(models.Model):
+    connector_id = models.CharField(max_length=200,primary_key=True)
+    filetype = models.CharField(max_length=50, null=True, blank=True)
+    file = models.FileField(upload_to='uploads/')
+
 
 class Connector(models.Model):
     name = models.CharField(max_length=200,null=False,default='')
@@ -38,19 +43,20 @@ class Connector(models.Model):
     connector_type = models.CharField(max_length=150,null=True,blank=True)
     parameters = models.TextField(null=True,blank=True)
     created_by=models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    files = models.ManyToManyField(FilesModel)
     date_created = models.DateField(default=timezone.now)
     time_created = models.TimeField(default=timezone.now)
 
 
     def __str__(self):
-        return self.name + " : "+ self.connector_type
-
+        return self.name + " : "+ str(self.connector_type)
 
 
 
  
 class Transformer(models.Model):
     name = models.CharField(max_length=200,null=False,default='')
+    transformer_type = models.CharField(max_length=200,null=True,blank=True)
     description = models.TextField(null=True,blank=True)
     created_by=models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     last_modified = models.DateTimeField(default=timezone.now)
@@ -59,7 +65,7 @@ class Transformer(models.Model):
     code = models.TextField(null=True,blank=True,default='')
 
     def __str__(self):
-        return self.created_by.first_name + " : "+ self.name
+        return   self.name
 
     def save(self, *args, **kwargs):
         self.views = self.views + 1
@@ -74,16 +80,73 @@ class Task(models.Model):
     description = models.TextField(null=True,blank=True)
     created_by=models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     date_created = models.DateField(default=timezone.now)
-    time_created = models.TimeField(default=timezone.now)
-    last_run = models.DateTimeField(default=timezone.now)  
-    source=models.ForeignKey(Connector, on_delete=models.CASCADE, null=True, blank=True,related_name="connector_source")
-    target=models.ForeignKey(Connector, on_delete=models.CASCADE, null=True, blank=True,related_name="connector_target")
+    time_created = models.TimeField(default=timezone.now)  
+    source=models.ManyToManyField(Connector,  null=True, blank=True,related_name="connector_source")
+    targets=models.ManyToManyField(Connector, null=True, blank=True)
     transformers=models.ManyToManyField(Transformer, null=True, blank=True)
 
-    def __str__(self):
-        return self.created_by.first_name + " : "+ self.name
+    schedule_time = models.CharField(max_length=100,null=True,blank=True)
+    minute_time = models.IntegerField(null=True,blank=True)
+    daily_time = models.TimeField(null=True,blank=True)
+    sun = models.CharField(max_length=100,null=True,blank=True)
+    mon = models.CharField(max_length=100,null=True,blank=True)
+    tue = models.CharField(max_length=100,null=True,blank=True)
+    wed = models.CharField(max_length=100,null=True,blank=True)
+    thu = models.CharField(max_length=100,null=True,blank=True)
+    fri = models.CharField(max_length=100,null=True,blank=True)
+    sat = models.CharField(max_length=100,null=True,blank=True) 
+    weekly_time = models.TimeField(null=True,blank=True)
+    status = models.CharField(max_length=50,blank=True,null=True,default='stopped')
+    job_id = models.CharField(max_length=50,blank=True,null=True)
+    last_run_date = models.DateField(default=timezone.now)
+    last_run_time = models.TimeField(default=timezone.now )
+    error = models.TextField(null=True,blank=True)
 
+    def save(self, *args, **kwargs):
+        # Update last_run_date and last_run_time fields to current date and time
+        self.last_run_date = timezone.now().date()
+        self.last_run_time = timezone.now().time()
+        super().save(*args, **kwargs)
  
 
+    def __str__(self):
+        return self.status + " : "+ self.name
+
+    def weekly_day(self):
+        return ','.join(day for day in ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'] if getattr(self, day))
+
+    def get_transformers(self):
+        return ', '.join( [x.description or x.name for x in self.transformers.all()])
+
+    def get_targets(self):
+        return ', '.join([ x.description or x.name for x in self.targets.all()])
+
+    def get_sources(self):
+        return ', '.join([x.description or x.name for x in self.source.all()])
+
+    weekly_day = property(weekly_day)
+    get_transformers = property(get_transformers)
+    get_targets = property(get_targets)
+    get_sources = property(get_sources)
+
+
+class Logs(models.Model):
+    name = models.CharField(max_length=200,null=False,default='') 
+    task = models.CharField(max_length=200,null=False,default='')
+    text = models.TextField(null=True,blank=True)
+
+    def __str__(self):
+        return self.task + " : "+ self.name
+
+class Running_Jobs(models.Model):
+    id = models.CharField(max_length=80,primary_key=True) 
+    job = models.TextField(null=False,default='') 
+    last_run_date = models.DateField(default=timezone.now)
+    last_run_time = models.TimeField(default=timezone.now)
+
+    def __str__(self):
+        return self.id + " : "+ self.last_run_date
+
+ 
 
 

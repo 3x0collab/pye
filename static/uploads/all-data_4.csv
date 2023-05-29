@@ -1,0 +1,2331 @@
+ID,RULEBUILDER,TYPE ID,SUB TYPE ID,RISK,REQUESTOR,PURPOSE,RUNMODE,INTERVALOF,WEEKLY,MONTHLY,QUARTERLY,YEARLY,NEXT RUN DATE,NEXT RUN TIME,LAST RUN DATE,LAST RUN TIME,ACTION,IMPLICATIONS,GROUPBY,RESPONDENT,OWNER,NEXT OWNER,ENFORCER,ENFORCER STATUS,RICADAILY,CREATESTATUS,MODALITY,RULE TYPE,TOTAL PER BATCH,LIKELIHOOD,CONSEQUENCE,PRIORITY,DESCRIPTION,NOTIFY BEFORE DUE,OVERDUE TIME,OVERDUE REPEAT,REPEAT CHANGE AFTER,REPEAT TIME CHANGE,OVERDUE RISK MATRIX,OVERDUE PRIORITY,OVERDUE NOTE,REGULATORY REPORT,REPORT WITHIN,AUTOCLOSE,AUTO STATUS,CLOSE AFTER,CLOSE RISK,RUN STATUS,STATUS REASON,STATUS DATE,STATUS TIME,STATUS INITIATOR,MAPPER,QUERY PANEL
+EXCEPTIOM-01,transaction inflow,TRANSACTION,trs,HIGH,BRANCH,,INTERVAL,30,,,,2023-04-05,2023-04-05,12:03:06.357,2023-04-05,13:03:06,,,,complianceofficer,default,,Technical,CLOSED,,NEW,One Alert - One Email,en-237,,3,3,3,,0,0,0,0,0,,0,,,,,,0,,,,2023-04-05,12:56:35,superuser,special_date,"select ricaspecialdate as special_date, 
+RICASPECIALTIME as special_time from rica_journalentries"
+SC0001,CASH WITHDRAWAL FROM COLLECTION ACCOUNTS (TEST),TRANSACTION,Cash Withdrawal,HIGH,BRANCH,CASH WITHDRAWAL FROM COLLECTION ACCOUNTS,INTERVAL,50,,,,2023-03-05,2023-03-13,01:33:37,2023-03-13,00:45:15,,,,complianceofficer,Technical,fdf,default,Close,12:01,NEW,One Alert - One Email,,,3,3,3,,0,0,0,0,0,,0,,,,,,0,,,,2023-03-12,16:26:00,superuser,"REF_ID,TRANS_ID,ACCOUNT,CUSTOMER_NAME,CUSTOMER_NO,BRANCH,BRANCH_NAME,TRANS_TYPE,ENTRY_DATE,DETAILS,AUTHORISER,AMOUNT,TRANS_CODE","Select distinct
+A.RICATRANSREFID as ref_id,
+A.RICATRANSID as trans_id,
+A.RICAACCOUNTID as account,
+A.RICACUSTOMERNO as customer_no, 
+(case when a.RICACUSTOMERNO != '' then CU.SHORT_NAME
+      when a.RICACUSTOMERNO is null then ac.short_title
+     else CU.SHORT_NAME || A.RICAACCOUNTNAME end) customer_name,
+(select ricaBranchName from RICA1.rica_branch where ricaBranchId=A.RICABRANCHCODE )|| A.RICABRANCHNAME branch_name,
+A.RICABRANCHCODE as branch,
+A.RICATRANSCODE as trans_code, 
+A.RICATRANSTYPE as trans_type,
+A.RICALCYAMOUNT as amount ,
+to_char(A.RICAENTRYDATE,'DD-MM-YYYY') AS entry_date, 
+A.RICAACCOUNTOFFICER as account_officer ,
+(case  when a.RICAMODULE = 'FUNDS.TRANSFER' then b.payment_details||' '||TO_CHAR(A.RICANARRATIVE)
+      when a.RICAMODULE = 'TELLER' then  c.Narrative_2||' '||TO_CHAR(A.RICANARRATIVE)
+      else TO_CHAR(A.RICANARRATIVE) ||' '|| b.payment_details end) DETAILS,
+A.RICAINPUTTER as INPUTTER,
+(case when b.AUTHORISER is not null then b.AUTHORISER
+      when c.AUTHORISER is not null then c.AUTHORISER
+      when d.AUTHORISER is not null then d.AUTHORISER
+      when e.AUTHORISER is not null then e.AUTHORISER
+      when f.AUTHORISER is not null then f.AUTHORISER
+      when g.AUTHORISER is not null then g.AUTHORISER
+      when h.FILE_AUTH is not null then h.FILE_AUTH
+           else A.RICAAUTHORISER end) AUTHORISER, 
+
+A.RICASPECIALDATE as special_date ,
+A.RICASPECIALTIME as special_time,
+ 
+A.RICAACCOUNTNAME as account_name ,
+A.RICALCYCODE
+
+
+From RICA1.rica_journalentries A            
+      left join RICA1.ic4_t24_ft b      
+      on b.id = a.RICATRANSID  
+      left join RICA1.ic4_t24_teller c
+      on c.id = a.RICATRANSID
+      left join RICA1.ic4_t24_mm d
+      on d.id = a.RICATRANSID
+      left join RICA1.ic4_t24_ldloan e
+      on e.id = a.RICATRANSID
+      left join RICA1.ic4_t24_f f
+      on f.id = a.RICATRANSID
+      left join RICA1.ic4_t24_g g
+      on g.id = a.RICATRANSID
+      left join RICA1.ic4_t24_h h
+      on h.id = a.RICATRANSID
+      left join RICA1.IC4_T24_AC ac
+      on ac.id = a.RICATRANSID
+      left join RICA1.IC4_T24_CUST cu
+      on cu.id = a.RICATRANSID
+where A.RICASPECIALDATE  >= '{v_lastrundate}'
+and A.RICASPECIALTIME > '{v_lastruntime}'  
+and A.RICABRANCHCODE =  '{branch_code}'   
+"
+SC0002,UNUSUAL LARGE WITHDRAWAL FROM CUSTOMER ACCOUNT,TRANSACTION,Large Withdrawal,Low,BRANCH,UNUSUAL LARGE WITHDRAWAL FROM CUSTOMER ACCOUNT,INTERVAL,0,,,,2023-01-01,2023-03-06,01:32:53.380,2023-03-06,02:32:53,,,,complianceofficer,complianceofficer,default,default,Close,,NEW,One Alert - One Email,,,1,1,1,,0,0,0,0,0,,0,,,,,,0,,,,2023-03-06,02:30:35,superuser,ACCOUNT," Select distinct
+A.RICATRANSREFID as ref_id,
+A.RICATRANSID as trans_id,
+A.RICAACCOUNTID as account,
+A.RICACUSTOMERNO as customer_no, 
+(case when a.RICACUSTOMERNO != '' then CU.SHORT_NAME
+      when a.RICACUSTOMERNO is null then ac.short_title
+     else CU.SHORT_NAME || A.RICAACCOUNTNAME end) customer_name,
+(select ricaBranchName from RICA1.rica_branch where ricaBranchId=A.RICABRANCHCODE )|| A.RICABRANCHNAME branch_name,
+A.RICABRANCHCODE as branch,
+A.RICATRANSCODE as trans_code, 
+A.RICATRANSTYPE as trans_type,
+A.RICALCYAMOUNT as amount ,
+to_char(A.RICAENTRYDATE,'DD-MM-YYYY') AS entry_date, 
+A.RICAACCOUNTOFFICER as account_officer ,
+(case  when a.RICAMODULE = 'FUNDS.TRANSFER' then b.payment_details||' '||TO_CHAR(A.RICANARRATIVE)
+      when a.RICAMODULE = 'TELLER' then  c.Narrative_2||' '||TO_CHAR(A.RICANARRATIVE)
+      else TO_CHAR(A.RICANARRATIVE) ||' '|| b.payment_details end) DETAILS,
+A.RICAINPUTTER as INPUTTER,
+(case when b.AUTHORISER is not null then b.AUTHORISER
+      when c.AUTHORISER is not null then c.AUTHORISER
+      when d.AUTHORISER is not null then d.AUTHORISER
+      when e.AUTHORISER is not null then e.AUTHORISER
+      when f.AUTHORISER is not null then f.AUTHORISER
+      when g.AUTHORISER is not null then g.AUTHORISER
+      when h.FILE_AUTH is not null then h.FILE_AUTH
+           else A.RICAAUTHORISER end) AUTHORISER, 
+
+A.RICASPECIALDATE as special_date ,
+A.RICASPECIALTIME as special_time,
+ 
+A.RICAACCOUNTNAME as account_name ,
+A.RICALCYCODE
+
+From rica_journalentries A  
+left join (Select distinct
+A.RICAACCOUNTID,
+sum(A.RICALCYAMOUNT) as sum_value
+From rica_journalentries_arc A 
+where trunc(A.RICABOOKINGDATE) >=trunc(sysdate)-30 
+AND A.RICATRANSCODE = 'D'
+GROUP BY A.RICAACCOUNTID) his
+on his.RICAACCOUNTID = A.RICAACCOUNTID
+      left join ic4_t24_ft b      
+      on b.id = A.RICATRANSID  
+      left join ic4_t24_teller c
+      on c.id = A.RICATRANSID
+      left join ic4_t24_mm d
+      on d.id = A.RICATRANSID
+      left join ic4_t24_ldloan e
+      on e.id = A.RICATRANSID
+      left join ic4_t24_f f
+      on f.id = A.RICATRANSID
+       left join ic4_t24_g g
+      on g.id = a.RICATRANSID
+      left join ic4_t24_h h
+      on h.id = a.RICATRANSID
+      left join IC4_T24_AC ac
+      on ac.id = a.RICATRANSID
+      left join IC4_T24_CUST cu
+      on cu.id = a.RICATRANSID
+
+where A.RICASPECIALDATE  >= '{v_lastrundate}'
+and A.RICASPECIALTIME > '{v_lastruntime}'  
+and A.RICABRANCHCODE =  '{branch_code}'  
+"
+SC0003,BACKDATED TRANSACTIONS >30 DAYS,TRANSACTION,BACKDATED TRANSACTIONS,HIGH,BRANCH,BACKDATED TRANSACTIONS >30 DAYS,INTERVAL,0,,,,2023-03-03,2023-03-06,01:56:35.794,2023-03-06,02:56:35,,,,complianceofficer,complianceofficer,default,default,CLOSED,12:02,NEW,One Alert - One Email,,,3,3,3,,0,0,0,0,0,,0,,,,,,0,,,,2023-03-06,02:54:37,superuser,"trans_id,account,customer_no,account_name,trans_type,amount,entry_date,details,inputter,authoriser","select ricaUserId, ricaStaffNo, ricaUserRole, ricaMobile from rica_user"
+SC0004,DEBIT TO INCOME ACCOUNTS (PL5****) ≥N1M,TRANSACTION,Debit,HIGH,BRANCH,"DEBIT TO INCOME ACCOUNTS (PL5****) ≥N1M
+",YEARLY,0,,,,2023-03-04,2023-03-06,02:02:52.618,2023-03-06,03:02:52,,,,complianceofficer,complianceofficer,default,default,,12:03,NEW,One Alert - One Email,,,3,3,3,,0,0,0,0,0,,0,,,,,,0,,,,2023-03-06,02:54:37,superuser,,"Select distinct
+A.RICATRANSID,
+b.DEBIT_acct_no Account_Number,
+(case when A.RICACUSTOMERNO != '' then CU.SHORT_NAME
+      when A.RICACUSTOMERNO is null then ac.PL_NAME
+     else CU.SHORT_NAME end) Customer_Name,
+     
+A.RICAACCOUNTID,
+A.RICACUSTOMERNO,
+A.RICALCYAMOUNT,
+to_char(A.RICALCYAMOUNT,'99,999,999,999,999.00') Amount,
+CASE WHEN A.RICAFCYAMOUNT IS NULL THEN '0' ELSE TO_CHAR(A.RICAFCYAMOUNT) END trans_amount_fcy,
+CASE WHEN A.RICAFCYAMOUNT IS NULL THEN '0' ELSE TO_CHAR(abs(A.RICAFCYAMOUNT), '99,999,999,999,999.00') END trans_amount_fcy2,
+A.RICATRANSCODE,
+b.payment_details || ' ' || TO_CHAR(A.RICANARRATIVE) DET,
+b.payment_details,
+(case  when a.RICAMODULE = 'FUNDS.TRANSFER' then b.payment_details||' '||TO_CHAR(A.RICANARRATIVE)
+      when a.RICAMODULE = 'TELLER' then  c.Narrative_2||' '||TO_CHAR(A.RICANARRATIVE)
+                 else c.Narrative_2 end) DETAILS,
+           
+A.RICACHEQUENO,
+to_char(A.RICAVALUEDATE, 'dd-mm-yyyy') As  Value_Date,
+A.RICALCYCODE,
+A.RICAPRODUCTCATEGORY,
+A.RICARATE,
+A.RICATRANSREFID,
+A.RICABOOKINGDATE,
+to_char(A.RICABOOKINGDATE, 'dd-mm-yyyy') As Booking_Dates,
+A.RICAACCOUNTID,
+A.RICAAUTHORISER auth,
+b.INPUTTER INPUTTR, 
+
+(select ricaUserId from RICA1.rica_user where ricaStaffNo = (case when b.INPUTTER is not null then b.INPUTTER
+      when c.INPUTTER is not null then c.INPUTTER
+      when d.INPUTTER is not null then d.INPUTTER
+      when e.INPUTTER is not null then e.INPUTTER
+      when f.INPUTTER is not null then f.INPUTTER
+      when g.INPUTTER is not null then g.INPUTTER
+      when h.INPUTTER is not null then h.INPUTTER
+      else A.RICAACCOUNTID end)) ic4_verifier,
+
+(case when b.INPUTTER is not null then b.INPUTTER
+      when c.INPUTTER is not null then c.INPUTTER
+      when d.INPUTTER is not null then d.INPUTTER
+      when e.INPUTTER is not null then e.INPUTTER
+      when f.INPUTTER is not null then f.INPUTTER
+      when g.INPUTTER is not null then g.INPUTTER
+      when h.INPUTTER is not null then h.INPUTTER
+      else A.RICAACCOUNTID end) INPUTTER,
+      
+b.AUTHORISER AUTHORISR,
+(case when b.AUTHORISER is not null then b.AUTHORISER
+      when c.AUTHORISER is not null then c.AUTHORISER
+      when d.AUTHORISER is not null then d.AUTHORISER
+      when e.AUTHORISER is not null then e.AUTHORISER
+      when f.AUTHORISER is not null then f.AUTHORISER
+      when g.AUTHORISER is not null then g.AUTHORISER
+      when h.AUTHORISER is not null then h.AUTHORISER
+           else A.RICAAUTHORISER end) AUTHORISER,
+
+           
+(select ricaStaffNo from RICA1.rica_user where ricaUserId=A.RICAINPUTTER) inputter_id,
+(select ricaStaffNo from RICA1.rica_user where ricaUserId=A.RICAAUTHORISER) Authoriser_id,
+A.RICASPECIALDATE,
+A.RICAENTRYID,
+A.RICAENTRYSERIALNO,
+A.RICATRANSCODE,
+(case when A.RICATRANSCODE = 'D' then 'DR' 
+  WHEN TO_CHAR(A.RICATRANSCODE) = 'C' then 'CR' else TO_CHAR(A.RICATRANSCODE) end) IND,
+A.RICABRANCHCODE,
+A.RICAPRODUCTCATEGORY,
+to_char(A.RICAENTRYDATE, 'dd-mm-yyyy') As  Acct_Open_Date,
+A.RICAACCOUNTSTATUS,
+to_char( A.RICAPOSTINGDATE, 'dd-mm-yyyy') As  Acct_Active_Date,
+A.RICALCYAMOUNT ,
+to_char(A.RICALCYAMOUNT,'99,999,999,999,999.00') BAL,
+A.RICADOMICILEBRANCH,
+(select ricaBranchName from RICA1.rica_branch where ricaBranchId=A.RICABRANCHCODE ) Branch,
+(select ricaBranchName from RICA1.rica_branch where ricaBranchId=A.RICADOMICILEBRANCH) dom_Branch,
+A.RICAACCOUNTTYPE,
+A.RICAACCOUNTSTATUS,
+DECODE(substr(A.RICATRANSID,1,2) , 'BK', 'BULK POSTING', 'TT', 'CASH','FT','FUND TRANSFER','CS','ATM','UNKNOWN') Trans_Type,
+to_timestamp(to_char(to_timestamp(RICASPECIALDATE,'yyyy-mm-dd hh24:mi:ssxff'),'dd-mon-yy hh24:mi:ssxff'),'dd-mon-yy hh24:mi:ssxff') Times
+
+
+From RICA1.rica_journalentries A            
+      left join RICA1.ic4_t24_ft b      
+      on b.id = A.RICATRANSID  
+      left join RICA1.ic4_t24_teller c
+      on c.id = A.RICATRANSID
+      left join RICA1.ic4_t24_mm d
+      on d.id = A.RICATRANSID
+      left join RICA1.ic4_t24_ldloan e
+    on e.id = a.RICATRANSID
+      left join RICA1.ic4_t24_f f
+      on f.id = a.RICATRANSID
+      left join RICA1.ic4_t24_g g
+      on g.id = a.RICATRANSID
+      left join RICA1.ic4_t24_h h
+      on h.id = a.RICATRANSID
+      left join RICA1.IC4_T24_AC ac
+      on ac.id = a.RICATRANSID
+      left join RICA1.IC4_T24_CUST cu
+      on cu.id = a.RICATRANSID
+
+
+"
+SC0005,SECURITY TRADE TRANSACTIONS,TRANSACTION,SECURITY TRADE,Low,BRANCH,"SECURITY TRADE TRANSACTIONS
+",YEARLY,0,,,,2023-03-12,2023-03-06,02:13:36.502,2023-03-06,03:13:36,,,,complianceofficer,complianceofficer,default,default,,12:02,NEW,One Alert - One Email,,,1,1,1,,0,0,0,0,0,,0,,,,,,0,,,,2023-03-06,02:54:37,superuser,,"
+Select distinct
+A.RICATRANSID,
+A.RICAACCOUNTID,
+(case when A.RICACUSTOMERNO != '' then CU.SHORT_NAME
+           else CU.SHORT_NAME end) Customer_Name,
+     
+A.RICAACCOUNTID,
+A.RICACUSTOMERNO,
+to_char(A.RICALCYAMOUNT,'99,999,999,999,999.00')  trans_AmountLcy,
+g.cust_no_nom Amount,
+
+CASE WHEN A.RICAFCYAMOUNT IS NULL THEN '0' ELSE TO_CHAR(A.RICAFCYAMOUNT) END trans_amount_fcy,
+CASE WHEN A.RICAFCYAMOUNT IS NULL THEN '0' ELSE TO_CHAR(abs(A.RICAFCYAMOUNT), '99,999,999,999,999.00') END trans_amount_fcy2,
+A.RICATRANSCODE,
+
+to_char(A.RICANARRATIVE) DETAILS,
+           
+A.RICACHEQUENO,
+to_char(A.RICAVALUEDATE ,'dd-mm-yyyy') As  Value_Date,
+A.RICALCYCODE,
+A.RICAPRODUCTCATEGORY,
+A.RICARATE,
+A.RICATRANSREFID,
+A.RICABOOKINGDATE,
+to_char(A.RICABOOKINGDATE, 'dd-mm-yyyy') As Booking_Dates,
+A.RICAACCOUNTID,
+A.RICAAUTHORISER auth,
+(case  when g.INPUTTER is not null then g.INPUTTER
+
+      else A.RICAINPUTTER end) INPUTTER,
+  
+(case    when g.AUTHORISER is not null then g.AUTHORISER
+             else A.RICAAUTHORISER end) AUTHORISER,
+
+ 
+(select ricaStaffNo from RICA1.rica_user where ricaUserId=A.RICAINPUTTER) inputter_id,
+(select ricaStaffNo from RICA1.rica_user where ricaUserId=A.RICAAUTHORISER) Authoriser_id,
+A.RICASPECIALDATE,
+A.RICAENTRYID,
+A.RICAENTRYSERIALNO,
+A.RICATRANSCODE,
+(case when A.RICATRANSCODE = 'D' then 'DR' 
+  WHEN TO_CHAR(A.RICATRANSCODE) = 'C' then 'CR' else TO_CHAR(A.RICATRANSCODE) end) IND,
+A.RICABRANCHCODE,
+A.RICAPRODUCTCATEGORY,
+to_char(A.RICAENTRYDATE, 'dd-mm-yyyy') As  Acct_Open_Date,
+A.RICAACCOUNTSTATUS,
+to_char(A.RICAPOSTINGDATE, 'dd-mm-yyyy') As  Acct_Active_Date,
+A.RICALCYAMOUNT ,
+to_char(A.RICALCYAMOUNT,'99,999,999,999,999.00') BAL,
+A.RICADOMICILEBRANCH,
+(select ricaBranchName from RICA1.rica_branch where ricaBranchId=A.RICABRANCHCODE ) Branch,
+(select ricaBranchName from RICA1.rica_branch where ricaBranchId=A.RICADOMICILEBRANCH) dom_Branch,
+A.RICAACCOUNTTYPE,
+A.RICAACCOUNTSTATUS,
+DECODE(substr(A.RICATRANSID,1,2) , 'BK', 'BULK POSTING', 'TT', 'CASH','FT','FUND TRANSFER','CS','ATM','UNKNOWN') Trans_Type,
+to_timestamp(to_char(to_timestamp(RICASPECIALDATE,'yyyy-mm-dd hh24:mi:ssxff'),'dd-mon-yy hh24:mi:ssxff'),'dd-mon-yy hh24:mi:ssxff') Times
+
+
+From RICA1.rica_journalentries A,            
+      RICA1.ic4_t24_sectrade g,
+      RICA1.IC4_T24_CUST cu
+where A.RICATRANSID = g.id 
+and  A.RICACUSTOMERNO = cu.customer_code
+
+
+and A.RICABOOKINGDATE >=(sysdate-1)
+and A.RICATRANSID not in (select ricaTransId from RICA1.rica_alerts where ricaEntityName like '%SECURITY TRADE TRANSACTIONS%' and  trunc(ricaCreateDate)=trunc(sysdate))
+"
+SC0006,Same Inputter Same Authoriser,TRANSACTION,Operations,Low,BRANCH,,YEARLY,0,,,,2023-03-05,2023-03-06,09:30:13.639,2023-03-06,10:30:13,,,,complianceofficer,complianceofficer,default,default,,12:03,NEW,One Alert - One Email,,,1,1,1,,0,0,0,0,0,,0,,,,,,0,,,,2023-03-06,02:54:37,superuser,,"Select distinct
+A.RICATRANSID,
+A.RICAACCOUNTID,
+(SELECT TO_NUMBER(ricaMaxAttempt) FROM RICA1.rica_user WHERE ricaStaffNo = A.RICAACCOUNTID) phb_usr_limit,
+(case when A.RICACUSTOMERNO != '' then CU.SHORT_NAME
+      when A.RICACUSTOMERNO is null then ac.short_title
+     else CU.SHORT_NAME end) Customer_Name,
+     
+A.RICAACCOUNTID,
+A.RICACUSTOMERNO,
+A.RICALCYAMOUNT,
+to_char(A.RICALCYAMOUNT,'99,999,999,999,999.00') Amount,
+CASE WHEN A.RICAFCYAMOUNT IS NULL THEN '0' ELSE TO_CHAR(A.RICAFCYAMOUNT) END trans_amount_fcy,
+CASE WHEN A.RICAFCYAMOUNT IS NULL THEN '0' ELSE TO_CHAR(abs(A.RICAFCYAMOUNT), '99,999,999,999,999.00') END trans_amount_fcy2,
+A.RICATRANSCODE,
+b.payment_details || ' ' || TO_CHAR(A.RICANARRATIVE) DET,
+b.payment_details,
+(case  when a.RICAMODULE = 'FUNDS.TRANSFER' then b.payment_details||' '||TO_CHAR(A.RICANARRATIVE)
+      when a.RICAMODULE = 'TELLER' then  c.Narrative_2||' '||TO_CHAR(A.RICANARRATIVE)
+                 else c.Narrative_2 end) DETAILS,
+           
+A.RICACHEQUENO,
+to_char(A.RICAVALUEDATE ,'dd-mm-yyyy') As  Value_Date,
+A.RICALCYCODE,
+A.RICAPRODUCTCATEGORY,
+A.RICARATE,
+A.RICATRANSREFID,
+A.RICABOOKINGDATE,
+to_char(A.RICABOOKINGDATE  ,'DD-MM-YY') As Booking_Dates,
+A.RICAACCOUNTID,
+A.RICAAUTHORISER auth,
+b.INPUTTER INPUTTR, 
+(case when b.INPUTTER is not null then b.INPUTTER
+      when c.INPUTTER is not null then c.INPUTTER
+      when d.INPUTTER is not null then d.INPUTTER
+      when e.INPUTTER is not null then e.INPUTTER
+      when f.INPUTTER is not null then f.INPUTTER
+      when g.INPUTTER is not null then g.INPUTTER
+      when h.FILE_INPUT is not null then h.FILE_INPUT
+      else A.RICAACCOUNTID end) INPUTTER,
+      
+b.AUTHORISER AUTHORISR,
+(case when b.AUTHORISER is not null then b.AUTHORISER
+      when c.AUTHORISER is not null then c.AUTHORISER
+      when d.AUTHORISER is not null then d.AUTHORISER
+      when e.AUTHORISER is not null then e.AUTHORISER
+      when f.AUTHORISER is not null then f.AUTHORISER
+      when g.AUTHORISER is not null then g.AUTHORISER
+      when h.FILE_AUTH is not null then h.FILE_AUTH
+           else A.RICAAUTHORISER end) AUTHORISER,
+           
+(select ricaStaffNo from RICA1.rica_user where ricaUserId=A.RICAINPUTTER) inputter_id,
+(select ricaStaffNo from RICA1.rica_user where ricaUserId=A.RICAAUTHORISER) Authoriser_id,
+A.RICASPECIALDATE,
+A.RICAENTRYID,
+A.RICAENTRYSERIALNO,
+A.RICATRANSCODE,
+(case when A.RICATRANSCODE = 'D' then 'DR' 
+  WHEN TO_CHAR(A.RICATRANSCODE) = 'C' then 'CR' else TO_CHAR(A.RICATRANSCODE) end) IND,
+A.RICABRANCHCODE,
+A.RICAPRODUCTCATEGORY,
+to_char(A.RICAENTRYDATE, 'yyyy-mm-dd')  As  Acct_Open_Date,
+A.RICAACCOUNTSTATUS,
+to_char( A.RICAPOSTINGDATE , 'dd-mm-yyyy') As  Acct_Active_Date,
+A.RICALCYAMOUNT ,
+to_char(A.RICALCYAMOUNT,'99,999,999,999,999.00') BAL,
+A.RICADOMICILEBRANCH,
+(select ricaBranchName from RICA1.rica_branch where ricaBranchId=A.RICABRANCHCODE ) Branch,
+(select ricaBranchName from RICA1.rica_branch where ricaBranchId=A.RICADOMICILEBRANCH) dom_Branch,
+A.RICAACCOUNTTYPE,
+A.RICAACCOUNTSTATUS,
+DECODE(substr(A.RICATRANSID,1,2) , 'BK', 'BULK POSTING', 'TT', 'CASH','FT','FUND TRANSFER','CS','ATM','UNKNOWN') Trans_Type,
+to_timestamp(to_char(to_timestamp(RICASPECIALDATE,'yyyy-mm-dd hh24:mi:ssxff'),'dd-mon-yy hh24:mi:ssxff'),'dd-mon-yy hh24:mi:ssxff') Times
+
+
+From RICA1.rica_journalentries A            
+      left join RICA1.ic4_t24_ft b      
+      on b.id = A.RICATRANSID  
+      left join RICA1.ic4_t24_teller c
+      on c.id = A.RICATRANSID
+      left join RICA1.ic4_t24_mm d
+      on d.id = A.RICATRANSID
+      left join RICA1.ic4_t24_ldloan e
+      on e.id = A.RICATRANSID
+      left join RICA1.ic4_t24_forex f
+      on f.id = A.RICATRANSID
+      left join RICA1.ic4_t24_sectrade g
+      on g.id = A.RICATRANSID
+      left join RICA1.ic4_t24_iclbulkpst h
+      on h.id = A.RICATRANSID      
+     left join RICA1.rica_user usr
+         on usr.ricaStaffNo = A.RICAACCOUNTID
+         left join RICA1.IC4_T24_AC ac
+      on ac.id = a.RICATRANSID
+      left join RICA1.IC4_T24_CUST cu
+      on cu.id = a.RICATRANSID
+
+"
+SC0007,OUTFLOWS FROM CUSTOMERS' ACCOUNTS: ≥N50M,TRANSACTION,Customers,HIGH,BRANCH,,YEARLY,0,,,,2023-03-05,2023-03-06,09:40:07.519,2023-03-06,10:40:07,,,,complianceofficer,complianceofficer,default,default,,03:03,NEW,One Alert - One Email,,,3,3,3,,0,0,0,0,0,,0,,,,,,0,,,,2023-03-06,02:54:37,superuser,,"
+Select distinct
+
+A.RICATRANSID,
+
+A.RICAACCOUNTID,
+
+(case when A.RICACUSTOMERNO != '' then CU.SHORT_NAME
+
+when A.RICACUSTOMERNO is null then ac.short_title
+
+else CU.SHORT_NAME end) Customer_Name,
+
+A.RICAACCOUNTID,
+
+A.RICACUSTOMERNO,
+
+A.RICALCYAMOUNT,
+
+to_char(A.RICALCYAMOUNT,'99,999,999,999,999.00') Amount,
+
+CASE WHEN A.RICAFCYAMOUNT IS NULL THEN '0' ELSE TO_CHAR(A.RICAFCYAMOUNT) END trans_amount_fcy,
+
+CASE WHEN A.RICAFCYAMOUNT IS NULL THEN '0' ELSE TO_CHAR(abs(A.RICAFCYAMOUNT), '99,999,999,999,999.00') END trans_amount_fcy2,
+
+A.RICATRANSCODE,
+
+b.payment_details || ' ' || TO_CHAR(A.RICANARRATIVE) DET,
+b.payment_details,
+(case  when a.RICAMODULE = 'FUNDS.TRANSFER' then b.payment_details||' '||TO_CHAR(A.RICANARRATIVE)
+      when a.RICAMODULE = 'TELLER' then  c.Narrative_2||' '||TO_CHAR(A.RICANARRATIVE)
+                 else c.Narrative_2 end) DETAILS,
+
+A.RICACHEQUENO,
+
+to_char(A.RICAVALUEDATE ,'dd-mm-yyyy') As Value_Date,
+
+A.RICALCYCODE,
+
+A.RICAPRODUCTCATEGORY,
+
+A.RICARATE,
+
+A.RICATRANSREFID,
+
+A.RICABOOKINGDATE,
+
+to_char(A.RICABOOKINGDATE, 'dd-mm-yyyy') As Booking_Dates,
+
+A.RICAACCOUNTID,
+
+A.RICAAUTHORISER auth,
+
+b.INPUTTER INPUTTR,
+
+(select ricaUserId from RICA1.rica_user where ricaStaffNo = (case when b.INPUTTER is not null then b.INPUTTER
+
+when c.INPUTTER is not null then c.INPUTTER
+
+when d.INPUTTER is not null then d.INPUTTER
+
+when e.INPUTTER is not null then e.INPUTTER
+
+when f.INPUTTER is not null then f.INPUTTER
+
+when g.INPUTTER is not null then g.INPUTTER
+
+when h.INPUTTER is not null then h.INPUTTER
+
+else A.RICAACCOUNTID end)) ic4_verifier,
+
+(case when b.INPUTTER is not null then b.INPUTTER
+
+when c.INPUTTER is not null then c.INPUTTER
+
+when d.INPUTTER is not null then d.INPUTTER
+
+when e.INPUTTER is not null then e.INPUTTER
+
+when f.INPUTTER is not null then f.INPUTTER
+
+when g.INPUTTER is not null then g.INPUTTER
+
+when h.INPUTTER is not null then h.INPUTTER
+
+else A.RICAACCOUNTID end) INPUTTER,
+
+b.AUTHORISER AUTHORISR,
+
+(case when b.AUTHORISER is not null then b.AUTHORISER
+
+when c.AUTHORISER is not null then c.AUTHORISER
+
+when d.AUTHORISER is not null then d.AUTHORISER
+
+when e.AUTHORISER is not null then e.AUTHORISER
+
+when f.AUTHORISER is not null then f.AUTHORISER
+
+when g.AUTHORISER is not null then g.AUTHORISER
+
+when h.AUTHORISER is not null then h.AUTHORISER
+
+else A.RICAAUTHORISER end) AUTHORISER,
+
+(select ricaStaffNo from RICA1.rica_user where ricaUserId=A.RICAINPUTTER) inputter_id,
+
+(select ricaStaffNo from RICA1.rica_user where ricaUserId=A.RICAAUTHORISER) Authoriser_id,
+
+A.RICASPECIALDATE,
+
+A.RICAENTRYID,
+
+A.RICAENTRYSERIALNO,
+
+A.RICATRANSCODE,
+
+(case when A.RICATRANSCODE = 'D' then 'DR' 
+  WHEN TO_CHAR(A.RICATRANSCODE) = 'C' then 'CR' else TO_CHAR(A.RICATRANSCODE) end) IND,
+
+A.RICABRANCHCODE,
+
+A.RICAPRODUCTCATEGORY,
+
+to_char(A.RICAENTRYDATE ,'dd-mm-yyyy') As Acct_Open_Date,
+
+A.RICAACCOUNTSTATUS,
+
+to_char( A.RICAPOSTINGDATE , 'dd-mm-yyyy') As Acct_Active_Date,
+
+A.RICALCYAMOUNT ,
+
+to_char(A.RICALCYAMOUNT,'99,999,999,999,999.00') BAL,
+
+A.RICADOMICILEBRANCH,
+
+(select ricaBranchName from RICA1.rica_branch where ricaBranchId=A.RICABRANCHCODE ) Branch,
+
+(select ricaBranchName from RICA1.rica_branch where ricaBranchId=A.RICADOMICILEBRANCH) dom_Branch,
+
+A.RICAACCOUNTTYPE,
+
+A.RICAACCOUNTSTATUS,
+
+DECODE(substr(A.RICATRANSID,1,2) , 'BK', 'BULK POSTING', 'TT', 'CASH','FT','FUND TRANSFER','CS','ATM','UNKNOWN') Trans_Type,
+
+to_timestamp(to_char(to_timestamp(RICASPECIALDATE,'yyyy-mm-dd hh24:mi:ssxff'),'dd-mon-yy hh24:mi:ssxff'),'dd-mon-yy hh24:mi:ssxff') Times
+
+
+From RICA1.rica_journalentries A
+
+left join RICA1.ic4_t24_ft b
+
+on b.id = A.RICATRANSID
+
+left join RICA1.ic4_t24_teller c
+
+on c.id = A.RICATRANSID
+
+left join RICA1.ic4_t24_mm d
+
+on d.id = A.RICATRANSID
+
+left join RICA1.ic4_t24_ldloan e
+
+on e.id = A.RICATRANSID
+
+left join RICA1.ic4_t24_forex f
+
+on f.id = A.RICATRANSID
+
+left join RICA1.ic4_t24_sectrade g
+
+on g.id = A.RICATRANSID
+
+left join RICA1.ic4_t24_iclbulkpst h
+on h.id = A.RICATRANSID
+ left join RICA1.IC4_T24_AC ac
+      on ac.id = a.RICATRANSID
+      left join RICA1.IC4_T24_CUST cu
+      on cu.id = a.RICATRANSID
+ "
+SC0008,CHEQUE LODGMENT INTO SAVINGS ACCOUNT >2M,TRANSACTION,Savings,HIGH,BRANCH,,YEARLY,0,,,,2023-03-05,2023-03-06,09:44:53.732,2023-03-06,10:44:53,,,,complianceofficer,complianceofficer,default,default,,12:02,NEW,One Alert - One Email,,,3,3,3,,0,0,0,0,0,,0,,,,,,0,,,,2023-03-06,10:43:50,superuser,,"
+
+Select distinct
+A.RICATRANSID,
+A.RICAACCOUNTID,
+(case when A.RICACUSTOMERNO != '' then CU.SHORT_NAME
+      when A.RICACUSTOMERNO is null then ac.short_title
+     else CU.SHORT_NAME end) Customer_Name,
+     
+A.RICAACCOUNTID,
+A.RICACUSTOMERNO,
+A.RICALCYAMOUNT,
+to_char(A.RICALCYAMOUNT,'99,999,999,999,999.00') Amount,
+CASE WHEN A.RICAFCYAMOUNT IS NULL THEN '0' ELSE TO_CHAR(A.RICAFCYAMOUNT) END trans_amount_fcy,
+CASE WHEN A.RICAFCYAMOUNT IS NULL THEN '0' ELSE TO_CHAR(abs(A.RICAFCYAMOUNT), '99,999,999,999,999.00') END trans_amount_fcy2,
+A.RICATRANSCODE,
+b.payment_details || ' ' || TO_CHAR(A.RICANARRATIVE) DET,
+b.payment_details,
+(case  when a.RICAMODULE = 'FUNDS.TRANSFER' then b.payment_details||' '||TO_CHAR(A.RICANARRATIVE)
+      when a.RICAMODULE = 'TELLER' then  c.Narrative_2||' '||TO_CHAR(A.RICANARRATIVE)
+                 else c.Narrative_2 end) DETAILS,
+           
+A.RICACHEQUENO,
+to_char(A.RICAVALUEDATE ,'dd-mm-yyyy') As  Value_Date,
+A.RICALCYCODE,
+A.RICAPRODUCTCATEGORY,
+A.RICARATE,
+A.RICATRANSREFID,
+A.RICABOOKINGDATE,
+to_char(A.RICABOOKINGDATE, 'dd-mm-yyyy') As Booking_Dates,
+A.RICAACCOUNTID,
+A.RICAAUTHORISER auth,
+b.INPUTTER INPUTTR, 
+
+(select ricaUserId from RICA1.rica_user where ricaStaffNo = (case when b.INPUTTER is not null then b.INPUTTER
+      when c.INPUTTER is not null then c.INPUTTER
+      when d.INPUTTER is not null then d.INPUTTER
+      when e.INPUTTER is not null then e.INPUTTER
+      when f.INPUTTER is not null then f.INPUTTER
+      when g.INPUTTER is not null then g.INPUTTER
+      when h.INPUTTER is not null then h.INPUTTER
+      else A.RICAACCOUNTID end)) ic4_verifier,
+
+(case when b.INPUTTER is not null then b.INPUTTER
+      when c.INPUTTER is not null then c.INPUTTER
+      when d.INPUTTER is not null then d.INPUTTER
+      when e.INPUTTER is not null then e.INPUTTER
+      when f.INPUTTER is not null then f.INPUTTER
+      when g.INPUTTER is not null then g.INPUTTER
+      when h.FILE_INPUT is not null then h.FILE_INPUT
+      else A.RICAACCOUNTID end) INPUTTER,
+      
+b.AUTHORISER AUTHORISR,
+(case when b.AUTHORISER is not null then b.AUTHORISER
+      when c.AUTHORISER is not null then c.AUTHORISER
+      when d.AUTHORISER is not null then d.AUTHORISER
+      when e.AUTHORISER is not null then e.AUTHORISER
+      when f.AUTHORISER is not null then f.AUTHORISER
+      when g.AUTHORISER is not null then g.AUTHORISER
+      when h.FILE_AUTH is not null then h.FILE_AUTH
+           else A.RICAAUTHORISER end) AUTHORISER,
+           
+(select ricaStaffNo from RICA1.rica_user where ricaUserId=A.RICAINPUTTER) inputter_id,
+(select ricaStaffNo from RICA1.rica_user where ricaUserId=A.RICAAUTHORISER) Authoriser_id,
+A.RICASPECIALDATE,
+A.RICAENTRYID,
+A.RICAENTRYSERIALNO,
+A.RICATRANSCODE,
+(case when A.RICATRANSCODE = 'D' then 'DR' 
+  WHEN TO_CHAR(A.RICATRANSCODE) = 'C' then 'CR' else TO_CHAR(A.RICATRANSCODE) end) IND,
+A.RICABRANCHCODE,
+A.RICAPRODUCTCATEGORY,
+to_char(A.RICAENTRYDATE ,'dd-mm-yyyy') As  Acct_Open_Date,
+A.RICAACCOUNTSTATUS,
+to_char( A.RICAPOSTINGDATE, 'dd-mm-yyyy') As  Acct_Active_Date,
+A.RICALCYAMOUNT ,
+to_char(A.RICALCYAMOUNT,'99,999,999,999,999.00') BAL,
+A.RICADOMICILEBRANCH,
+(select ricaBranchName from RICA1.rica_branch where ricaBranchId=A.RICABRANCHCODE ) Branch,
+(select ricaBranchName from RICA1.rica_branch where ricaBranchId=A.RICADOMICILEBRANCH) dom_Branch,
+A.RICAACCOUNTTYPE,
+A.RICAACCOUNTSTATUS,
+DECODE(substr(A.RICATRANSID,1,2) , 'BK', 'BULK POSTING', 'TT', 'CASH','FT','FUND TRANSFER','CS','ATM','UNKNOWN') Trans_Type,
+to_timestamp(to_char(to_timestamp(RICASPECIALDATE,'yyyy-mm-dd hh24:mi:ssxff'),'dd-mon-yy hh24:mi:ssxff'),'dd-mon-yy hh24:mi:ssxff') Times
+
+
+From RICA1.rica_journalentries A            
+      left join RICA1.ic4_t24_ft b      
+      on b.id = A.RICATRANSID  
+      left join RICA1.ic4_t24_teller c
+      on c.id = A.RICATRANSID
+      left join RICA1.ic4_t24_mm d
+      on d.id = A.RICATRANSID
+      left join RICA1.ic4_t24_ldloan e
+        on e.id = a.RICATRANSID
+      left join RICA1.ic4_t24_f f
+      on f.id = a.RICATRANSID
+      left join RICA1.ic4_t24_g g
+      on g.id = a.RICATRANSID
+      left join RICA1.ic4_t24_h h
+      on h.id = a.RICATRANSID
+      left join RICA1.IC4_T24_AC ac
+      on ac.id = a.RICATRANSID
+      left join RICA1.IC4_T24_CUST cu
+      on cu.id = a.RICATRANSID
+ "
+SC0009,Posting/Authorization of Self Account,TRANSACTION,Operations,HIGH,BRANCH,,YEARLY,0,,,,2023-03-05,2023-03-06,09:48:27.118,2023-03-06,10:48:26,,,,complianceofficer,complianceofficer,default,default,,03:03,NEW,One Alert - One Email,,,3,3,3,,0,0,0,0,0,,0,,,,,,0,,,,2023-03-06,10:43:50,superuser,,"
+Select distinct
+A.RICATRANSID,
+A.RICAACCOUNTID,
+(case when A.RICACUSTOMERNO != '' then CU.SHORT_NAME
+      when A.RICACUSTOMERNO is null then ac.short_title
+     else CU.SHORT_NAME end) Customer_Name,
+     
+A.RICAACCOUNTID,
+A.RICACUSTOMERNO,
+A.RICALCYAMOUNT,
+to_char(A.RICALCYAMOUNT,'99,999,999,999,999.00') Amount,
+CASE WHEN A.RICAFCYAMOUNT IS NULL THEN '0' ELSE TO_CHAR(A.RICAFCYAMOUNT) END trans_amount_fcy,
+CASE WHEN A.RICAFCYAMOUNT IS NULL THEN '0' ELSE TO_CHAR(abs(A.RICAFCYAMOUNT), '99,999,999,999,999.00') END trans_amount_fcy2,
+A.RICATRANSCODE,
+b.payment_details || ' ' || TO_CHAR(A.RICANARRATIVE) DET,
+b.payment_details,
+(case  when a.RICAMODULE = 'FUNDS.TRANSFER' then b.payment_details||' '||TO_CHAR(A.RICANARRATIVE)
+      when a.RICAMODULE = 'TELLER' then  c.Narrative_2||' '||TO_CHAR(A.RICANARRATIVE)
+                 else c.Narrative_2 end) DETAILS,
+           
+A.RICACHEQUENO,
+to_char(A.RICAVALUEDATE ,'dd-mm-yyyy') As  Value_Date,
+A.RICALCYCODE,
+A.RICAPRODUCTCATEGORY,
+A.RICARATE,
+A.RICATRANSREFID,
+A.RICABOOKINGDATE,
+to_char(A.RICABOOKINGDATE  ,'DD-MM-YY') As Booking_Dates,
+A.RICAACCOUNTID,
+A.RICAAUTHORISER auth,
+b.INPUTTER INPUTTR, 
+
+(select ricaUserId from RICA1.rica_user where ricaStaffNo = (case when b.INPUTTER is not null then b.INPUTTER
+      when c.INPUTTER is not null then c.INPUTTER
+      when d.INPUTTER is not null then d.INPUTTER
+      when e.INPUTTER is not null then e.INPUTTER
+      when f.INPUTTER is not null then f.INPUTTER
+      when g.INPUTTER is not null then g.INPUTTER
+      when h.INPUTTER is not null then h.INPUTTER
+      else A.RICAACCOUNTID end)) ic4_verifier,
+
+
+(case when b.INPUTTER is not null then b.INPUTTER
+      when c.INPUTTER is not null then c.INPUTTER
+      when d.INPUTTER is not null then d.INPUTTER
+      when e.INPUTTER is not null then e.INPUTTER
+      when f.INPUTTER is not null then f.INPUTTER
+      when g.INPUTTER is not null then g.INPUTTER
+      when h.INPUTTER is not null then h.INPUTTER
+      else A.RICAACCOUNTID end) INPUTTER,
+      
+b.AUTHORISER AUTHORISR,
+(case when b.AUTHORISER is not null then b.AUTHORISER
+      when c.AUTHORISER is not null then c.AUTHORISER
+      when d.AUTHORISER is not null then d.AUTHORISER
+      when e.AUTHORISER is not null then e.AUTHORISER
+      when f.AUTHORISER is not null then f.AUTHORISER
+      when g.AUTHORISER is not null then g.AUTHORISER
+      when h.AUTHORISER is not null then h.AUTHORISER
+           else A.RICAAUTHORISER end) AUTHORISER,
+           
+(select ricaStaffNo from RICA1.rica_user where ricaUserId=A.RICAINPUTTER) inputter_id,
+(select ricaStaffNo from RICA1.rica_user where ricaUserId=A.RICAAUTHORISER) Authoriser_id,
+A.RICASPECIALDATE,
+A.RICAENTRYID,
+A.RICAENTRYSERIALNO,
+A.RICATRANSCODE,
+(case when A.RICATRANSCODE = 'D' then 'DR' 
+  WHEN TO_CHAR(A.RICATRANSCODE) = 'C' then 'CR' else TO_CHAR(A.RICATRANSCODE) end) IND,
+A.RICABRANCHCODE,
+A.RICAPRODUCTCATEGORY,
+to_char(A.RICAENTRYDATE ,'dd-mm-yyyy') As  Acct_Open_Date,
+A.RICAACCOUNTSTATUS,
+to_char( A.RICAPOSTINGDATE, 'dd-mm-yyyy') As  Acct_Active_Date,
+A.RICALCYAMOUNT ,
+to_char(A.RICALCYAMOUNT,'99,999,999,999,999.00') BAL,
+A.RICADOMICILEBRANCH,
+(select ricaBranchName from RICA1.rica_branch where ricaBranchId=A.RICABRANCHCODE ) Branch,
+(select ricaBranchName from RICA1.rica_branch where ricaBranchId=A.RICADOMICILEBRANCH) dom_Branch,
+A.RICAACCOUNTTYPE,
+A.RICAACCOUNTSTATUS,
+DECODE(substr(A.RICATRANSID,1,2) , 'BK', 'BULK POSTING', 'TT', 'CASH','FT','FUND TRANSFER','CS','ATM','UNKNOWN') Trans_Type,
+to_timestamp(to_char(to_timestamp(RICASPECIALDATE,'yyyy-mm-dd hh24:mi:ssxff'),'dd-mon-yy hh24:mi:ssxff'),'dd-mon-yy hh24:mi:ssxff') Times
+
+
+From RICA1.rica_journalentries A            
+      left join RICA1.ic4_t24_ft b      
+      on b.id = A.RICATRANSID  
+      left join RICA1.ic4_t24_teller c
+      on c.id = a.RICATRANSID
+      left join RICA1.ic4_t24_mm d
+      on d.id = a.RICATRANSID
+      left join RICA1.ic4_t24_ldloan e
+      on e.id = a.RICATRANSID
+      left join RICA1.ic4_t24_f f
+      on f.id = a.RICATRANSID
+      left join RICA1.ic4_t24_g g
+      on g.id = a.RICATRANSID
+      left join RICA1.ic4_t24_h h
+      on h.id = a.RICATRANSID
+      left join RICA1.IC4_T24_AC ac
+      on ac.id = a.RICATRANSID
+      left join RICA1.IC4_T24_CUST cu
+      on cu.id = a.RICATRANSID"
+SC0010,OUTFLOWS FROM CUSTOMERS' ACCOUNTS: ≥N5M≤N20M,TRANSACTION,Customer,HIGH,BRANCH,,YEARLY,0,,,,2023-02-25,2023-03-06,09:51:54.567,2023-03-06,10:51:54,,,,complianceofficer,complianceofficer,default,default,,12:02,NEW,One Alert - One Email,,,3,3,3,,0,0,0,0,0,,0,,,,,,0,,,,2023-03-06,10:43:50,superuser,,"Select distinct
+A.RICATRANSID,
+A.RICAACCOUNTID,
+(case when A.RICACUSTOMERNO != '' then CU.SHORT_NAME
+      when A.RICACUSTOMERNO is null then ac.short_title
+     else CU.SHORT_NAME end) Customer_Name,
+     
+A.RICAACCOUNTID,
+A.RICACUSTOMERNO,
+A.RICALCYAMOUNT,
+to_char(A.RICALCYAMOUNT,'99,999,999,999,999.00') Amount,
+CASE WHEN A.RICAFCYAMOUNT IS NULL THEN '0' ELSE TO_CHAR(A.RICAFCYAMOUNT) END trans_amount_fcy,
+CASE WHEN A.RICAFCYAMOUNT IS NULL THEN '0' ELSE TO_CHAR(abs(A.RICAFCYAMOUNT), '99,999,999,999,999.00') END trans_amount_fcy2,
+A.RICATRANSCODE,
+b.payment_details || ' ' || TO_CHAR(A.RICANARRATIVE) DET,
+b.payment_details,
+(case  when a.RICAMODULE = 'FUNDS.TRANSFER' then b.payment_details||' '||TO_CHAR(A.RICANARRATIVE)
+      when a.RICAMODULE = 'TELLER' then  c.Narrative_2||' '||TO_CHAR(A.RICANARRATIVE)
+                 else c.Narrative_2 end) DETAILS,
+           
+A.RICACHEQUENO,
+to_char(A.RICAVALUEDATE ,'dd-mm-yyyy') As  Value_Date,
+A.RICALCYCODE,
+A.RICAPRODUCTCATEGORY,
+A.RICARATE,
+A.RICATRANSREFID,
+A.RICABOOKINGDATE,
+to_char(A.RICABOOKINGDATE, 'dd-mm-yyyy') As Booking_Dates,
+A.RICAACCOUNTID,
+A.RICAAUTHORISER auth,
+b.INPUTTER INPUTTR, 
+
+(select ricaUserId from RICA1.rica_user where ricaStaffNo = (case when b.INPUTTER is not null then b.INPUTTER
+      when c.INPUTTER is not null then c.INPUTTER
+      when d.INPUTTER is not null then d.INPUTTER
+      when e.INPUTTER is not null then e.INPUTTER
+      when f.INPUTTER is not null then f.INPUTTER
+      when g.INPUTTER is not null then g.INPUTTER
+      when h.INPUTTER is not null then h.INPUTTER
+      else A.RICAACCOUNTID end)) ic4_verifier,
+
+(case when b.INPUTTER is not null then b.INPUTTER
+      when c.INPUTTER is not null then c.INPUTTER
+      when d.INPUTTER is not null then d.INPUTTER
+      when e.INPUTTER is not null then e.INPUTTER
+      when f.INPUTTER is not null then f.INPUTTER
+      when g.INPUTTER is not null then g.INPUTTER
+      when h.INPUTTER is not null then h.INPUTTER
+      else A.RICAACCOUNTID end) INPUTTER,
+      
+b.AUTHORISER AUTHORISR,
+(case when b.AUTHORISER is not null then b.AUTHORISER
+      when c.AUTHORISER is not null then c.AUTHORISER
+      when d.AUTHORISER is not null then d.AUTHORISER
+      when e.AUTHORISER is not null then e.AUTHORISER
+      when f.AUTHORISER is not null then f.AUTHORISER
+      when g.AUTHORISER is not null then g.AUTHORISER
+      when h.AUTHORISER is not null then h.AUTHORISER
+           else A.RICAAUTHORISER end) AUTHORISER,
+(select ricaStaffNo from RICA1.rica_user where ricaUserId=A.RICAINPUTTER) inputter_id,
+(select ricaStaffNo from RICA1.rica_user where ricaUserId=A.RICAAUTHORISER) Authoriser_id,
+A.RICASPECIALDATE,
+A.RICAENTRYID,
+A.RICAENTRYSERIALNO,
+A.RICATRANSCODE,
+(case when A.RICATRANSCODE = 'D' then 'DR' 
+  WHEN TO_CHAR(A.RICATRANSCODE) = 'C' then 'CR' else TO_CHAR(A.RICATRANSCODE) end) IND,
+A.RICABRANCHCODE,
+A.RICAPRODUCTCATEGORY,
+to_char(A.RICAENTRYDATE ,'dd-mm-yyyy') As  Acct_Open_Date,
+A.RICAACCOUNTSTATUS,
+to_char( A.RICAPOSTINGDATE, 'dd-mm-yyyy') As  Acct_Active_Date,
+A.RICALCYAMOUNT ,
+to_char(A.RICALCYAMOUNT,'99,999,999,999,999.00') BAL,
+A.RICADOMICILEBRANCH,
+(select ricaBranchName from RICA1.rica_branch where ricaBranchId=A.RICABRANCHCODE ) Branch,
+(select ricaBranchName from RICA1.rica_branch where ricaBranchId=A.RICADOMICILEBRANCH) dom_Branch,
+A.RICAACCOUNTTYPE,
+A.RICAACCOUNTSTATUS,
+DECODE(substr(A.RICATRANSID,1,2) , 'BK', 'BULK POSTING', 'TT', 'CASH','FT','FUND TRANSFER','CS','ATM','UNKNOWN') Trans_Type,
+to_timestamp(to_char(to_timestamp(RICASPECIALDATE,'yyyy-mm-dd hh24:mi:ssxff'),'dd-mon-yy hh24:mi:ssxff'),'dd-mon-yy hh24:mi:ssxff') Times
+
+
+From RICA1.rica_journalentries A            
+      left join RICA1.ic4_t24_ft b      
+      on b.id = A.RICATRANSID  
+      left join RICA1.ic4_t24_teller c
+      on c.id = A.RICATRANSID
+      left join RICA1.ic4_t24_mm d
+      on d.id = A.RICATRANSID
+      left join RICA1.ic4_t24_ldloan e
+     on e.id = a.RICATRANSID
+      left join RICA1.ic4_t24_f f
+      on f.id = a.RICATRANSID
+      left join RICA1.ic4_t24_g g
+      on g.id = a.RICATRANSID
+      left join RICA1.ic4_t24_h h
+      on h.id = a.RICATRANSID
+      left join RICA1.IC4_T24_AC ac
+      on ac.id = a.RICATRANSID
+      left join RICA1.IC4_T24_CUST cu
+      on cu.id = a.RICATRANSID
+
+"
+SC0011,Duplication of amount on truncated cheque into customer's account,TRANSACTION,Customer,Low,BRANCH,Check duplicate transactions,YEARLY,0,,,,2023-03-05,2023-03-06,10:18:42.607,2023-03-06,11:18:42,,,,complianceofficer,complianceofficer,default,default,,12:01,NEW,One Alert - One Email,,,1,1,1,,0,0,0,0,0,,0,,,,,,0,,,,2023-03-06,11:17:17,superuser,,"
+
+select A.ID,A.payment_details,a.credit_comp_code, 
+(select RICAACCOUNTNAME from RICA1.rica_account where RICAACCOUNTNO = A.credit_acct_no) account_name,
+A.credit_acct_no,a.loc_amt_credited,to_char(a.loc_amt_credited,'99,999,999,999,999.00') Amount,  
+to_char(A.processing_date, 'dd-mm-yyyy') processing_date,to_char(A.credit_value_date, 'dd-mm-yyyy') credit_value_date, 
+A.INPUTTER, A.AUTHORISER,a.date_time,A.Cheque_Number, 
+a.credit_currency from RICA1.ic4_t24_ft A,
+(select count(*)NO_COUNT,payment_details, 
+      record_status, credit_acct_no,debit_acct_no,loc_amt_credited,processing_date,
+      credit_value_date, inputter, authoriser 
+
+from RICA1.ic4_t24_ft
+group by payment_details, record_status, credit_acct_no, debit_acct_no, loc_amt_credited, 
+processing_date, credit_value_date, inputter, authoriser
+
+having count(*) =2
+and inputter = 'CTSUSER2'
+and record_status = 'INAU') B
+WHERE A.credit_acct_no = B.credit_acct_no
+AND A.payment_details = B.payment_details
+AND A.loc_amt_credited= B.loc_amt_credited
+and b.record_status = 'INAU'
+and a.id not in (select ricaTransId from RICA1.rica_alerts where ricaEntityName like '%Duplication of amount on truncated cheque%' and trunc(ricaCreateDate)=trunc(sysdate))
+
+and a.credit_comp_code= '${BRANCH_CODE}'
+and to_timestamp(to_char(to_timestamp(a.date_time,'yyyy-mm-dd hh24:mi:ssxff'),'dd-mon-yy hh24:mi:ssxff'),'dd-mon-yy hh24:mi:ssxff')> '${LAST_RUN_DATE}' 
+
+order by A.payment_details
+
+
+"
+SC0012,OUTFLOWS FROM CUSTOMERS' ACCOUNTS: ≥N1M≤N5M,TRANSACTION,Customer,HIGH,BRANCH,Check duplicate transactions,YEARLY,0,,,,2022-12-31,2023-03-06,10:23:21.917,2023-03-06,11:23:21,,,,complianceofficer,complianceofficer,default,default,,12:02,NEW,One Alert - One Email,,,3,3,3,,0,0,0,0,0,,0,,,,,,0,,,,2023-03-06,11:17:17,superuser,,"Select distinct
+
+A.RICATRANSID,
+
+A.RICAACCOUNTID,
+
+(case when A.RICACUSTOMERNO != '' then CU.SHORT_NAME
+
+when A.RICACUSTOMERNO is null then ac.short_title
+
+else CU.SHORT_NAME end) Customer_Name,
+
+A.RICAACCOUNTID,
+
+A.RICACUSTOMERNO,
+
+A.RICALCYAMOUNT,
+
+to_char(A.RICALCYAMOUNT,'99,999,999,999,999.00') Amount,
+
+CASE WHEN A.RICAFCYAMOUNT IS NULL THEN '0' ELSE TO_CHAR(A.RICAFCYAMOUNT) END trans_amount_fcy,
+
+CASE WHEN A.RICAFCYAMOUNT IS NULL THEN '0' ELSE TO_CHAR(abs(A.RICAFCYAMOUNT), '99,999,999,999,999.00') END trans_amount_fcy2,
+
+A.RICATRANSCODE,
+
+b.payment_details || ' ' || TO_CHAR(A.RICANARRATIVE) DET,
+b.payment_details,
+(case  when a.RICAMODULE = 'FUNDS.TRANSFER' then b.payment_details||' '||TO_CHAR(A.RICANARRATIVE)
+      when a.RICAMODULE = 'TELLER' then  c.Narrative_2||' '||TO_CHAR(A.RICANARRATIVE)
+                 else c.Narrative_2 end) DETAILS,
+
+A.RICACHEQUENO,
+
+to_char(A.RICAVALUEDATE ,'dd-mm-yyyy') As Value_Date,
+
+A.RICALCYCODE,
+
+A.RICAPRODUCTCATEGORY,
+
+A.RICARATE,
+
+A.RICATRANSREFID,
+
+A.RICABOOKINGDATE,
+
+to_char(A.RICABOOKINGDATE, 'dd-mm-yyyy') As Booking_Dates,
+
+A.RICAACCOUNTID,
+
+A.RICAAUTHORISER auth,
+
+b.INPUTTER INPUTTR,
+
+(select ricaUserId from RICA1.rica_user where ricaStaffNo = (case when b.INPUTTER is not null then b.INPUTTER
+
+when c.INPUTTER is not null then c.INPUTTER
+
+when d.INPUTTER is not null then d.INPUTTER
+
+when e.INPUTTER is not null then e.INPUTTER
+
+when f.INPUTTER is not null then f.INPUTTER
+
+when g.INPUTTER is not null then g.INPUTTER
+
+when h.INPUTTER is not null then h.INPUTTER
+
+else A.RICAACCOUNTID end)) ic4_verifier,
+
+(case when b.INPUTTER is not null then b.INPUTTER
+
+when c.INPUTTER is not null then c.INPUTTER
+
+when d.INPUTTER is not null then d.INPUTTER
+
+when e.INPUTTER is not null then e.INPUTTER
+
+when f.INPUTTER is not null then f.INPUTTER
+
+when g.INPUTTER is not null then g.INPUTTER
+
+when h.INPUTTER is not null then h.INPUTTER
+
+else A.RICAACCOUNTID end) INPUTTER,
+
+b.AUTHORISER AUTHORISR,
+
+(case when b.AUTHORISER is not null then b.AUTHORISER
+
+when c.AUTHORISER is not null then c.AUTHORISER
+
+when d.AUTHORISER is not null then d.AUTHORISER
+
+when e.AUTHORISER is not null then e.AUTHORISER
+
+when f.AUTHORISER is not null then f.AUTHORISER
+
+when g.AUTHORISER is not null then g.AUTHORISER
+
+when h.AUTHORISER is not null then h.AUTHORISER
+
+else A.RICAAUTHORISER end) AUTHORISER,
+
+(select ricaStaffNo from RICA1.rica_user where ricaUserId=A.RICAINPUTTER) inputter_id,
+
+(select ricaStaffNo from RICA1.rica_user where ricaUserId=A.RICAAUTHORISER) Authoriser_id,
+
+A.RICASPECIALDATE,
+
+A.RICAENTRYID,
+
+A.RICAENTRYSERIALNO,
+
+A.RICATRANSCODE,
+(case when A.RICATRANSCODE = 'D' then 'DR' 
+  WHEN TO_CHAR(A.RICATRANSCODE) = 'C' then 'CR' else TO_CHAR(A.RICATRANSCODE) end) IND,
+
+A.RICABRANCHCODE,
+
+A.RICAPRODUCTCATEGORY,
+
+to_char(A.RICAENTRYDATE ,'dd-mm-yyyy') As Acct_Open_Date,
+
+A.RICAACCOUNTSTATUS,
+
+to_char( A.RICAPOSTINGDATE, 'dd-mm-yyyy') As Acct_Active_Date,
+
+A.RICALCYAMOUNT ,
+
+to_char(A.RICALCYAMOUNT,'99,999,999,999,999.00') BAL,
+
+A.RICADOMICILEBRANCH,
+
+(select ricaBranchName from RICA1.rica_branch where ricaBranchId=A.RICABRANCHCODE ) Branch,
+
+(select ricaBranchName from RICA1.rica_branch where ricaBranchId=A.RICADOMICILEBRANCH) dom_Branch,
+
+A.RICAACCOUNTTYPE,
+
+A.RICAACCOUNTSTATUS,
+
+DECODE(substr(A.RICATRANSID,1,2) , 'BK', 'BULK POSTING', 'TT', 'CASH','FT','FUND TRANSFER','CS','ATM','UNKNOWN') Trans_Type,
+
+to_timestamp(to_char(to_timestamp(RICASPECIALDATE,'yyyy-mm-dd hh24:mi:ssxff'),'dd-mon-yy hh24:mi:ssxff'),'dd-mon-yy hh24:mi:ssxff') Times
+
+
+From RICA1.rica_journalentries A
+
+left join RICA1.ic4_t24_ft b
+
+on b.id = A.RICATRANSID
+
+left join RICA1.ic4_t24_teller c
+
+on c.id = A.RICATRANSID
+
+left join RICA1.ic4_t24_mm d
+
+on d.id = A.RICATRANSID
+
+left join RICA1.ic4_t24_ldloan e
+
+on e.id = A.RICATRANSID
+
+left join RICA1.ic4_t24_forex f
+
+on f.id = A.RICATRANSID
+
+left join RICA1.ic4_t24_sectrade g
+
+on g.id = A.RICATRANSID
+
+left join RICA1.ic4_t24_iclbulkpst h
+on h.id = a.RICATRANSID
+      left join RICA1.IC4_T24_AC ac
+      on ac.id = a.RICATRANSID
+      left join RICA1.IC4_T24_CUST cu
+      on cu.id = a.RICATRANSID
+
+
+"
+SC0013,Authorization above Set-up Limit,TRANSACTION,Operations,Low,BRANCH,,YEARLY,0,,,,2023-03-05,2023-03-06,11:23:08.533,2023-03-06,12:23:08,,,,complianceofficer,complianceofficer,default,default,,03:03,NEW,One Alert - One Email,,,1,1,1,,0,0,0,0,0,,0,,,,,,0,,,,2023-03-06,11:17:17,superuser,,"Select distinct
+A.RICATRANSID,
+A.RICAACCOUNTID,
+(case when A.RICACUSTOMERNO != '' then CU.SHORT_NAME
+      when A.RICACUSTOMERNO is null then ac.short_title
+     else CU.SHORT_NAME end) Customer_Name,
+     
+A.RICAACCOUNTID,
+A.RICACUSTOMERNO,
+A.RICALCYAMOUNT,
+to_char(A.RICALCYAMOUNT,'99,999,999,999,999.00') Amount,
+CASE WHEN A.RICAFCYAMOUNT IS NULL THEN '0' ELSE TO_CHAR(A.RICAFCYAMOUNT) END trans_amount_fcy,
+CASE WHEN A.RICAFCYAMOUNT IS NULL THEN '0' ELSE TO_CHAR(abs(A.RICAFCYAMOUNT), '99,999,999,999,999.00') END trans_amount_fcy2,
+A.RICATRANSCODE,
+b.payment_details || ' ' || TO_CHAR(A.RICANARRATIVE) DET,
+b.payment_details,
+(case  when a.RICAMODULE = 'FUNDS.TRANSFER' then b.payment_details||' '||TO_CHAR(A.RICANARRATIVE)
+      when a.RICAMODULE = 'TELLER' then  c.Narrative_2||' '||TO_CHAR(A.RICANARRATIVE)
+                 else c.Narrative_2 end) DETAILS,
+(case when b.OVERRIDE is not null then b.OVERRIDE
+      when c.OVERRIDE is not null then c.OVERRIDE
+      when d.OVERRIDE is not null then d.OVERRIDE
+      when e.OVERRIDE is not null then e.OVERRIDE
+      when f.OVERRIDE is not null then f.OVERRIDE
+      when g.OVERRIDE is not null then g.OVERRIDE
+       else AC.OVERRIDE END) OVERRIDE,
+           
+A.RICACHEQUENO,
+to_char(A.RICAVALUEDATE ,'dd-mm-yyyy') As  Value_Date,
+A.RICALCYCODE,
+A.RICAPRODUCTCATEGORY,
+A.RICARATE,
+A.RICATRANSREFID,
+A.RICABOOKINGDATE,
+to_char(A.RICABOOKINGDATE, 'dd-mm-yyyy') As Booking_Dates,
+A.RICAACCOUNTID,
+A.RICAAUTHORISER auth,
+b.INPUTTER INPUTTR, 
+
+(select ricaUserId from RICA1.rica_user where ricaStaffNo = (case when b.INPUTTER is not null then b.INPUTTER
+      when c.INPUTTER is not null then c.INPUTTER
+      when d.INPUTTER is not null then d.INPUTTER
+      when e.INPUTTER is not null then e.INPUTTER
+      when f.INPUTTER is not null then f.INPUTTER
+      when g.INPUTTER is not null then g.INPUTTER
+      when h.INPUTTER is not null then h.INPUTTER
+      else A.RICAACCOUNTID end)) ic4_verifier,
+
+
+(case when b.INPUTTER is not null then b.INPUTTER
+      when c.INPUTTER is not null then c.INPUTTER
+      when d.INPUTTER is not null then d.INPUTTER
+      when e.INPUTTER is not null then e.INPUTTER
+      when f.INPUTTER is not null then f.INPUTTER
+      when g.INPUTTER is not null then g.INPUTTER
+      when h.INPUTTER is not null then h.INPUTTER
+      else A.RICAACCOUNTID end) INPUTTER,
+      
+b.AUTHORISER AUTHORISR,
+(case when b.AUTHORISER is not null then b.AUTHORISER
+      when c.AUTHORISER is not null then c.AUTHORISER
+      when d.AUTHORISER is not null then d.AUTHORISER
+      when e.AUTHORISER is not null then e.AUTHORISER
+      when f.AUTHORISER is not null then f.AUTHORISER
+      when g.AUTHORISER is not null then g.AUTHORISER
+      when h.AUTHORISER is not null then h.AUTHORISER
+           else A.RICAAUTHORISER end) AUTHORISER,
+           
+(select ricaStaffNo from RICA1.rica_user where ricaUserId=A.RICAINPUTTER) inputter_id,
+(select ricaStaffNo from RICA1.rica_user where ricaUserId=A.RICAAUTHORISER) Authoriser_id,
+A.RICASPECIALDATE,
+A.RICAENTRYID,
+A.RICAENTRYSERIALNO,
+A.RICATRANSCODE,
+(case when A.RICATRANSCODE = 'D' then 'DR' 
+  WHEN TO_CHAR(A.RICATRANSCODE) = 'C' then 'CR' else TO_CHAR(A.RICATRANSCODE) end) IND,
+A.RICABRANCHCODE,
+A.RICAPRODUCTCATEGORY,
+to_char(A.RICAENTRYDATE ,'dd-mm-yyyy') As  Acct_Open_Date,
+A.RICAACCOUNTSTATUS,
+to_char( A.RICAPOSTINGDATE, 'dd-mm-yyyy') As  Acct_Active_Date,
+A.RICALCYAMOUNT ,
+to_char(A.RICALCYAMOUNT,'99,999,999,999,999.00') BAL,
+A.RICADOMICILEBRANCH,
+(select ricaBranchName from RICA1.rica_branch where ricaBranchId=A.RICABRANCHCODE ) Branch,
+(select ricaBranchName from RICA1.rica_branch where ricaBranchId=A.RICADOMICILEBRANCH) dom_Branch,
+A.RICAACCOUNTTYPE,
+A.RICAACCOUNTSTATUS,
+DECODE(substr(A.RICATRANSID,1,2) , 'BK', 'BULK POSTING', 'TT', 'CASH','FT','FUND TRANSFER','CS','ATM','UNKNOWN') Trans_Type,
+to_char(users.ricaMaxAttempt,'99,999,999,999,999.00')  Limits,
+to_timestamp(to_char(to_timestamp(RICASPECIALDATE,'yyyy-mm-dd hh24:mi:ssxff'),'dd-mon-yy hh24:mi:ssxff'),'dd-mon-yy hh24:mi:ssxff') Times
+
+From RICA1.rica_journalentries A            
+      left join RICA1.ic4_t24_ft b      
+      on b.id = a.RICATRANSID  
+      left join RICA1.ic4_t24_teller c
+      on c.id = a.RICATRANSID
+      left join RICA1.ic4_t24_mm d
+      on d.id = a.RICATRANSID
+      left join RICA1.ic4_t24_ldloan e
+      on e.id = a.RICATRANSID
+      left join RICA1.ic4_t24_f f
+      on f.id = a.RICATRANSID
+      left join RICA1.ic4_t24_g g
+      on g.id = a.RICATRANSID
+      left join RICA1.ic4_t24_h h
+      on h.id = a.RICATRANSID
+      left join RICA1.IC4_T24_AC ac
+      on ac.id = a.RICATRANSID
+      left join RICA1.IC4_T24_CUST cu
+      on cu.id = a.RICATRANSID
+      left join RICA1.rica_user users
+      on users.ricaUserId = a.RICAINPUTTER
+
+"
+SC0014,Fixed deposit booked with interest rate above 100%,TRANSACTION,Transaction Inflow,Low,BRANCH,,YEARLY,0,,,,2023-03-04,2023-03-06,11:46:38.690,2023-03-06,12:46:38,,,,complianceofficer,complianceofficer,default,default,,12:02,NEW,One Alert - One Email,,,1,1,1,,0,0,0,0,0,,0,,,,,,0,,,,2023-03-06,11:17:17,superuser,,"select
+id rad_id,
+customer_id rad_customer_id,
+currency rad_currency,
+principal rad_principal,
+to_char(To_Date(To_Char(deal_date), 'yyyy-mm-dd') ,'dd-mm-yyyy') rad_deal_date,
+to_char(To_Date(To_Char(value_date), 'yyyy-mm-dd') ,'dd-mm-yyyy') rad_value_date,
+maturity_date rad_maturity_date,
+category rad_category,
+int_rate_type rad_int_rate_type,
+interest_basis rad_interest_basis,
+interest_rate rad_interest_rate,
+tot_interest_amt rad_tot_interest_amt,
+int_due_date rad_int_due_date,
+drawdown_account rad_drawdown_account,
+(select RICAACCOUNTNAME from RICA1.rica_account where RICAACCOUNTNO=drawdown_account) Customer_Name,
+prin_liq_acct rad_prin_liq_acct,
+int_liq_acct rad_int_liq_acct,
+int_period_start rad_int_period_start,
+int_period_end rad_int_period_end,
+orig_mat_date rad_orig_mat_date,
+--rate_auth,
+--tenor,
+--appl_version,
+--mode_of_pay,
+--prod_type,
+(select ricaUserId from RICA1.rica_user where ricaStaffNo = inputter) ic4_verifier,
+inputter rad_inputter,
+authoriser rad_authoriser,
+audit_date_time rad_datetime2,
+co_code rad_co_code,
+(select ricaBranchName from RICA1.rica_branch where ricaBranchId=co_code) Branch,
+to_timestamp(to_char(to_timestamp(audit_date_time,'yyyy-mm-dd hh24:mi:ssxff'),'dd-mon-yy hh24:mi:ssxff'),'dd-mon-yy hh24:mi:ssxff') Times
+
+
+
+from RICA1.ic4_t24_mm
+where interest_rate >=100
+
+and id not in (select ricaTransId from RICA1.rica_alerts where ricaEntityName like '%Fixed deposit booked with interest rate%' and trunc(ricaCreateDate)=trunc(sysdate))
+
+and DECODE(co_code , 'NG0010001', to_char((select h.ricaUserRole from RICA1.rica_user h where h.ricaStaffGrade in (select s.ricaStaffGrade from RICA1.rica_user s where s.ricaStaffNo =inputter))), co_code)= '${BRANCH_CODE}'
+and to_timestamp(to_char(to_timestamp(audit_date_time,'yyyy-mm-dd hh24:mi:ssxff'),'dd-mon-yy hh24:mi:ssxff'),'dd-mon-yy hh24:mi:ssxff') >= '${LAST_RUN_DATE}' 
+"
+SC0015,Fixed deposit booked with interest rate above 17%,TRANSACTION,Transaction Inflow,Low,BRANCH,,YEARLY,0,,,,2023-03-05,2023-03-06,11:48:08.979,2023-03-06,12:48:08,,,,complianceofficer,complianceofficer,default,default,,12:02,NEW,One Alert - One Email,,,1,1,1,,0,0,0,0,0,,0,,,,,,0,,,,2023-03-06,12:47:06,superuser,,"select
+id rad_id,
+customer_id rad_customer_id,
+currency rad_currency,
+principal rad_principal,
+to_char(To_Date(To_Char(deal_date), 'yyyy-mm-dd') ,'dd-mm-yyyy') rad_deal_date,
+to_char(To_Date(To_Char(value_date), 'yyyy-mm-dd') ,'dd-mm-yyyy') rad_value_date,
+maturity_date rad_maturity_date,
+category rad_category,
+int_rate_type rad_int_rate_type,
+interest_basis rad_interest_basis,
+interest_rate rad_interest_rate,
+tot_interest_amt rad_tot_interest_amt,
+int_due_date rad_int_due_date,
+drawdown_account rad_drawdown_account,
+(select RICAACCOUNTNAME from RICA1.rica_account where RICAACCOUNTNO=drawdown_account) Customer_Name,
+prin_liq_acct rad_prin_liq_acct,
+int_liq_acct rad_int_liq_acct,
+int_period_start rad_int_period_start,
+int_period_end rad_int_period_end,
+orig_mat_date rad_orig_mat_date,
+--rate_auth,
+--tenor,
+--appl_version,
+--mode_of_pay,
+--prod_type,
+(select ricaUserId from RICA1.rica_user where ricaStaffNo = inputter) ic4_verifier,
+inputter rad_inputter,
+authoriser rad_authoriser,
+audit_date_time rad_datetime2,
+co_code rad_co_code,
+(select ricaBranchName from RICA1.rica_branch where ricaBranchId=co_code) Branch,
+to_timestamp(to_char(to_timestamp(audit_date_time,'yyyy-mm-dd hh24:mi:ssxff'),'dd-mon-yy hh24:mi:ssxff'),'dd-mon-yy hh24:mi:ssxff') Times
+
+
+
+from RICA1.ic4_t24_mm
+where interest_rate >=17
+
+and id not in (select ricaTransId from RICA1.rica_alerts where ricaEntityName like '%Fixed deposit booked with interest rate%' and trunc(ricaCreateDate)=trunc(sysdate))
+
+and DECODE(co_code , 'NG0010001', to_char((select h.ricaUserRole from RICA1.rica_user h where h.ricaStaffGrade in (select s.ricaStaffGrade from RICA1.rica_user s where s.ricaStaffNo =inputter))), co_code)= '${BRANCH_CODE}'
+and to_timestamp(to_char(to_timestamp(audit_date_time,'yyyy-mm-dd hh24:mi:ssxff'),'dd-mon-yy hh24:mi:ssxff'),'dd-mon-yy hh24:mi:ssxff') >= '${LAST_RUN_DATE}' 
+"
+SC0016,"Notification for fcy Transaction above 50,000.00 GBP, EUR and USD.",TRANSACTION,Inflow & Outflow,HIGH,BRANCH,,YEARLY,0,,,,2023-03-04,2023-03-06,11:52:36.663,2023-03-06,12:52:36,,,,complianceofficer,complianceofficer,default,default,,12:02,NEW,One Alert - One Email,,,3,3,3,,0,0,0,0,0,,0,,,,,,0,,,,2023-03-06,12:47:06,superuser,,"Select distinct
+A.RICATRANSID,
+A.RICAACCOUNTID,
+(case when A.RICACUSTOMERNO != '' then CU.SHORT_NAME
+      when A.RICACUSTOMERNO is null then ac.short_title
+     else CU.SHORT_NAME end) Customer_Name,
+     
+A.RICAACCOUNTID,
+A.RICACUSTOMERNO,
+A.RICALCYAMOUNT,
+to_char(A.RICALCYAMOUNT,'99,999,999,999,999.00') Amount,
+A.RICAFCYAMOUNT,
+CASE WHEN A.RICAFCYAMOUNT IS NULL THEN '0' ELSE TO_CHAR(abs(A.RICAFCYAMOUNT), '99,999,999,999,999.00') END trans_amount_fcy2,
+A.RICATRANSCODE,
+b.payment_details || ' ' || TO_CHAR(A.RICANARRATIVE) DET,
+b.payment_details,
+(case  when a.RICAMODULE = 'FUNDS.TRANSFER' then b.payment_details||' '||TO_CHAR(A.RICANARRATIVE)
+      when a.RICAMODULE = 'TELLER' then  c.Narrative_2||' '||TO_CHAR(A.RICANARRATIVE)
+                 else c.Narrative_2 end) DETAILS,
+           
+A.RICACHEQUENO,
+to_char(A.RICAVALUEDATE ,'dd-mm-yyyy') As  Value_Date,
+A.RICALCYCODE,
+A.RICAPRODUCTCATEGORY,
+A.RICARATE,
+A.RICATRANSREFID,
+A.RICABOOKINGDATE,
+to_char(A.RICABOOKINGDATE, 'dd-mm-yyyy') As Booking_Dates,
+A.RICAACCOUNTID,
+A.RICAAUTHORISER auth,
+b.INPUTTER INPUTTR, 
+
+(select ricaUserId from RICA1.rica_user where ricaStaffNo = (case when b.INPUTTER is not null then b.INPUTTER
+      when c.INPUTTER is not null then c.INPUTTER
+      when d.INPUTTER is not null then d.INPUTTER
+      when e.INPUTTER is not null then e.INPUTTER
+      when f.INPUTTER is not null then f.INPUTTER
+      when g.INPUTTER is not null then g.INPUTTER
+      when h.INPUTTER is not null then h.INPUTTER
+      else A.RICAACCOUNTID end)) ic4_verifier,
+(case when b.INPUTTER is not null then b.INPUTTER
+      when c.INPUTTER is not null then c.INPUTTER
+      when d.INPUTTER is not null then d.INPUTTER
+      when e.INPUTTER is not null then e.INPUTTER
+      when f.INPUTTER is not null then f.INPUTTER
+      when g.INPUTTER is not null then g.INPUTTER
+      when h.INPUTTER is not null then h.INPUTTER
+      else A.RICAACCOUNTID end) INPUTTER,
+      
+b.AUTHORISER AUTHORISR,
+(case when b.AUTHORISER is not null then b.AUTHORISER
+      when c.AUTHORISER is not null then c.AUTHORISER
+      when d.AUTHORISER is not null then d.AUTHORISER
+      when e.AUTHORISER is not null then e.AUTHORISER
+      when f.AUTHORISER is not null then f.AUTHORISER
+      when g.AUTHORISER is not null then g.AUTHORISER
+      when h.AUTHORISER is not null then h.AUTHORISER
+           else A.RICAAUTHORISER end) AUTHORISER,
+           
+(select ricaStaffNo from RICA1.rica_user where ricaUserId=A.RICAINPUTTER) inputter_id,
+(select ricaStaffNo from RICA1.rica_user where ricaUserId=A.RICAAUTHORISER) Authoriser_id,
+A.RICASPECIALDATE,
+A.RICAENTRYID,
+A.RICAENTRYSERIALNO,
+A.RICATRANSCODE,
+(case when A.RICATRANSCODE = 'D' then 'DR' 
+  WHEN TO_CHAR(A.RICATRANSCODE) = 'C' then 'CR' else TO_CHAR(A.RICATRANSCODE) end) IND,
+A.RICABRANCHCODE,
+A.RICAPRODUCTCATEGORY,
+to_char(A.RICAENTRYDATE ,'dd-mm-yyyy') As  Acct_Open_Date,
+A.RICAACCOUNTSTATUS,
+to_char( A.RICAPOSTINGDATE, 'dd-mm-yyyy') As  Acct_Active_Date,
+A.RICALCYAMOUNT ,
+to_char(A.RICALCYAMOUNT,'99,999,999,999,999.00') BAL,
+A.RICADOMICILEBRANCH,
+(select ricaBranchName from RICA1.rica_branch where ricaBranchId=A.RICABRANCHCODE ) Branch,
+(select ricaBranchName from RICA1.rica_branch where ricaBranchId=A.RICADOMICILEBRANCH) dom_Branch,
+A.RICAACCOUNTTYPE,
+A.RICAACCOUNTSTATUS,
+DECODE(substr(A.RICATRANSID,1,2) , 'BK', 'BULK POSTING', 'TT', 'CASH','FT','FUND TRANSFER','CS','ATM','UNKNOWN') Trans_Type,
+to_timestamp(to_char(to_timestamp(RICASPECIALDATE,'yyyy-mm-dd hh24:mi:ssxff'),'dd-mon-yy hh24:mi:ssxff'),'dd-mon-yy hh24:mi:ssxff') Times
+
+
+From RICA1.rica_journalentries A            
+      left join RICA1.ic4_t24_ft b      
+      on b.id = A.RICATRANSID  
+      left join RICA1.ic4_t24_teller c
+      on c.id = A.RICATRANSID
+      left join RICA1.ic4_t24_mm d
+      on d.id = A.RICATRANSID
+      left join RICA1.ic4_t24_ldloan e
+      on e.id = A.RICATRANSID
+      left join RICA1.ic4_t24_forex f
+      on f.id = a.RICATRANSID
+      left join RICA1.ic4_t24_g g
+      on g.id = a.RICATRANSID
+      left join RICA1.ic4_t24_h h
+      on h.id = a.RICATRANSID
+      left join RICA1.IC4_T24_AC ac
+      on ac.id = a.RICATRANSID
+      left join RICA1.IC4_T24_CUST cu
+      on cu.id = a.RICATRANSID
+"
+SC0017,DEBIT TO INCOME ACCOUNTS (PL5****) ≥N50M,TRANSACTION,Outflow,Low,BRANCH,,YEARLY,0,,,,2023-03-05,2023-03-06,11:56:21.834,2023-03-06,12:56:21,,,,complianceofficer,complianceofficer,default,default,,12:02,NEW,One Alert - One Email,,,1,1,1,,0,0,0,0,0,,0,,,,,,0,,,,2023-03-06,12:47:06,superuser,,"Select distinct
+A.RICATRANSID,
+b.DEBIT_acct_no Account_Number,
+(case when A.RICACUSTOMERNO != '' then CU.SHORT_NAME
+      when A.RICACUSTOMERNO is null then ac.PL_NAME
+     else CU.SHORT_NAME end) Customer_Name,
+     
+A.RICAACCOUNTID,
+A.RICACUSTOMERNO,
+A.RICALCYAMOUNT,
+to_char(A.RICALCYAMOUNT,'99,999,999,999,999.00') Amount,
+CASE WHEN A.RICAFCYAMOUNT IS NULL THEN '0' ELSE TO_CHAR(A.RICAFCYAMOUNT) END trans_amount_fcy,
+CASE WHEN A.RICAFCYAMOUNT IS NULL THEN '0' ELSE TO_CHAR(abs(A.RICAFCYAMOUNT), '99,999,999,999,999.00') END trans_amount_fcy2,
+A.RICATRANSCODE,
+b.payment_details || ' ' || TO_CHAR(A.RICANARRATIVE) DET,
+b.payment_details,
+(case  when a.RICAMODULE = 'FUNDS.TRANSFER' then b.payment_details||' '||TO_CHAR(A.RICANARRATIVE)
+      when a.RICAMODULE = 'TELLER' then  c.Narrative_2||' '||TO_CHAR(A.RICANARRATIVE)
+                 else c.Narrative_2 end) DETAILS,
+           
+A.RICACHEQUENO,
+to_char(A.RICAVALUEDATE ,'dd-mm-yyyy') As  Value_Date,
+A.RICALCYCODE,
+A.RICAPRODUCTCATEGORY,
+A.RICARATE,
+A.RICATRANSREFID,
+A.RICABOOKINGDATE,
+to_char(A.RICABOOKINGDATE, 'dd-mm-yyyy') As Booking_Dates,
+A.RICAACCOUNTID,
+A.RICAAUTHORISER auth,
+b.INPUTTER INPUTTR, 
+
+(select ricaUserId from RICA1.rica_user where ricaStaffNo = (case when b.INPUTTER is not null then b.INPUTTER
+      when c.INPUTTER is not null then c.INPUTTER
+      when d.INPUTTER is not null then d.INPUTTER
+      when e.INPUTTER is not null then e.INPUTTER
+      when f.INPUTTER is not null then f.INPUTTER
+      when g.INPUTTER is not null then g.INPUTTER
+      when h.INPUTTER is not null then h.INPUTTER
+      else A.RICAACCOUNTID end)) ic4_verifier,
+(case when b.INPUTTER is not null then b.INPUTTER
+      when c.INPUTTER is not null then c.INPUTTER
+      when d.INPUTTER is not null then d.INPUTTER
+      when e.INPUTTER is not null then e.INPUTTER
+      when f.INPUTTER is not null then f.INPUTTER
+      when g.INPUTTER is not null then g.INPUTTER
+      when h.INPUTTER is not null then h.INPUTTER
+      else A.RICAACCOUNTID end) INPUTTER,
+      
+b.AUTHORISER AUTHORISR,
+(case when b.AUTHORISER is not null then b.AUTHORISER
+      when c.AUTHORISER is not null then c.AUTHORISER
+      when d.AUTHORISER is not null then d.AUTHORISER
+      when e.AUTHORISER is not null then e.AUTHORISER
+      when f.AUTHORISER is not null then f.AUTHORISER
+      when g.AUTHORISER is not null then g.AUTHORISER
+      when h.AUTHORISER is not null then h.AUTHORISER
+           else A.RICAAUTHORISER end) AUTHORISER,
+
+           
+(select ricaStaffNo from RICA1.rica_user where ricaUserId=A.RICAINPUTTER) inputter_id,
+(select ricaStaffNo from RICA1.rica_user where ricaUserId=A.RICAAUTHORISER) Authoriser_id,
+A.RICASPECIALDATE,
+A.RICAENTRYID,
+A.RICAENTRYSERIALNO,
+A.RICATRANSCODE,
+(case when A.RICATRANSCODE = 'D' then 'DR' 
+  WHEN TO_CHAR(A.RICATRANSCODE) = 'C' then 'CR' else TO_CHAR(A.RICATRANSCODE) end) IND,
+A.RICABRANCHCODE,
+A.RICAPRODUCTCATEGORY,
+to_char(A.RICAENTRYDATE ,'dd-mm-yyyy') As  Acct_Open_Date,
+A.RICAACCOUNTSTATUS,
+to_char( A.RICAPOSTINGDATE, 'dd-mm-yyyy') As  Acct_Active_Date,
+A.RICALCYAMOUNT ,
+to_char(A.RICALCYAMOUNT,'99,999,999,999,999.00') BAL,
+A.RICADOMICILEBRANCH,
+(select ricaBranchName from RICA1.rica_branch where ricaBranchId=A.RICABRANCHCODE ) Branch,
+(select ricaBranchName from RICA1.rica_branch where ricaBranchId=A.RICADOMICILEBRANCH) dom_Branch,
+A.RICAACCOUNTTYPE,
+A.RICAACCOUNTSTATUS,
+DECODE(substr(A.RICATRANSID,1,2) , 'BK', 'BULK POSTING', 'TT', 'CASH','FT','FUND TRANSFER','CS','ATM','UNKNOWN') Trans_Type,
+to_timestamp(to_char(to_timestamp(RICASPECIALDATE,'yyyy-mm-dd hh24:mi:ssxff'),'dd-mon-yy hh24:mi:ssxff'),'dd-mon-yy hh24:mi:ssxff') Times
+
+
+From RICA1.rica_journalentries A            
+      left join RICA1.ic4_t24_ft b      
+      on b.id = A.RICATRANSID  
+      left join RICA1.ic4_t24_teller c
+      on c.id = A.RICATRANSID
+      left join RICA1.ic4_t24_mm d
+      on d.id = A.RICATRANSID
+      left join RICA1.ic4_t24_ldloan e
+          on e.id = a.RICATRANSID
+      left join RICA1.ic4_t24_forex f
+      on f.id = a.RICATRANSID
+      left join RICA1.ic4_t24_g g
+      on g.id = a.RICATRANSID
+      left join RICA1.ic4_t24_h h
+      on h.id = a.RICATRANSID
+      left join RICA1.IC4_T24_AC ac
+      on ac.id = a.RICATRANSID
+      left join RICA1.IC4_T24_CUST cu
+      on cu.id = a.RICATRANSID
+"
+SC0018,OUTFLOWS FROM CUSTOMERS' ACCOUNTS: ≥N20M≤N50M,TRANSACTION,Outflow,HIGH,BRANCH,,YEARLY,0,,,,2023-03-05,2023-03-06,12:03:52.302,2023-03-06,13:03:52,,,,complianceofficer,complianceofficer,default,default,,12:03,NEW,One Alert - One Email,,,3,3,3,,0,0,0,0,0,,0,,,,,,0,,,,2023-03-06,12:47:06,superuser,," Select distinct
+A.RICATRANSID,
+A.RICAACCOUNTID,
+(case when A.RICACUSTOMERNO != '' then CU.SHORT_NAME
+      when A.RICACUSTOMERNO is null then ac.short_title
+     else CU.SHORT_NAME end) Customer_Name,
+     
+A.RICAACCOUNTID,
+A.RICACUSTOMERNO,
+A.RICALCYAMOUNT,
+to_char(A.RICALCYAMOUNT,'99,999,999,999,999.00') Amount,
+CASE WHEN A.RICAFCYAMOUNT IS NULL THEN '0' ELSE TO_CHAR(A.RICAFCYAMOUNT) END trans_amount_fcy,
+CASE WHEN A.RICAFCYAMOUNT IS NULL THEN '0' ELSE TO_CHAR(abs(A.RICAFCYAMOUNT), '99,999,999,999,999.00') END trans_amount_fcy2,
+A.RICATRANSCODE,
+b.payment_details || ' ' || TO_CHAR(A.RICANARRATIVE) DET,
+b.payment_details,
+(case  when a.RICAMODULE = 'FUNDS.TRANSFER' then b.payment_details||' '||TO_CHAR(A.RICANARRATIVE)
+      when a.RICAMODULE = 'TELLER' then  c.Narrative_2||' '||TO_CHAR(A.RICANARRATIVE)
+                 else c.Narrative_2 end) DETAILS,
+           
+A.RICACHEQUENO,
+to_char(A.RICAVALUEDATE ,'dd-mm-yyyy') As  Value_Date,
+A.RICALCYCODE,
+A.RICAPRODUCTCATEGORY,
+A.RICARATE,
+A.RICATRANSREFID,
+A.RICABOOKINGDATE,
+to_char(A.RICABOOKINGDATE, 'dd-mm-yyyy') As Booking_Dates,
+A.RICAACCOUNTID,
+A.RICAAUTHORISER auth,
+b.INPUTTER INPUTTR, 
+
+(select ricaUserId from RICA1.rica_user where ricaStaffNo = (case when b.INPUTTER is not null then b.INPUTTER
+      when c.INPUTTER is not null then c.INPUTTER
+      when d.INPUTTER is not null then d.INPUTTER
+      when e.INPUTTER is not null then e.INPUTTER
+      when f.INPUTTER is not null then f.INPUTTER
+      when g.INPUTTER is not null then g.INPUTTER
+      when h.INPUTTER is not null then h.INPUTTER
+      else A.RICAACCOUNTID end)) ic4_verifier,
+
+(case when b.INPUTTER is not null then b.INPUTTER
+      when c.INPUTTER is not null then c.INPUTTER
+      when d.INPUTTER is not null then d.INPUTTER
+      when e.INPUTTER is not null then e.INPUTTER
+      when f.INPUTTER is not null then f.INPUTTER
+      when g.INPUTTER is not null then g.INPUTTER
+      when h.INPUTTER is not null then h.INPUTTER
+      else A.RICAACCOUNTID end) INPUTTER,
+      
+b.AUTHORISER AUTHORISR,
+(case when b.AUTHORISER is not null then b.AUTHORISER
+      when c.AUTHORISER is not null then c.AUTHORISER
+      when d.AUTHORISER is not null then d.AUTHORISER
+      when e.AUTHORISER is not null then e.AUTHORISER
+      when f.AUTHORISER is not null then f.AUTHORISER
+      when g.AUTHORISER is not null then g.AUTHORISER
+      when h.AUTHORISER is not null then h.AUTHORISER
+           else A.RICAAUTHORISER end) AUTHORISER,
+           
+(select ricaStaffNo from RICA1.rica_user where ricaUserId=A.RICAINPUTTER) inputter_id,
+(select ricaStaffNo from RICA1.rica_user where ricaUserId=A.RICAAUTHORISER) Authoriser_id,
+A.RICASPECIALDATE,
+A.RICAENTRYID,
+A.RICAENTRYSERIALNO,
+A.RICATRANSCODE,
+
+(case when A.RICATRANSCODE = 'D' then 'DR' 
+  WHEN TO_CHAR(A.RICATRANSCODE) = 'C' then 'CR' else TO_CHAR(A.RICATRANSCODE) end) IND,
+A.RICABRANCHCODE,
+A.RICAPRODUCTCATEGORY,
+to_char(A.RICAENTRYDATE ,'dd-mm-yyyy') As  Acct_Open_Date,
+A.RICAACCOUNTSTATUS,
+to_char( A.RICAPOSTINGDATE, 'dd-mm-yyyy') As  Acct_Active_Date,
+A.RICALCYAMOUNT ,
+to_char(A.RICALCYAMOUNT,'99,999,999,999,999.00') BAL,
+A.RICADOMICILEBRANCH,
+(select ricaBranchName from RICA1.rica_branch where ricaBranchId=A.RICABRANCHCODE ) Branch,
+(select ricaBranchName from RICA1.rica_branch where ricaBranchId=A.RICADOMICILEBRANCH) dom_Branch,
+A.RICAACCOUNTTYPE,
+A.RICAACCOUNTSTATUS,
+DECODE(substr(A.RICATRANSID,1,2) , 'BK', 'BULK POSTING', 'TT', 'CASH','FT','FUND TRANSFER','CS','ATM','UNKNOWN') Trans_Type,
+to_timestamp(to_char(to_timestamp(RICASPECIALDATE,'yyyy-mm-dd hh24:mi:ssxff'),'dd-mon-yy hh24:mi:ssxff'),'dd-mon-yy hh24:mi:ssxff') Times
+
+
+From RICA1.rica_journalentries A            
+      left join RICA1.ic4_t24_ft b      
+      on b.id = A.RICATRANSID  
+      left join RICA1.ic4_t24_teller c
+      on c.id = A.RICATRANSID
+      left join RICA1.ic4_t24_mm d
+      on d.id = A.RICATRANSID
+      left join RICA1.ic4_t24_ldloan e
+   on e.id = a.RICATRANSID
+      left join RICA1.ic4_t24_forex f
+      on f.id = a.RICATRANSID
+      left join RICA1.ic4_t24_g g
+      on g.id = a.RICATRANSID
+      left join RICA1.ic4_t24_h h
+      on h.id = a.RICATRANSID
+      left join RICA1.IC4_T24_AC ac
+      on ac.id = a.RICATRANSID
+      left join RICA1.IC4_T24_CUST cu
+      on cu.id = a.RICATRANSID
+
+"
+SC0019,Duplicated System User Transactions on Customer Account - Debit,TRANSACTION,Outflow,Low,BRANCH,,YEARLY,0,,,,2023-03-05,2023-03-06,12:13:55.124,2023-03-06,13:13:55,,,,complianceofficer,complianceofficer,default,default,,12:02,NEW,One Alert - One Email,,,1,1,1,,0,0,0,0,0,,0,,,,,,0,,,,2023-03-06,12:47:06,superuser,,"select distinct
+A.ID,
+a.local_ref_172 unique_id,
+b.NO_COUNT,
+'DR' AS IND,
+A.payment_details,
+a.debit_comp_code,
+(select RICAACCOUNTNAME from RICA1.rica_account where RICAACCOUNTNO = A.debit_acct_no) account_name,
+A.debit_acct_no,
+a.loc_amt_debited,
+to_char(a.loc_amt_debited,'99,999,999,999,999.00') Amount,  
+to_char(A.processing_date, 'dd-mm-yyyy') processing_date,
+to_char(A.debit_value_date, 'dd-mm-yyyy')debit_value_date, 
+A.INPUTTER, 
+A.AUTHORISER,
+SUBSTR(a.date_time,9,4) date_time,
+A.CHEQUE_NUMBER,
+a.debit_currency from RICA1.ic4_t24_ft A,
+(select count(*)NO_COUNT,local_ref_172, record_status, payment_details, 
+debit_acct_no,loc_amt_debited,processing_date,debit_value_date, inputter, authoriser 
+
+from RICA1.ic4_t24_ft
+group by local_ref_172,record_status,payment_details, debit_acct_no, 
+loc_amt_debited, processing_date, debit_value_date, inputter, authoriser
+
+having count(*) > 1
+and local_ref_172 is not null
+and REGEXP_LIKE(debit_acct_no, '^[[:digit:]]+$'))B
+WHERE A.debit_acct_no = B.debit_acct_no
+AND A.payment_details = B.payment_details
+AND A.loc_amt_debited= B.loc_amt_debited
+and a.local_ref_172 is not null
+----and A.RICAACCOUNTSTATUS = 'INAU'
+and trunc(a.processing_date) >= trunc(sysdate)
+and trunc(b.processing_date) >= trunc(sysdate)
+and A.INPUTTER like '%ATMUSER%'
+and a.id not in (select ricaTransId from RICA1.rica_alerts 
+where ricaEntityName like '%Duplicated System User Transactions%' and trunc(ricaCreateDate)=trunc(sysdate))
+order by b.no_count desc, A.debit_acct_no
+"
+SC0020,Same Day Clearing Instruments,TRANSACTION,Transaction,Low,BRANCH,,YEARLY,0,,,,2023-03-04,2023-03-06,12:16:55.005,2023-03-06,13:16:54,,,,complianceofficer,complianceofficer,default,default,,12:02,NEW,One Alert - One Email,,,1,1,1,,0,0,0,0,0,,0,,,,,,0,,,,2023-03-06,12:47:06,superuser,,"Select distinct
+A.RICATRANSID,
+A.RICAACCOUNTID,
+(case when A.RICACUSTOMERNO != '' then CU.SHORT_NAME
+      when A.RICACUSTOMERNO is null then ac.short_title
+     else CU.SHORT_NAME end) Customer_Name,
+     
+A.RICAACCOUNTID,
+A.RICACUSTOMERNO,
+A.RICALCYAMOUNT,
+to_char(A.RICALCYAMOUNT,'99,999,999,999,999.00') Amount,
+CASE WHEN A.RICAFCYAMOUNT IS NULL THEN '0' ELSE TO_CHAR(A.RICAFCYAMOUNT) END trans_amount_fcy,
+CASE WHEN A.RICAFCYAMOUNT IS NULL THEN '0' ELSE TO_CHAR(abs(A.RICAFCYAMOUNT), '99,999,999,999,999.00') END trans_amount_fcy2,
+A.RICATRANSCODE,
+b.payment_details || ' ' || TO_CHAR(A.RICANARRATIVE) DET,
+b.payment_details,
+(case  when a.RICAMODULE = 'FUNDS.TRANSFER' then b.payment_details||' '||TO_CHAR(A.RICANARRATIVE)
+      when a.RICAMODULE = 'TELLER' then  c.Narrative_2||' '||TO_CHAR(A.RICANARRATIVE)
+                 else c.Narrative_2 end) DETAILS,
+           
+A.RICACHEQUENO,
+to_char(A.RICAVALUEDATE ,'dd-mm-yyyy') As  Value_Date,
+A.RICALCYCODE,
+A.RICAPRODUCTCATEGORY,
+A.RICARATE,
+A.RICATRANSREFID,
+A.RICABOOKINGDATE,
+to_char(A.RICABOOKINGDATE, 'dd-mm-yyyy') As Booking_Dates,
+A.RICAACCOUNTID,
+A.RICAAUTHORISER auth,
+b.INPUTTER INPUTTR, 
+
+(select ricaUserId from RICA1.rica_user where ricaStaffNo = (case when b.INPUTTER is not null then b.INPUTTER
+      when c.INPUTTER is not null then c.INPUTTER
+      when d.INPUTTER is not null then d.INPUTTER
+      when e.INPUTTER is not null then e.INPUTTER
+      when f.INPUTTER is not null then f.INPUTTER
+      when g.INPUTTER is not null then g.INPUTTER
+      when h.INPUTTER is not null then h.INPUTTER
+      else A.RICAACCOUNTID end)) ic4_verifier,
+
+(case when b.INPUTTER is not null then b.INPUTTER
+      when c.INPUTTER is not null then c.INPUTTER
+      when d.INPUTTER is not null then d.INPUTTER
+      when e.INPUTTER is not null then e.INPUTTER
+      when f.INPUTTER is not null then f.INPUTTER
+      when g.INPUTTER is not null then g.INPUTTER
+      when h.INPUTTER is not null then h.INPUTTER
+      else A.RICAACCOUNTID end) INPUTTER,
+      
+b.AUTHORISER AUTHORISR,
+(case when b.AUTHORISER is not null then b.AUTHORISER
+      when c.AUTHORISER is not null then c.AUTHORISER
+      when d.AUTHORISER is not null then d.AUTHORISER
+      when e.AUTHORISER is not null then e.AUTHORISER
+      when f.AUTHORISER is not null then f.AUTHORISER
+      when g.AUTHORISER is not null then g.AUTHORISER
+      when h.AUTHORISER is not null then h.AUTHORISER
+           else A.RICAAUTHORISER end) AUTHORISER,
+(select ricaStaffNo from RICA1.rica_user where ricaUserId=A.RICAINPUTTER) inputter_id,
+(select ricaStaffNo from RICA1.rica_user where ricaUserId=A.RICAAUTHORISER) Authoriser_id,
+A.RICASPECIALDATE,
+A.RICAENTRYID,
+A.RICAENTRYSERIALNO,
+A.RICATRANSCODE,
+(case when A.RICATRANSCODE = 'D' then 'DR' 
+  WHEN TO_CHAR(A.RICATRANSCODE) = 'C' then 'CR' else TO_CHAR(A.RICATRANSCODE) end) IND,
+A.RICABRANCHCODE,
+A.RICAPRODUCTCATEGORY,
+to_char(A.RICAENTRYDATE ,'dd-mm-yyyy') As  Acct_Open_Date,
+A.RICAACCOUNTSTATUS,
+to_char( A.RICAPOSTINGDATE, 'dd-mm-yyyy') As  Acct_Active_Date,
+A.RICALCYAMOUNT ,
+to_char(A.RICALCYAMOUNT,'99,999,999,999,999.00') BAL,
+A.RICADOMICILEBRANCH,
+(select ricaBranchName from RICA1.rica_branch where ricaBranchId=A.RICABRANCHCODE ) Branch,
+(select ricaBranchName from RICA1.rica_branch where ricaBranchId=A.RICADOMICILEBRANCH) dom_Branch,
+A.RICAACCOUNTTYPE,
+A.RICAACCOUNTSTATUS,
+DECODE(substr(A.RICATRANSID,1,2) , 'BK', 'BULK POSTING', 'TT', 'CASH','FT','FUND TRANSFER','CS','ATM','UNKNOWN') Trans_Type,
+to_timestamp(to_char(to_timestamp(RICASPECIALDATE,'yyyy-mm-dd hh24:mi:ssxff'),'dd-mon-yy hh24:mi:ssxff'),'dd-mon-yy hh24:mi:ssxff') Times
+
+
+From RICA1.rica_journalentries A            
+      left join RICA1.ic4_t24_ft b      
+      on b.id = A.RICATRANSID  
+      left join RICA1.ic4_t24_teller c
+      on c.id = A.RICATRANSID
+      left join RICA1.ic4_t24_mm d
+      on d.id = A.RICATRANSID
+      left join RICA1.ic4_t24_ldloan e
+         on e.id = a.RICATRANSID
+      left join RICA1.ic4_t24_forex f
+      on f.id = a.RICATRANSID
+      left join RICA1.ic4_t24_g g
+      on g.id = a.RICATRANSID
+      left join RICA1.ic4_t24_h h
+      on h.id = a.RICATRANSID
+      left join RICA1.IC4_T24_AC ac
+      on ac.id = a.RICATRANSID
+      left join RICA1.IC4_T24_CUST cu
+      on cu.id = a.RICATRANSID
+"
+SC0021,OBC LOCKED AMOUNT,TRANSACTION,Customer,Low,BRANCH,,YEARLY,0,,,,2023-03-05,2023-03-06,15:38:58.562,2023-03-06,16:38:58,,,,complianceofficer,complianceofficer,default,default,,12:02,NEW,One Alert - One Email,,,1,1,1,,0,0,0,0,0,,0,,,,,,0,,,,2023-03-06,12:47:06,superuser,,"
+select 
+id, 
+RICAACCOUNTID account_number, 
+(SELECT RICAACCOUNTNAME FROM RICA1.rica_account WHERE RICAACCOUNTNO = A.RICAACCOUNTID) CUSTOMER_NAME, 
+description, 
+to_char(to_timestamp(date_time, 'yyyy-mm-dd hh24:mi:ss'), 'dd-Mon-yyyy')  As date_,
+to_char(to_timestamp(date_time, 'yyyy-mm-dd hh24:mi:ss'), 'hh24:mi') As time_,
+locked_amount amount, 
+to_char(locked_amount,'99,999,999,999,999.00') locked_amount,
+override,
+co_code, 
+(select ricaUserId from RICA1.rica_user where ricaStaffNo = inputter) ic4_verifier,
+inputter, 
+authoriser,
+
+trunc(to_timestamp(to_char(to_timestamp(date_time,'yyyy-mm-dd hh24:mi:ssxff'),'dd-mon-yy hh24:mi:ssxff'),'dd-mon-yy hh24:mi:ssxff')) Times,
+
+
+local_ref_746 
+
+from 
+
+RICA1.ic4_t24_ac_locked_events a
+
+where To_Date(To_Char(local_ref_746), 'yyyyMMDDHH24MISS')> sysdate-1
+and id not in (select ricaTransId from RICA1.rica_alerts where ricaEntityName like '%OBC LOCKED AMOUNT%' and trunc(ricaCreateDate)=trunc(sysdate))
+and co_code = '${BRANCH_CODE}' 
+"
+SC0022,"Expense over N1,000,000",TRANSACTION,Transaction,Low,BRANCH,,YEARLY,0,,,,2023-03-05,2023-03-06,15:42:47.175,2023-03-06,16:42:47,,,,complianceofficer,complianceofficer,default,default,,12:02,NEW,One Alert - One Email,,,1,1,1,,0,0,0,0,0,,0,,,,,,0,,,,2023-03-06,12:47:06,superuser,,"Select distinct
+A.RICATRANSID,
+b.credit_acct_no Account_Number,
+(case when A.RICACUSTOMERNO != '' then CU.SHORT_NAME
+      when A.RICACUSTOMERNO is null then ac.PL_NAME
+     else CU.SHORT_NAME end) Customer_Name,
+     
+A.RICAACCOUNTID,
+A.RICACUSTOMERNO,
+A.RICALCYAMOUNT,
+to_char(A.RICALCYAMOUNT,'99,999,999,999,999.00') Amount,
+CASE WHEN A.RICAFCYAMOUNT IS NULL THEN '0' ELSE TO_CHAR(A.RICAFCYAMOUNT) END trans_amount_fcy,
+CASE WHEN A.RICAFCYAMOUNT IS NULL THEN '0' ELSE TO_CHAR(abs(A.RICAFCYAMOUNT), '99,999,999,999,999.00') END trans_amount_fcy2,
+A.RICATRANSCODE,
+b.payment_details || ' ' || TO_CHAR(A.RICANARRATIVE) DET,
+b.payment_details,
+(case  when a.RICAMODULE = 'FUNDS.TRANSFER' then b.payment_details||' '||TO_CHAR(A.RICANARRATIVE)
+      when a.RICAMODULE = 'TELLER' then  c.Narrative_2||' '||TO_CHAR(A.RICANARRATIVE)
+                 else c.Narrative_2 end) DETAILS,
+
+
+A.RICACHEQUENO,
+to_char(A.RICAVALUEDATE ,'dd-mm-yyyy') As  Value_Date,
+A.RICALCYCODE,
+A.RICAPRODUCTCATEGORY,
+A.RICARATE,
+A.RICATRANSREFID,
+A.RICABOOKINGDATE,
+to_char(A.RICABOOKINGDATE, 'dd-mm-yyyy') As Booking_Dates,
+A.RICAACCOUNTID,
+A.RICAAUTHORISER auth,
+b.INPUTTER INPUTTR, 
+
+(select ricaUserId from RICA1.rica_user where ricaStaffNo = (case when b.INPUTTER is not null then b.INPUTTER
+      when c.INPUTTER is not null then c.INPUTTER
+      when d.INPUTTER is not null then d.INPUTTER
+      when e.INPUTTER is not null then e.INPUTTER
+      when f.INPUTTER is not null then f.INPUTTER
+      when g.INPUTTER is not null then g.INPUTTER
+      when h.INPUTTER is not null then h.INPUTTER
+      else A.RICAACCOUNTID end)) ic4_verifier,
+(case when b.INPUTTER is not null then b.INPUTTER
+      when c.INPUTTER is not null then c.INPUTTER
+      when d.INPUTTER is not null then d.INPUTTER
+      when e.INPUTTER is not null then e.INPUTTER
+      when f.INPUTTER is not null then f.INPUTTER
+      when g.INPUTTER is not null then g.INPUTTER
+      when h.INPUTTER is not null then h.INPUTTER
+      else A.RICAACCOUNTID end) INPUTTER,
+      
+b.AUTHORISER AUTHORISR,
+(case when b.AUTHORISER is not null then b.AUTHORISER
+      when c.AUTHORISER is not null then c.AUTHORISER
+      when d.AUTHORISER is not null then d.AUTHORISER
+      when e.AUTHORISER is not null then e.AUTHORISER
+      when f.AUTHORISER is not null then f.AUTHORISER
+      when g.AUTHORISER is not null then g.AUTHORISER
+      when h.AUTHORISER is not null then h.AUTHORISER
+           else A.RICAAUTHORISER end) AUTHORISER,
+
+           
+(select ricaStaffNo from RICA1.rica_user where ricaUserId=A.RICAINPUTTER) inputter_id,
+(select ricaStaffNo from RICA1.rica_user where ricaUserId=A.RICAAUTHORISER) Authoriser_id,
+A.RICASPECIALDATE,
+A.RICAENTRYID,
+A.RICAENTRYSERIALNO,
+A.RICATRANSCODE,
+(case when A.RICATRANSCODE = 'D' then 'DR' 
+  WHEN TO_CHAR(A.RICATRANSCODE) = 'C' then 'CR' else TO_CHAR(A.RICATRANSCODE) end) IND,
+A.RICABRANCHCODE,
+A.RICAPRODUCTCATEGORY,
+to_char(A.RICAENTRYDATE ,'dd-mm-yyyy') As  Acct_Open_Date,
+A.RICAACCOUNTSTATUS,
+to_char( A.RICAPOSTINGDATE, 'dd-mm-yyyy') As  Acct_Active_Date,
+A.RICALCYAMOUNT ,
+to_char(A.RICALCYAMOUNT,'99,999,999,999,999.00') BAL,
+A.RICADOMICILEBRANCH,
+(select ricaBranchName from RICA1.rica_branch where ricaBranchId=A.RICABRANCHCODE ) Branch,
+(select ricaBranchName from RICA1.rica_branch where ricaBranchId=A.RICADOMICILEBRANCH) dom_Branch,
+A.RICAACCOUNTTYPE,
+A.RICAACCOUNTSTATUS,
+DECODE(substr(A.RICATRANSID,1,2) , 'BK', 'BULK POSTING', 'TT', 'CASH','FT','FUND TRANSFER','CS','ATM','UNKNOWN') Trans_Type,
+to_timestamp(to_char(to_timestamp(RICASPECIALDATE,'yyyy-mm-dd hh24:mi:ssxff'),'dd-mon-yy hh24:mi:ssxff'),'dd-mon-yy hh24:mi:ssxff') Times
+
+From RICA1.rica_journalentries A            
+      left join RICA1.ic4_t24_ft b      
+      on b.id = A.RICATRANSID  
+      left join RICA1.ic4_t24_teller c
+      on c.id = A.RICATRANSID
+      left join RICA1.ic4_t24_mm d
+      on d.id = A.RICATRANSID
+      left join RICA1.ic4_t24_ldloan e
+     on e.id = a.RICATRANSID
+      left join RICA1.ic4_t24_forex f
+      on f.id = a.RICATRANSID
+      left join RICA1.ic4_t24_g g
+      on g.id = a.RICATRANSID
+      left join RICA1.ic4_t24_h h
+      on h.id = a.RICATRANSID
+      left join RICA1.IC4_T24_AC ac
+      on ac.id = a.RICATRANSID
+      left join RICA1.IC4_T24_CUST cu
+      on cu.id = a.RICATRANSID"
+SC0023,DEBITS TO EXPENSE ACCOUNTS ABOVE >N2M,TRANSACTION,Outflow,Low,BRANCH,,YEARLY,0,,,,2023-03-05,2023-03-06,15:50:33.562,2023-03-06,16:50:33,,,,complianceofficer,complianceofficer,default,default,,12:02,NEW,One Alert - One Email,,,1,1,1,,0,0,0,0,0,,0,,,,,,0,,,,2023-03-06,12:47:06,superuser,,"Select distinct
+A.RICATRANSID,
+A.RICAACCOUNTID,
+(case when A.RICACUSTOMERNO != '' then CU.SHORT_NAME
+      when A.RICACUSTOMERNO is null then ac.short_title
+     else CU.SHORT_NAME end) Customer_Name,
+     
+A.RICAACCOUNTID,
+A.RICACUSTOMERNO,
+A.RICALCYAMOUNT,
+to_char(A.RICALCYAMOUNT,'99,999,999,999,999.00') Amount,
+CASE WHEN A.RICAFCYAMOUNT IS NULL THEN '0' ELSE TO_CHAR(A.RICAFCYAMOUNT) END trans_amount_fcy,
+CASE WHEN A.RICAFCYAMOUNT IS NULL THEN '0' ELSE TO_CHAR(abs(A.RICAFCYAMOUNT), '99,999,999,999,999.00') END trans_amount_fcy2,
+A.RICATRANSCODE,
+b.payment_details || ' ' || TO_CHAR(A.RICANARRATIVE) DET,
+b.payment_details,
+(case  when a.RICAMODULE = 'FUNDS.TRANSFER' then b.payment_details||' '||TO_CHAR(A.RICANARRATIVE)
+      when a.RICAMODULE = 'TELLER' then  c.Narrative_2||' '||TO_CHAR(A.RICANARRATIVE)
+                 else c.Narrative_2 end) DETAILS,
+           
+A.RICACHEQUENO,
+to_char(A.RICAVALUEDATE ,'dd-mm-yyyy') As  Value_Date,
+A.RICALCYCODE,
+A.RICAPRODUCTCATEGORY,
+A.RICARATE,
+A.RICATRANSREFID,
+A.RICABOOKINGDATE,
+to_char(A.RICABOOKINGDATE, 'dd-mm-yyyy') As Booking_Dates,
+A.RICAACCOUNTID,
+A.RICAAUTHORISER auth,
+b.INPUTTER INPUTTR, 
+(case when b.INPUTTER is not null then b.INPUTTER
+      when c.INPUTTER is not null then c.INPUTTER
+      when d.INPUTTER is not null then d.INPUTTER
+      when e.INPUTTER is not null then e.INPUTTER
+      when f.INPUTTER is not null then f.INPUTTER
+      when g.INPUTTER is not null then g.INPUTTER
+      when h.INPUTTER is not null then h.INPUTTER
+      else A.RICAACCOUNTID end) INPUTTER,
+      
+b.AUTHORISER AUTHORISR,
+(case when b.AUTHORISER is not null then b.AUTHORISER
+      when c.AUTHORISER is not null then c.AUTHORISER
+      when d.AUTHORISER is not null then d.AUTHORISER
+      when e.AUTHORISER is not null then e.AUTHORISER
+      when f.AUTHORISER is not null then f.AUTHORISER
+      when g.AUTHORISER is not null then g.AUTHORISER
+      when h.AUTHORISER is not null then h.AUTHORISER
+           else A.RICAAUTHORISER end) AUTHORISER,
+
+           
+(select ricaStaffNo from RICA1.rica_user where ricaUserId=A.RICAINPUTTER) inputter_id,
+(select ricaStaffNo from RICA1.rica_user where ricaUserId=A.RICAAUTHORISER) Authoriser_id,
+A.RICASPECIALDATE,
+A.RICAENTRYID,
+A.RICAENTRYSERIALNO,
+A.RICATRANSCODE,
+(case when A.RICATRANSCODE = 'D' then 'DR' 
+  WHEN TO_CHAR(A.RICATRANSCODE) = 'C' then 'CR' else TO_CHAR(A.RICATRANSCODE) end) IND,
+A.RICABRANCHCODE,
+A.RICAPRODUCTCATEGORY,
+to_char(A.RICAENTRYDATE ,'dd-mm-yyyy') As  Acct_Open_Date,
+A.RICAACCOUNTSTATUS,
+to_char( A.RICAPOSTINGDATE, 'dd-mm-yyyy') As  Acct_Active_Date,
+A.RICALCYAMOUNT ,
+to_char(A.RICALCYAMOUNT,'99,999,999,999,999.00') BAL,
+A.RICADOMICILEBRANCH,
+(select ricaBranchName from RICA1.rica_branch where ricaBranchId=A.RICABRANCHCODE ) Branch,
+(select ricaBranchName from RICA1.rica_branch where ricaBranchId=A.RICADOMICILEBRANCH) dom_Branch,
+A.RICAACCOUNTTYPE,
+A.RICAACCOUNTSTATUS,
+DECODE(substr(A.RICATRANSID,1,2) , 'BK', 'BULK POSTING', 'TT', 'CASH','FT','FUND TRANSFER','CS','ATM','UNKNOWN') Trans_Type,
+to_timestamp(to_char(to_timestamp(RICASPECIALDATE,'yyyy-mm-dd hh24:mi:ssxff'),'dd-mon-yy hh24:mi:ssxff'),'dd-mon-yy hh24:mi:ssxff') Times
+
+
+From RICA1.rica_journalentries A            
+      left join RICA1.ic4_t24_ft b      
+      on b.id = A.RICATRANSID  
+      left join RICA1.ic4_t24_teller c
+      on c.id = A.RICATRANSID
+      left join RICA1.ic4_t24_mm d
+      on d.id = A.RICATRANSID
+      left join RICA1.ic4_t24_ldloan e
+      on e.id = A.RICATRANSID
+      left join RICA1.ic4_t24_forex f
+      on f.id = A.RICATRANSID
+      left join RICA1.ic4_t24_sectrade g
+      on g.id = A.RICATRANSID
+      left join RICA1.ic4_t24_iclbulkpst h
+      on h.id = A.RICATRANSID
+       left join RICA1.IC4_T24_CUST cu
+      on cu.id = a.RICACUSTOMERNO 
+       left join RICA1.IC4_T24_AC ac
+      on ac.id = a.RICAACCOUNTID 
+where to_number(RICALCYAMOUNT) > 2000000 
+"
+SC0024,Duplicated System User Transactions on Customer Account - Credit,TRANSACTION,Transaction Inflow,Low,BRANCH,,YEARLY,0,,,,2023-03-05,2023-03-06,16:02:43.302,2023-03-06,17:02:43,,,,complianceofficer,complianceofficer,default,default,,12:02,NEW,One Alert - One Email,,,1,1,1,,0,0,0,0,0,,0,,,,,,0,,,,2023-03-06,12:47:06,superuser,,"
+select distinct
+A.ID,
+a.local_ref_172 unique_id,
+b.NO_COUNT,
+'CR' AS IND,
+A.payment_details,
+a.credit_comp_code,
+(select RICAACCOUNTNAME from RICA1.rica_account where RICAACCOUNTNO = A.credit_acct_no) account_name,
+A.credit_acct_no,
+a.loc_amt_credited,
+to_char(a.loc_amt_credited,'99,999,999,999,999.00') Amount,  
+to_char(A.processing_date, 'dd-mm-yyyy') processing_date,
+to_char(A.credit_value_date, 'dd-mm-yyyy')credit_value_date, 
+A.INPUTTER, 
+A.AUTHORISER,
+SUBSTR(a.date_time,9,4) date_time,
+A.cheque_number,
+a.debit_currency from RICA1.ic4_t24_ft A,
+(select count(*)NO_COUNT,local_ref_172, record_status, credit_acct_no,loc_amt_credited,processing_date,credit_value_date, inputter, authoriser 
+
+from RICA1.ic4_t24_ft
+group by local_ref_172,record_status, credit_acct_no, loc_amt_credited, processing_date, credit_value_date, inputter, authoriser
+
+having count(*) > 1
+and local_ref_172 is not null
+and REGEXP_LIKE(credit_acct_no, '^[[:digit:]]+$'))B
+WHERE A.credit_acct_no = B.credit_acct_no
+
+AND A.loc_amt_credited= B.loc_amt_credited
+and a.local_ref_172 is not null
+and A.record_status = 'INAU'
+and a.id not in (select ricaTransId from RICA1.rica_alerts where ricaEntityName like '%Duplicated System User Transactions%' and trunc(ricaCreateDate)=trunc(sysdate))
+order by a.local_ref_172
+"
+SC0025,TRANSACTIONS ABOVE CUSTOMER LIMIT,TRANSACTION,Limit,HIGH,BRANCH,,YEARLY,0,,,,2023-03-05,2023-03-06,16:16:13.247,2023-03-06,17:16:13,,,,complianceofficer,complianceofficer,default,default,,12:02,NEW,One Alert - One Email,,,3,3,3,,0,0,0,0,0,,0,,,,,,0,,,,2023-03-06,12:47:06,superuser,,"select 
+DRACCOUNT, DRACCOUNTNAME, BANKNAME, SOURCE,CHANNEL,
+to_char(AMOUNT, '99,999,999,999,999.00')AMOUNT,
+to_char(DAILYTRANSLIMIT, '99,999,999,999,999.00')LIMIT,
+T24REFERENCE, CRACCOUNT, 
+CRACCOUNTNAME, NARRATION, 
+TO_CHAR(TO_DATE(SUBSTR(TRANSACTIONDATE,1,10), 'yyyy-mm-dd'), 'dd-mm-yyyy') TRANS_DATE, 
+STATUSMESSAGE
+
+ from rica1.IC4_RECHARGE
+
+where TO_DATE(SUBSTR(TRANSACTIONDATE,1,10), 'yyyy-mm-dd') >= trunc(sysdate)
+AND to_char(AMOUNT, '99,999,999,999,999.00') > to_char(DAILYTRANSLIMIT, '99,999,999,999,999.00')
+AND SOURCE = 'MOBILE'
+
+"
+SC0026,OUTFLOWS AND INFLOWS: ≥N500M,TRANSACTION,Inflow & Outflow,HIGH,BRANCH,,YEARLY,0,,,,2023-03-05,2023-03-06,16:22:11.999,2023-03-06,17:22:11,,,,complianceofficer,complianceofficer,default,default,,12:02,NEW,One Alert - One Email,,,3,3,3,,0,0,0,0,0,,0,,,,,,0,,,,2023-03-06,12:47:06,superuser,,"Select distinct
+A.RICATRANSID,
+A.RICAACCOUNTID,
+(case when A.RICACUSTOMERNO != '' then CU.SHORT_NAME
+      when A.RICACUSTOMERNO is null then ac.short_title
+     else CU.SHORT_NAME end) Customer_Name,
+     
+A.RICAACCOUNTID,
+A.RICACUSTOMERNO,
+A.RICALCYAMOUNT,
+to_char(A.RICALCYAMOUNT,'99,999,999,999,999.00') Amount,
+CASE WHEN A.RICAFCYAMOUNT IS NULL THEN '0' ELSE TO_CHAR(A.RICAFCYAMOUNT) END trans_amount_fcy,
+CASE WHEN A.RICAFCYAMOUNT IS NULL THEN '0' ELSE TO_CHAR(abs(A.RICAFCYAMOUNT), '99,999,999,999,999.00') END trans_amount_fcy2,
+A.RICATRANSCODE,
+b.payment_details || ' ' || TO_CHAR(A.RICANARRATIVE) DET,
+b.payment_details,
+(case  when a.RICAMODULE = 'FUNDS.TRANSFER' then b.payment_details||' '||TO_CHAR(A.RICANARRATIVE)
+      when a.RICAMODULE = 'TELLER' then  c.Narrative_2||' '||TO_CHAR(A.RICANARRATIVE)
+                 else c.Narrative_2 end) DETAILS,
+           
+A.RICACHEQUENO,
+to_char(A.RICAVALUEDATE ,'dd-mm-yyyy') As  Value_Date,
+A.RICALCYCODE,
+A.RICAPRODUCTCATEGORY,
+A.RICARATE,
+A.RICATRANSREFID,
+A.RICABOOKINGDATE,
+to_char(A.RICABOOKINGDATE, 'dd-mm-yyyy') As Booking_Dates,
+A.RICAACCOUNTID,
+A.RICAAUTHORISER auth,
+b.INPUTTER INPUTTR, 
+
+(select ricaUserId from RICA1.rica_user where ricaStaffNo = (case when b.INPUTTER is not null then b.INPUTTER
+      when c.INPUTTER is not null then c.INPUTTER
+      when d.INPUTTER is not null then d.INPUTTER
+      when e.INPUTTER is not null then e.INPUTTER
+      when f.INPUTTER is not null then f.INPUTTER
+      when g.INPUTTER is not null then g.INPUTTER
+      when h.INPUTTER is not null then h.INPUTTER
+      else A.RICAACCOUNTID end)) ic4_verifier,
+
+
+(case when b.INPUTTER is not null then b.INPUTTER
+      when c.INPUTTER is not null then c.INPUTTER
+      when d.INPUTTER is not null then d.INPUTTER
+      when e.INPUTTER is not null then e.INPUTTER
+      when f.INPUTTER is not null then f.INPUTTER
+      when g.INPUTTER is not null then g.INPUTTER
+      when h.INPUTTER is not null then h.INPUTTER
+      else A.RICAACCOUNTID end) INPUTTER,
+      
+b.AUTHORISER AUTHORISR,
+(case when b.AUTHORISER is not null then b.AUTHORISER
+      when c.AUTHORISER is not null then c.AUTHORISER
+      when d.AUTHORISER is not null then d.AUTHORISER
+      when e.AUTHORISER is not null then e.AUTHORISER
+      when f.AUTHORISER is not null then f.AUTHORISER
+      when g.AUTHORISER is not null then g.AUTHORISER
+      when h.AUTHORISER is not null then h.AUTHORISER
+           else A.RICAAUTHORISER end) AUTHORISER,
+(select ricaStaffNo from RICA1.rica_user where ricaUserId=A.RICAINPUTTER) inputter_id,
+(select ricaStaffNo from RICA1.rica_user where ricaUserId=A.RICAAUTHORISER) Authoriser_id,
+A.RICASPECIALDATE,
+A.RICAENTRYID,
+A.RICAENTRYSERIALNO,
+A.RICATRANSCODE,
+(case when A.RICATRANSCODE = 'D' then 'DR' 
+  WHEN TO_CHAR(A.RICATRANSCODE) = 'C' then 'CR' else TO_CHAR(A.RICATRANSCODE) end) IND,
+A.RICABRANCHCODE,
+A.RICAPRODUCTCATEGORY,
+to_char(A.RICAENTRYDATE ,'dd-mm-yyyy') As  Acct_Open_Date,
+A.RICAACCOUNTSTATUS,
+to_char( A.RICAPOSTINGDATE, 'dd-mm-yyyy') As  Acct_Active_Date,
+A.RICALCYAMOUNT ,
+to_char(A.RICALCYAMOUNT,'99,999,999,999,999.00') BAL,
+A.RICADOMICILEBRANCH,
+(select ricaBranchName from RICA1.rica_branch where ricaBranchId=A.RICABRANCHCODE ) Branch,
+(select ricaBranchName from RICA1.rica_branch where ricaBranchId=A.RICADOMICILEBRANCH) dom_Branch,
+A.RICAACCOUNTTYPE,
+A.RICAACCOUNTSTATUS,
+DECODE(substr(A.RICATRANSID,1,2) , 'BK', 'BULK POSTING', 'TT', 'CASH','FT','FUND TRANSFER','CS','ATM','UNKNOWN') Trans_Type,
+to_timestamp(to_char(to_timestamp(RICASPECIALDATE,'yyyy-mm-dd hh24:mi:ssxff'),'dd-mon-yy hh24:mi:ssxff'),'dd-mon-yy hh24:mi:ssxff') Times
+
+
+From RICA1.rica_journalentries A            
+      left join RICA1.ic4_t24_ft b      
+      on b.id = A.RICATRANSID  
+      left join RICA1.ic4_t24_teller c
+      on c.id = A.RICATRANSID
+      left join RICA1.ic4_t24_mm d
+      on d.id = A.RICATRANSID
+      left join RICA1.ic4_t24_ldloan e
+       on e.id = a.RICATRANSID
+      left join RICA1.ic4_t24_forex f
+      on f.id = a.RICATRANSID
+      left join RICA1.ic4_t24_g g
+      on g.id = a.RICATRANSID
+      left join RICA1.ic4_t24_h h
+      on h.id = a.RICATRANSID
+      left join RICA1.IC4_T24_AC ac
+      on ac.id = a.RICATRANSID
+      left join RICA1.IC4_T24_CUST cu
+      on cu.id = a.RICATRANSID"
+SC0027,TOP-UP TRANSACTIONS NOT IMPACTING ON T24,TRANSACTION,Transaction,HIGH,BRANCH,,YEARLY,0,,,,2023-03-04,2023-03-06,16:25:43.696,2023-03-06,17:25:43,,,,complianceofficer,complianceofficer,default,default,,12:02,NEW,One Alert - One Email,,,3,3,3,,0,0,0,0,0,,0,,,,,,0,,,,2023-03-06,12:47:06,superuser,,"select T24REFERENCE,DRACCOUNT,DRACCOUNTNAME,BANKCODE,BANKNAME,SOURCE,CHANNEL,NARRATION,AMOUNT 
+,CRACCOUNT,CRACCOUNTNAME,TRANSACTIONDATE,BILLERNAME,STATUSMESSAGE
+
+FROM RICA1.IC4_RECHARGE 
+
+WHERE SOURCE = 'USSD'
+AND T24REFERENCE NOT IN (SELECT ID FROM RICA1.IC4_T24_FT)"
+SC0028," ATM Withdrawal Above 150,000 Cummulative Limit",TRANSACTION,Withdrawal,HIGH,BRANCH,,YEARLY,0,,,,2023-03-06,2023-03-06,16:30:52.709,2023-03-06,17:30:52,,,,complianceofficer,complianceofficer,default,default,,12:02,NEW,One Alert - One Email,,,3,3,3,,0,0,0,0,0,,0,,,,,,0,,,,2023-03-06,12:47:06,superuser,,"select T24REFERENCE,DRACCOUNT,DRACCOUNTNAME,BANKCODE,BANKNAME,SOURCE,CHANNEL,NARRATION,AMOUNT 
+,CRACCOUNT,CRACCOUNTNAME,TRANSACTIONDATE,BILLERNAME,STATUSMESSAGE
+
+FROM RICA1.IC4_RECHARGE 
+
+WHERE SOURCE = 'USSD'
+AND T24REFERENCE NOT IN (SELECT ID FROM RICA1.IC4_T24_FT)
+"
+SC0029,DOUBLE POSTING OF MASTERCARD ISSUANCE FEES,TRANSACTION,Master Card,Low,BRANCH,,YEARLY,0,,,,2023-03-04,2023-03-06,16:39:50.278,2023-03-06,17:39:50,,,,complianceofficer,complianceofficer,default,default,,12:02,NEW,One Alert - One Email,,,1,1,1,,0,0,0,0,0,,0,,,,,,0,,,,2023-03-06,12:47:06,superuser,,"
+SELECT 
+A.ID TRANS_ID, 
+A.DEBIT_ACCT_NO DEBIT_ACCOUNT_NO, 
+ (select ricaBranchName from RICA1.rica_branch WHERE ricaBranchId = B.DEBIT_COMP_CODE) BRANCH_NAME,
+ (select ricaBranchName from RICA1.rica_branch WHERE ricaBranchId = A.CO_CODE) BRANCH_NAME2,
+(select RICAACCOUNTNAME from RICA1.rica_account where RICAACCOUNTNO = A.DEBIT_ACCT_NO) ACCT_NAME,
+A.DEBIT_AMOUNT, 
+A.DEBIT_VALUE_DATE, 
+A.PAYMENT_DETAILS, 
+A.INPUTTER, 
+A.AUTHORISER, 
+B.COUNT
+
+FROM RICA1.IC4_T24_FT A,
+
+(SELECT DEBIT_COMP_CODE,DEBIT_ACCT_NO,DEBIT_CURRENCY,DEBIT_AMOUNT,DEBIT_VALUE_DATE,
+SUBSTR(PAYMENT_DETAILS,1,9) PAYMENT,COUNT(SUBSTR(PAYMENT_DETAILS,1,9))COUNT
+FROM RICA1.IC4_T24_FT
+WHERE SUBSTR(PAYMENT_DETAILS,1,9) IN ('VerveCard','MasterCard') AND DEBIT_ACCT_NO NOT LIKE '%NGN%'
+
+GROUP BY DEBIT_COMP_CODE, DEBIT_ACCT_NO, DEBIT_CURRENCY, DEBIT_AMOUNT, DEBIT_VALUE_DATE, SUBSTR(PAYMENT_DETAILS,1,9)
+HAVING COUNT(SUBSTR(PAYMENT_DETAILS,1,9))>1) B
+
+WHERE A.DEBIT_ACCT_NO = B.DEBIT_ACCT_NO
+AND A.DEBIT_VALUE_DATE = B.DEBIT_VALUE_DATE
+AND A.DEBIT_AMOUNT = B.DEBIT_AMOUNT
+AND A.DEBIT_ACCT_NO not in (select ricaAccountNo from RICA1.rica_alerts where ricaEntityName like '%DOUBLE POSTING OF MASTERCARD%' and trunc(ricaCreateDate)=trunc(sysdate))
+AND A.CO_CODE =  '${BRANCH_CODE}'
+AND A.DEBIT_ACCT_NO <> 'PL64620'
+order by A.DEBIT_ACCT_NO desc
+"
+SC0030,POSSIBLE DUPLICATED TREASURY BILL REDEMPTION,TRANSACTION,TREASURY,HIGH,BRANCH,,YEARLY,0,,,,2023-03-05,2023-03-06,16:53:19.167,2023-03-06,17:53:19,,,,complianceofficer,complianceofficer,default,default,,12:02,NEW,One Alert - One Email,,,3,3,3,,0,0,0,0,0,,0,,,,,,0,,,,2023-03-06,12:47:06,superuser,,"Select distinct
+A.RICATRANSID,
+A.RICAACCOUNTID,
+(case when A.RICACUSTOMERNO != '' then CU.SHORT_NAME
+      when A.RICACUSTOMERNO is null then ac.short_title
+     else CU.SHORT_NAME end) Customer_Name,
+     
+A.RICAACCOUNTID,
+A.RICACUSTOMERNO,
+A.RICALCYAMOUNT,
+to_char(A.RICALCYAMOUNT,'99,999,999,999,999.00') Amount,
+CASE WHEN A.RICAFCYAMOUNT IS NULL THEN '0' ELSE TO_CHAR(A.RICAFCYAMOUNT) END trans_amount_fcy,
+CASE WHEN A.RICAFCYAMOUNT IS NULL THEN '0' ELSE TO_CHAR(abs(A.RICAFCYAMOUNT), '99,999,999,999,999.00') END trans_amount_fcy2,
+A.RICATRANSCODE,
+to_char(A.RICANARRATIVE) DET,
+ to_char(A.RICANARRATIVE)  DETAILS,
+          
+A.RICACHEQUENO,
+to_char(A.RICAVALUEDATE ,'dd-mm-yyyy') As  Value_Date,
+A.RICALCYCODE,
+A.RICAPRODUCTCATEGORY,
+A.RICARATE,
+A.RICATRANSREFID,
+A.RICABOOKINGDATE,
+to_char(A.RICABOOKINGDATE, 'dd-mm-yyyy') As Booking_Dates,
+A.RICAACCOUNTID,
+A.RICAAUTHORISER auth,
+(select ricaUserId from RICA1.rica_user where ricaStaffNo = A.RICAACCOUNTID) ic4_verifier,
+A.RICAINPUTTER,   
+A.RICAAUTHORISER,
+(select ricaStaffNo from RICA1.rica_user where ricaUserId=A.RICAINPUTTER) inputter_id,
+(select ricaStaffNo from RICA1.rica_user where ricaUserId=A.RICAAUTHORISER) Authoriser_id,
+A.RICASPECIALDATE,
+A.RICAENTRYID,
+A.RICAENTRYSERIALNO,
+A.RICATRANSCODE,
+(case when A.RICATRANSCODE = 'D' then 'DR' 
+  WHEN TO_CHAR(A.RICATRANSCODE) = 'C' then 'CR' else TO_CHAR(A.RICATRANSCODE) end) IND,
+A.RICABRANCHCODE,
+A.RICAPRODUCTCATEGORY,
+to_char(A.RICAENTRYDATE ,'dd-mm-yyyy') As  Acct_Open_Date,
+A.RICAACCOUNTSTATUS,
+to_char( A.RICAPOSTINGDATE, 'dd-mm-yyyy') As  Acct_Active_Date,
+A.RICALCYAMOUNT ,
+to_char(A.RICALCYAMOUNT,'99,999,999,999,999.00') BAL,
+A.RICADOMICILEBRANCH,
+(select ricaBranchName from RICA1.rica_branch where ricaBranchId=A.RICABRANCHCODE ) Branch,
+(select ricaBranchName from RICA1.rica_branch where ricaBranchId=A.RICADOMICILEBRANCH) dom_Branch,
+A.RICAACCOUNTTYPE,
+A.RICAACCOUNTSTATUS,
+DECODE(substr(A.RICATRANSID,1,2) , 'BK', 'BULK POSTING', 'TT', 'CASH','FT','FUND TRANSFER','CS','ATM','UNKNOWN') Trans_Type,
+to_timestamp(to_char(to_timestamp(RICASPECIALDATE,'yyyy-mm-dd hh24:mi:ssxff'),'dd-mon-yy hh24:mi:ssxff'),'dd-mon-yy hh24:mi:ssxff') Times
+
+
+From RICA1.rica_journalentries A            
+        left join RICA1.IC4_T24_AC ac
+      on ac.id = a.RICAACCOUNTID
+      left join RICA1.IC4_T24_CUST cu
+      on cu.id = a.RICACUSTOMERNO
+     
+where A.RICAENTRYID = 'SCCA'
+and A.RICATRANSID not in (select ricaTransId from RICA1.rica_alerts where ricaEntityName like '%POSSIBLE DUPLICATED TREASURY BILL REDEMPTION%' and trunc(ricaCreateDate)=trunc(sysdate))
+and A.RICAACCOUNTID like '%OFS%'
+and trunc(A.RICABOOKINGDATE) >= trunc(sysdate-1)
+"
+SC0031,TESTING NO_JOURNAL EXCEPTIONS,TRANSACTION,Inflow & Outflow,HIGH,BRANCH,,YEARLY,0,,,,2023-03-05,2023-03-06,16:22:11.999,2023-03-06,17:22:11,,,,complianceofficer,complianceofficer,default,default,,,NEW,One Alert - One Email,,,3,3,3,,0,0,0,0,0,,0,,,,,,0,,,,2023-03-06,12:47:06,superuser,,"select ricaUserId, ricaFirstName,ricaUserTitle from rica_user
+where ricaUserTitle = 'Mr'"
+test1,Testing Rule,CUSTOMER,Blank,Low,,,INTERVAL,30,,,,2023-05-01,2023-05-01,11:54:08.929,2023-05-01,12:54:08,,Testing Rule,,inputter,authoriser,VERIFIER,,,,NEW,One Alert - One Email,en-238,,1,1,1,,0,0,0,0,0,,0,,,,,,0,,,,2023-05-01,13:06:23,superuser,"REF_ID,TRANS_ID,ACCOUNT,CUSTOMER_NO,CUSTOMER_NAME,RICALCYCODE,BRANCH_NAME,BRANCH,TRANS_CODE,TRANS_TYPE,AMOUNT,ENTRY_DATE,DETAILS,INPUTTER,AUTHORISER"," Select distinct
+A.RICATRANSREFID as ref_id,
+A.RICATRANSID as trans_id,
+A.RICAACCOUNTID as account,
+A.RICACUSTOMERNO as customer_no, 
+(case when a.RICACUSTOMERNO != '' then CU.SHORT_NAME
+      when a.RICACUSTOMERNO is null then ac.short_title
+     else CU.SHORT_NAME || A.RICAACCOUNTNAME end) customer_name,
+(select ricaBranchName from RICA1.rica_branch where ricaBranchId=A.RICABRANCHCODE )|| A.RICABRANCHNAME branch_name,
+A.RICABRANCHCODE as branch,
+A.RICATRANSCODE as trans_code, 
+A.RICATRANSTYPE as trans_type,
+A.RICALCYAMOUNT as amount ,
+to_char(A.RICAENTRYDATE,'DD-MM-YYYY') AS entry_date, 
+A.RICAACCOUNTOFFICER as account_officer ,
+(case  when a.RICAMODULE = 'FUNDS.TRANSFER' then b.payment_details||' '||TO_CHAR(A.RICANARRATIVE)
+      when a.RICAMODULE = 'TELLER' then  c.Narrative_2||' '||TO_CHAR(A.RICANARRATIVE)
+      else TO_CHAR(A.RICANARRATIVE) ||' '|| b.payment_details end) DETAILS,
+A.RICAINPUTTER as INPUTTER,
+(case when b.AUTHORISER is not null then b.AUTHORISER
+      when c.AUTHORISER is not null then c.AUTHORISER
+      when d.AUTHORISER is not null then d.AUTHORISER
+      when e.AUTHORISER is not null then e.AUTHORISER
+      when f.AUTHORISER is not null then f.AUTHORISER
+      when g.AUTHORISER is not null then g.AUTHORISER
+      when h.FILE_AUTH is not null then h.FILE_AUTH
+           else A.RICAAUTHORISER end) AUTHORISER, 
+
+A.RICASPECIALDATE as special_date ,
+A.RICASPECIALTIME as special_time,
+ 
+A.RICAACCOUNTNAME as account_name ,
+A.RICALCYCODE
+
+
+From RICA1.rica_journalentries A            
+      left join RICA1.ic4_t24_ft b      
+      on b.id = a.RICATRANSID  
+      left join RICA1.ic4_t24_teller c
+      on c.id = a.RICATRANSID
+      left join RICA1.ic4_t24_mm d
+      on d.id = a.RICATRANSID
+      left join RICA1.ic4_t24_ldloan e
+      on e.id = a.RICATRANSID
+      left join RICA1.ic4_t24_f f
+      on f.id = a.RICATRANSID
+      left join RICA1.ic4_t24_g g
+      on g.id = a.RICATRANSID
+      left join RICA1.ic4_t24_h h
+      on h.id = a.RICATRANSID
+      left join RICA1.IC4_T24_AC ac
+      on ac.id = a.RICATRANSID
+      left join RICA1.IC4_T24_CUST cu
+      on cu.id = a.RICATRANSID
+      
+where A.RICASPECIALDATE  >= '{v_lastrundate}'
+and A.RICASPECIALTIME > '{v_lastruntime}'  
+and A.RICABRANCHCODE =  '{branch_code}' 
+and rownum < 4
+ "

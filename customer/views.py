@@ -14,6 +14,7 @@ from decimal import Decimal
 from django.core.paginator import Paginator
 from datetime import date, datetime
 from django.utils.datastructures import MultiValueDictKeyError
+from django.core.files.uploadedfile import InMemoryUploadedFile
 import mimetypes
 from django.db.models import Q
 from django.template import Context
@@ -53,6 +54,15 @@ from django.http.response import JsonResponse
 from .chat import get_response, predict_class
 import fitz
 from backoffice.models import Course
+import pandas as pd
+import copy
+from .utils import setup_job, MyJsonEncoder,PyeScheduler
+from django.core.exceptions import ObjectDoesNotExist
+from django.core.files.storage import default_storage
+from django.core.files.base import ContentFile
+
+
+
 
 def auto_correction_word(bad_word,model_path,data_path):
     from tensorflow.keras.preprocessing.sequence import pad_sequences
@@ -432,22 +442,181 @@ def select_source_view(request,pk):
     return render(request,'home/task.html',context=dict) 
 
 
+@login_required(login_url='login')
+def select_source_delete(request,pk):
+    connector= models.Connector.objects.get(pk=pk).delete()
+    return redirect("connector-history")
+
+
+
     
 @login_required(login_url='login')
 def source_credential_view(request):    
-    source_val = request.GET.get("source-val","dummy")
-    data = []
-    if source_val =='dummy':
-        json_path = os.path.join(os.getcwd(),   'static', 'json', 'sample_data.json')
-        with open(json_path,encoding="utf8") as f:
-            data = json.load(f)['sample_data']
 
-    if source_val=='task':
-        data =  models.Task.objects.filter(created_by=request.user).order_by('-date_created').values("name")
+    source_val = request.POST.get("connector_type","dummy")
+    copy_postdata = copy.copy(request.POST)
+    print(copy_postdata)
+    post_data = {}
+    if request.POST:  
+        pk = request.POST.get("connector_pk")
+        connector= models.Connector.objects.get(pk=pk)
+        connector.connector_type = source_val
+        connector.parameters = json.dumps(copy_postdata, cls=MyJsonEncoder)
+        connector.save()
+
+        if source_val=='flatfile':
+            filetype = request.POST.get('filetype')
+            files = request.FILES.getlist('files')
+            file_list = []
+            for file in files:
+                my_file = models.FilesModel.objects.create(file=file,filetype=filetype,connector_id=connector.pk)
+                file_list.append(my_file)
+            connector.files.set(file_list)
+            connector.save()
+                
+
+        return redirect('connector-history')
+
+    else:
+        source_val = request.GET.get("source-val","dummy")
+        pk = request.GET.get("pk")
+        connector= models.Connector.objects.get(pk=pk)
+
+        data = []
+        if source_val =='dummy':
+            json_path = os.path.join(os.getcwd(),   'static', 'json', 'sample_data.json')
+            with open(json_path,encoding="utf8") as f:
+                data = json.load(f)['sample_data']
+
+        if source_val=='task':
+            data =  models.Task.objects.filter(created_by=request.user).order_by('-date_created').values("name","pk")
+
+        if connector.parameters:
+            post_data = json.loads(connector.parameters)
 
 
-    dict={"segment":"connector","source_val":source_val,"data":data}
-    return render(request,'home/credential.html',context=dict)     
+
+        dict={"segment":"connector","source_val":source_val,"data":data,"connector":connector,
+        'post_data':post_data}
+        return render(request,'home/credential.html',context=dict)  
+    
+@login_required(login_url='login')
+def new_task_view(request):    
+
+    task_pk = request.GET.get("task_pk")
+    action = request.GET.get("action")
+
+    task = {}
+    if request.POST:
+        name = request.POST.get('name')
+        description = request.POST.get('description')
+        created_by = request.user
+        source_ids = request.POST.get('source')
+        target_ids = request.POST.getlist('targets')
+        transformers_ids = request.POST.getlist('transformers')
+        schedule_time = request.POST.get('schedule_time')
+        minute_time = request.POST.get('minute_time')
+        daily_time = request.POST.get('daily_time') or None
+        # weekly_day = request.POST.get('weekly_day')
+        weekly_time = request.POST.get('weekly_time') or None
+        
+        # Get the Connector objects for source and target
+        sources = models.Connector.objects.filter(id__in=source_ids)
+        targets = models.Connector.objects.filter(id__in=target_ids)
+
+        # Get the Transformer objects
+        transformers = models.Transformer.objects.filter(id__in=transformers_ids)
+
+           
+        # Create the Task object
+
+        try:
+            task = models.Task.objects.get(name=name)
+            task.description=description
+            task.created_by=created_by
+            task.schedule_time=schedule_time
+            task.minute_time=minute_time
+            task.daily_time=daily_time
+            task.weekly_time=weekly_time 
+            task.save()
+
+        except ObjectDoesNotExist:
+            task = models.Task.objects.create(name=name, description=description, created_by=created_by,
+                schedule_time=schedule_time,minute_time=minute_time,daily_time=daily_time,
+                weekly_time=weekly_time )
+
+
+        save_days = [setattr(task, day,request.POST.get(day)) for day in ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'] if request.POST.get(day)]
+
+        # Add the Source to the Task
+        for connector in sources:
+            task.source.add(connector)
+
+
+        # Add the Target to the Task
+        for connector in targets:
+            task.targets.add(connector)
+        
+        # Add the Transformers to the Task
+        for transformer in transformers:
+            task.transformers.add(transformer)
+        task.save()
+
+        return redirect('apply-policy')
+
+    else: 
+        if task_pk:
+            scheduler = PyeScheduler()
+            task= models.Task.objects.get(pk=task_pk)
+            if action == 'delete':
+                scheduler.remove_job(task)
+                task.delete()
+                return redirect('apply-policy')
+            elif action == "play":
+                try:
+                    scheduler.schedule_job(task)
+                except Exception as e:
+                    print('schedule error',e)
+                    task.status = "error"
+                    task.error = str(e)
+                    task.save()
+                return redirect('apply-policy')
+            elif action == "stop" or action == "cancel" :
+                try:
+                    scheduler.stop_job(task)
+                except Exception as e:
+                    print(e)
+                    task.status = "error"
+                    task.error = str(e)
+                    task.save()
+                return redirect('apply-policy')
+            elif action == "pause":
+                try:
+                    scheduler.pause_job(task)
+                except Exception as e:
+                    print(e)
+                    task.status = "error"
+                    task.error = str(e)
+                    task.save()
+                return redirect('apply-policy')
+
+            elif action == "resume":
+                try:
+                    scheduler.resume_job(task)
+                except Exception as e:
+                    print(e)
+                    task.status = "error"
+                    task.error = str(e)
+                    task.save()
+                return redirect('apply-policy')
+            else:
+                task= models.Task.objects.get(pk=task_pk)
+
+        connectors = models.Connector.objects.filter(created_by=request.user).order_by('-date_created').values("name","description","pk")
+        transformers = models.Transformer.objects.filter(Q(is_public="True") | Q(created_by=request.user) ).order_by('-last_modified')
+
+        dict={"segment":"apply-policy",'task':task,"connectors":connectors,"transformers":transformers}
+        return render(request,'home/new_task.html',context=dict)     
 
 @login_required(login_url='login')
 def billing_view(request):
@@ -482,8 +651,6 @@ def apply_policy_view(request):
 @login_required(login_url='login')
 def connector_history_view(request): 
 
-
-    
     # customer = models.Customer.objects.get(user_id=request.user.id)
     query = request.GET.get('q',"") 
     connectors = models.Connector.objects.filter(created_by=request.user).order_by('-date_created')
@@ -514,7 +681,7 @@ def connector_history_view(request):
                                                     'segment' : "connectors",
                                                     "error":e})
 
-        return render(request,'home/task.html',{'connectors':connectors,
+        return render(request,'home/task.html',{'connector':code_save,
                                                     'segment' : "connectors","pk":code_save.pk,
                                                     })
 
@@ -574,54 +741,77 @@ def delete_question_view(request,pk):
     question.delete()
     return redirect('question-history')
 
+
+
+@login_required(login_url='login')
+def delete_code_editor(request,pk):
+    connector= models.Transformer.objects.get(pk=pk).delete()
+    return redirect("question-history")
+
+
+
 def code_editor(request,pk=None): 
+
+    transformers = models.Transformer.objects.filter(is_public="True").order_by('-last_modified')
+    transformers_type = transformers.values_list('transformer_type', flat=True).distinct()
 
     if request.method == 'POST':  
         try:
-            code_Form=forms.CodeForm(request.POST)
-            if code_Form.is_valid() :
-                code_save = code_Form.save(commit=False)
-                code_save.created_by = request.user
-                code_save.save()
-            # saved_transformer = models.Transformer.objects.create(**save_data) 
-            return redirect('question-history')
+
+            try:
+                saved_transformer = models.Transformer.objects.get(pk=pk,created_by=request.user)
+                saved_transformer.code = request.POST.get("code")
+                saved_transformer.is_public = request.POST.get("is_public")
+                saved_transformer.description = request.POST.get("description")
+                saved_transformer.transformer_type = request.POST.get("transformer_type")
+                saved_transformer.save()
+                return redirect('question-history')
+
+            except ObjectDoesNotExist:            
+                code_Form=forms.CodeForm(request.POST)
+                if code_Form.is_valid() :
+                    code_save = code_Form.save(commit=False)
+                    code_save.created_by = request.user
+                    code_save.transfomer_type = request.POST.get("transfomer_type")
+                    code_save.save()
+                # saved_transformer = models.Transformer.objects.create(**save_data) 
+                return redirect('question-history')
         except Exception as e:
             print(e)
             form = forms.CodeForm()
             return render(request,'home/code_editor.html',{'code':request.POST.get("code"),'form':form,"update":1,
-                'name':request.POST.get("name"),'description':request.POST.get("description"),"error":e }) 
+                'name':request.POST.get("name"),'description':request.POST.get("description"),"error":e,
+                'transformers_type':transformers_type,
+
+                 }) 
     else:
         form = forms.CodeForm()
         if pk:
             transformer = models.Transformer.objects.get(pk=pk)
             return render(request,'home/code_editor.html',{'code':transformer.code,'form':form,"update":1,
-                'name':transformer.name,'description':transformer.description }) 
-        return render(request,'home/code_editor.html',{'code':""" 
-    # This Python 3 environment comes with many helpful analytics libraries installed
-    # It is defined by the kaggle/python Docker image: https://github.com/kaggle/docker-python
-    # For example, here's several helpful packages to load
+                'name':transformer.name,'description':transformer.description,'transformers_type':transformers_type, }) 
+        return render(request,'home/code_editor.html',{'code':
+            """# This Python 3 environment comes with many helpful analytics libraries installed 
 
     import numpy as np # linear algebra
     import pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)
 
-    # Input data files are available in the read-only "../input/" directory
-    # For example, running this (by clicking run or pressing Shift+Enter) will list all files under the input directory
+    def main(transform_data,source_data):
+        dt = source_data['Dataset Reading']
+        print(dt)
+        dt.pop()
+        return dt
 
-    import os
-    for dirname, _, filenames in os.walk('/kaggle/input'):
-        for filename in filenames:
-            print(os.path.join(dirname, filename))
-
-    # You can write up to 20GB to the current directory (/kaggle/working/) that gets preserved as output when you create a version using "Save & Run All" 
-    # You can also write temporary files to /kaggle/temp/, but they won't be saved outside of the current session
-            """}) 
+        """,'transformers_type':transformers_type,'is_public':transformer.is_public}) 
 
 
 
 def question_history_view(request): 
     # customer = models.Customer.objects.get(user_id=request.user.id)
     query = request.GET.get('q',"")
-    transformers = models.Transformer.objects.filter(is_public="True").order_by('-last_modified')
+    q_types = request.GET.get('q_types',"")
+    transformers = models.Transformer.objects.filter().order_by('-last_modified')
+    transformers_type = transformers.values_list('transformer_type', flat=True).distinct()
     my_work = models.Transformer.objects.filter(created_by=request.user).count()  
 
     if query:
@@ -630,11 +820,14 @@ def question_history_view(request):
             Q(description__icontains=query)
         )  
 
+    if q_types:
+        transformers.filter(transformer_type=q_types)
+
     paginator = Paginator(transformers, 10) # Display 10 transformers per page
     page = request.GET.get('page')
     transformers = paginator.get_page(page)
 
-    return render(request,'home/my-questions.html',{'transformers':transformers,
+    return render(request,'home/my-questions.html',{'transformers':transformers,'transformers_type':transformers_type,
                                                     'segment' : "question-history","q":query,"my_work":my_work})
 
 
@@ -762,3 +955,6 @@ def generate_movies_context():
     context['movie_list'] = courses
 
     return context
+
+
+

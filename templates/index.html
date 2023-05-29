@@ -101,9 +101,9 @@
                         <li>
                             <a href="">Home</a>
                         </li>
-                        <li>
-                            <a href="presentation">Go Pro</a>
-                        </li>
+
+
+                    
                         {% if '0' in auth %}
                         <li>
                             <a href="customer/register">Register</a>
@@ -112,6 +112,10 @@
                             <a href="customer/customerclick">Login</a>
                         </li>
                         {% else %}
+                         <li>
+                            <a href="/customer/tasks">Jobs</a>
+                        </li>
+
                         <li>
                             <a href="customer/dashboard">My profile</a>
                         </li>
@@ -119,6 +123,10 @@
                             <a href="logout">Logout</a>
                         </li>
                         {% endif %}
+                            <li>
+                            <a href="presentation">Go Pro</a>
+                        </li>
+                        
                     </ul>
                 </div><!-- /.navbar-collapse -->
             </div>

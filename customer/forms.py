@@ -21,7 +21,7 @@ class CustomerForm(forms.ModelForm):
 class CodeForm(forms.ModelForm):
     class Meta:
         model = models.Transformer
-        fields = ('code', 'name',"description","is_public")
+        fields = ('code', 'name',"description","is_public",'transformer_type')
         widgets = {
                 "code": forms.Textarea(),
             }

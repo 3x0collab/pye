@@ -16,7 +16,13 @@
         <div class="row gx-4">
           <div class="col-auto">
             <div class="avatar avatar-xl position-relative">
-              <img src="{% static customer.profile_pic.url %}" alt="..." class="w-100 border-radius-lg shadow-sm">
+              {% if customer.profile_pic  %}
+              <img src="{% static customer.profile_pic.url %}" alt="..." class="w-100 border-radius-lg shadow-sm" />
+              {% else %}
+              <img src="https://res.cloudinary.com/djpcokxvn/image/upload/c_pad,b_auto:predominant,fl_preserve_transparency/v1683971791/avatar-1577909_960_720_js7huw.jpg?_s=public-apps" alt="..." class="w-100 border-radius-lg shadow-sm" />
+
+              {% endif %}
+
               <a href="javascript:;" class="btn btn-sm btn-icon-only bg-gradient-light position-absolute bottom-0 end-0 mb-n2 me-n2">
                 <i class="fa fa-pen top-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Image"></i>
               </a>

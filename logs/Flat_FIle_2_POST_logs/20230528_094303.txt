@@ -1,0 +1,1 @@
+Connector POST method run succesfully, with 4 records.

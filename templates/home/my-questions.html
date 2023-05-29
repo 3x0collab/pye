@@ -40,24 +40,37 @@
 
 <div class="main mb-4 mt-3">
   <!-- Actual search box -->
-<form method="get" class="form-group has-search">
+<form method="get" class="form-group has-search " style="display:flex; flex-direction: row;" >
+    <div style="width:75%; margin-right:15px ;" >
     <span class="fa fa-search form-control-feedback"></span>
-    <input type="text" class="form-control" placeholder="Search" name="q" value={{q}} >
+    <input type="text" class="form-control" placeholder="Search" name="q"   value="{{q}}" >
+    </div>
+       <select  class=" form-control form-select" value="{{q_types}}" id="q_types" name="q_types" style="width:25%;">
+      <option value="" selected disabled>Select Types</option>
+ {% for type in transformers_type %}
+      {% if type.transformer_type %}
+          <option value="{{ type.transformer_type }}">{{ type.transformer_type }} </option>
+          {% endif %}
+
+          {% endfor %}
+   
+        </select>
   </form>
 
-<h4 class="mt-4 mb-3 text-secondary font-serif " > Public Transformers ({{ transformers|length }}) </h4>
+<h4 class="mt-4 mb-3 text-secondary font-serif " > Available Transformers ({{ transformers|length }}) </h4>
 
 <div class="  table-responsive">
-<table class="table table-striped  table-hover table-responsive table-bordered table-sm ">
+<table class="table table-striped  table-hover table-responsive table-bordered table-sm " cellspacing="5" cellpadding="5"  >
   <thead class="thead-dark bg-dark text-white ">
     <tr>
       <th>S/N</th>
       <th>Name</th>
       <th>Description</th>
+      <th>Is Public</th>
       <th>Created By</th>
       <th>Last Modified</th>
       <th>Views</th> 
-      <th>Action</th>
+      <th>Actions</th>
     </tr>
   </thead>
   <tbody>
@@ -66,11 +79,13 @@
           <td>{{ forloop.counter }}. </td>
       <td>{{ transformer.name }}</td>
       <td>{{ transformer.description }}</td>
+      <td>{{ transformer.is_public }}</td>
       <td>{{ transformer.created_by }}</td>
       <td>{{ transformer.last_modified }}</td>
       <td>{{ transformer.views }}</td> 
       <td>
-        <a href="{% url 'edit_code_editor' transformer.pk %}" class="btn btn-success btn-sm">Edit</a>
+        <a href="{% url 'edit_code_editor' transformer.pk %}" class="btn btn-outline-success btn-sm" style="margin-bottom:0;">Edit</a>
+        <a href="{% url 'delete_code_editor' transformer.pk %}" class="btn btn-outline-danger btn-sm" style="margin-bottom:0;">Delete</a>
       </td>
     </tr>
    {% empty %}
@@ -144,6 +159,10 @@
   .main {
     width: 100%; 
 
+}
+
+td,th {
+    padding: 3px !important;  
 }
 
 

@@ -134,7 +134,7 @@
 <div class="card source w-100 mt-4 mb-3 py-2 px-5 " id="hover" source-val="application" style="border-radius: 100px;"  >
 
     {% else %}
-<div class="card source w-100 mb-3 py-2 px-5" source-val="applicationapplication" style="border-radius: 100px;">
+<div class="card source w-100 mb-3 py-2 px-5" source-val="application" style="border-radius: 100px;">
 
     {% endif %}
     <div style="display:flex; flex-direction:row; align-items: center; justify-content: space-between; "  >
@@ -149,6 +149,29 @@
                    </div>
     </div>
 </div>
+
+{% if connector.connector_type == "social_media"   %}
+<div class="card source w-100 mt-4 mb-3 py-2 px-5 " id="hover" source-val="social_media" style="border-radius: 100px;"  >
+
+    {% else %}
+<div class="card source w-100 mb-3 py-2 px-5" source-val="social_media" style="border-radius: 100px;">
+
+    {% endif %}
+    <div style="display:flex; flex-direction:row; align-items: center; justify-content: space-between; "  >
+    <div  style="width: 15%;" >
+
+<img src="{% static 'assets/img/social-media.png''%}" width="45px">
+    </div>
+    <div  style="width: 85%;" >
+        <h1 class="wow fadeInDown" data-wow-duration="1s" style="font-size:20px; font-weight: bolder; " >Social Media Connector
+</h1>
+     <strong>Extract data from various social media such as Facebook, Instagram, Twitter, and others. </strong> 
+                   </div>
+    </div>
+</div>
+
+
+
 {% if connector.connector_type == "cloud"   %}
 <div class="card source w-100 mt-4 mb-3 py-2 px-5 " id="hover" source-val="cloud" style="border-radius: 100px;"  >
 
@@ -191,7 +214,13 @@
     </div>
 </div>
 
-<a id='next' href="/customer/source-credential?source-val=dummy" class="btn btn-primary btn-lg active my-3" role="button" aria-pressed="true">Next</a>
+{% if connector.connector_type %}
+<a id='next' href="/customer/source-credential?source-val={{connector.connector_type}}&pk={{connector.pk}}" class="btn btn-primary btn-lg active my-3" role="button" aria-pressed="true">Next</a>
+
+{% else %}
+<a id='next' href="/customer/source-credential?source-val=dummy&pk={{connector.pk}}" class="btn btn-primary btn-lg active my-3" role="button" aria-pressed="true">Next</a>
+
+{% endif %}
 </div>
 
                         </div>  
@@ -257,13 +286,14 @@
 
 
   <script>
-
+const connector = "{{connector.pk}}"
  const source =  $(".source")
  source.click(function(e){
  source.removeAttr("id")
  $(this).attr('id','hover')
 // localStorage.set("source-val", $(this).attr('source-val'))
-$("#next").attr("href","/customer/source-credential?source-val="+$(this).attr('source-val')||'dummy')
+const source_url = "/customer/source-credential?source-val="+$(this).attr('source-val')||'dummy'
+$("#next").attr("href",source_url +"&pk="+connector )
 
     })
 
