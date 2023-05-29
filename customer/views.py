@@ -62,7 +62,7 @@ from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
 
 
-
+ 
 
 def auto_correction_word(bad_word,model_path,data_path):
     from tensorflow.keras.preprocessing.sequence import pad_sequences
@@ -229,26 +229,26 @@ def checkout_view(request,pk):
         return redirect(checkout_session.url)
     return redirect('contracts')
 
-@csrf_exempt
-def process_payment(request,pk):
-    customer = models.Customer.objects.get(user_id=request.user.id)
-    policy_record = CMODEL.LeaveRecord.objects.get(customer=customer, id=pk)
-    order_id = request.session.get('order_id')
-    host = 'localhost:8000/customer/'
-    paypal_dict = {
-        'business': settings.PAYPAL_RECEIVER_EMAIL,
-        'amount': int(policy_record.Vocation.sum_assurance * 1.06),
-        'item_name': 'Order {}'.format(policy_record.id),
-        'invoice': str(request.user.id)+" "+str(pk),
-        'currency_code': 'USD',
-        'notify_url': 'http://{}{}'.format(host,
-                                           reverse('paypal-ipn')),
-        'return_url': 'http://{}{}'.format(host,
-                                           reverse('contracts')),
-        'cancel_return': 'http://{}{}'.format(host,
-                                              reverse('contracts')),
-    }
-    return redirect(paypal_dict['notify_url'])
+# @csrf_exempt
+# def process_payment(request,pk):
+#     customer = models.Customer.objects.get(user_id=request.user.id)
+#     policy_record = CMODEL.LeaveRecord.objects.get(customer=customer, id=pk)
+#     order_id = request.session.get('order_id')
+#     host = 'localhost:8000/customer/'
+#     paypal_dict = {
+#         'business': settings.PAYPAL_RECEIVER_EMAIL,
+#         'amount': int(policy_record.Vocation.sum_assurance * 1.06),
+#         'item_name': 'Order {}'.format(policy_record.id),
+#         'invoice': str(request.user.id)+" "+str(pk),
+#         'currency_code': 'USD',
+#         'notify_url': 'http://{}{}'.format(host,
+#                                            reverse('paypal-ipn')),
+#         'return_url': 'http://{}{}'.format(host,
+#                                            reverse('contracts')),
+#         'cancel_return': 'http://{}{}'.format(host,
+#                                               reverse('contracts')),
+#     }
+#     return redirect(paypal_dict['notify_url'])
 
 @csrf_exempt
 def coinbase_checkout_view(request,pk):
@@ -403,6 +403,9 @@ def customer_dashboard_view(request):
 
 
     return render(request,'home/index.html',context=dict)
+
+def customer_gopro_view(request):
+    return render(request,'home/gopro.html')
 
 def toggle_email_view(request):
     w = models.Customer.objects.get(id=request.POST['id'])
@@ -957,4 +960,41 @@ def generate_movies_context():
     return context
 
 
+
+ 
+
+
+def process_payment(request):
+    # Retrieve form data
+    amount = "20"
+    card_cvv = request.POST.get('card_cvv')
+    card_expiry_date = request.POST.get('card_expiry_date')
+    card_expiry_month = request.POST.get('card_expiry_month')
+
+    # Create payment payload
+    payload = {
+        'merchantId': settings.REMITA_MERCHANT_ID,
+        'serviceTypeId': '123456789',
+        'amount': amount,
+        'cardCVV': card_cvv,
+        'cardExpiryDate': card_expiry_date,
+        'cardExpiryMonth': card_expiry_month,
+        # Add other required parameters
+    }
+
+    # Make API request to Remita
+    response = requests.post(
+        f"{settings.REMITA_API_BASE_URL}/remita/exapp/api/v1/send/api/echannelsvc/echannel/initialize",
+        json=payload,
+        headers={'Content-Type': 'application/json', 'Authorization': f"Bearer {settings.REMITA_API_KEY}"}
+    )
+
+    # Process the response and redirect the user to the payment page
+    if response.status_code == 200:
+        payment_data = response.json()
+        redirect_url = payment_data['paymentAuthUrl']
+        return redirect(redirect_url)
+    else:
+        # Handle error case
+        return render(request, 'home/paymenterror.html')
 

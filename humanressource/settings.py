@@ -162,3 +162,7 @@ COINBASE_COMMERCE_API_KEY = 'bfd59206-3e6b-46eb-8d15-a943467b9dd4'
 PAYPAL_RECEIVER_EMAIL = 'sweetboygg199@gmail.com'
 
 PAYPAL_TEST = True
+
+REMITA_MERCHANT_ID = 'your_merchant_id'
+REMITA_API_KEY = 'your_api_key'
+REMITA_API_BASE_URL = 'https://api.remita.net'
