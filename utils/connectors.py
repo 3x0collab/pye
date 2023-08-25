@@ -11,6 +11,14 @@ from sqlalchemy import create_engine,inspect
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.declarative import declarative_base
+from django.core.exceptions import ObjectDoesNotExist
+from customer.models import TaskConnectorData,FileModels,Connections
+from utils.vortex_pdf_parser import VortexPdfParser
+from utils.vortex_ingester import VortexIngester
+from utils.pye_bot import WebScraperBot
+from .email import Mail
+import docx
+
 
 class Connectors(object):
 	"""docstring for Connectors"""
@@ -57,6 +65,38 @@ class DatasetConnector(Connectors):
 		self.log_connection('POST',data)
 
 
+class RawConnector(Connectors):
+	"""docstring for RawConnector"""
+	def __init__(self,connector=None,task=None):
+		super(RawConnector, self).__init__(connector,task) 
+
+	def connect(self):
+		self.data = self.credentials['data']
+		self.log_connection('GET',self.data)
+
+	def post(self,data):
+		log(self.name+"-"+str(self.connector.pk),data)
+		self.log_connection('POST',data)
+
+
+class LinksConnector(Connectors):
+	"""docstring for RawConnector"""
+	def __init__(self,connector=None,task=None):
+		super(LinksConnector, self).__init__(connector,task) 
+
+	def connect(self):
+		if self.task.name != 'Test Task':
+			bot = WebScraperBot(self.credentials.get('url'), self.credentials.get('depth'), self.credentials.get('read_documents_flag'))
+			result = bot.run_bot(self.credentials.get('depth'),self.credentials.get('follow_external'), self.credentials.get('follow_internal'))
+			text_content,external_links, internal_links = result 
+			self.data = text_content
+			self.log_connection('GET',external_links + internal_links)
+
+	def post(self,data):
+		log(self.name+"-"+str(self.connector.pk),data)
+		self.log_connection('POST',data)
+
+
 
 
 class FileConnector(Connectors):
@@ -65,28 +105,39 @@ class FileConnector(Connectors):
 		super(FileConnector, self).__init__(connector,task)
 
 	def connect(self):
-		save_data = []
-		for file_model in self.connector.files.all():
-			file_name = file_model.file.name
-			data = self.read_file(
-				file_model.filetype,
-				file_model.file,
-				self.credentials.get("delimiter"),
-				self.credentials.get("quotechar")
-				)
-			save_data = save_data +data
-		self.data = save_data
-		self.log_connection('GET',self.data)
+		if self.task.name != 'Test Task':
+			save_data = []
+			print(FileModels.objects.filter(connector_id=self.connector.pk).exclude(ingest=1))
+			for file_model in  FileModels.objects.filter(connector_id=self.connector.pk).exclude(ingest=1):
+				file_name = file_model.file.name
+				data = self.read_file(
+					file_model.filetype,
+					file_model.file,
+					self.credentials.get("delimiter","|"),
+					self.credentials.get("quotechar","'")
+					)
+				# print(data)
+				if type(data) == list:
+					save_data = save_data +data
+				else:
+					save_data.append(data)
+			self.data = save_data
+			self.log_connection('GET',self.data)
  
 		
 
 	def read_file(self, file_type, file, delimiter=None, quotechar=None):
 		file_path = file.path
+		file_type = file_type.lower()
 		if file_type == 'csv':
 			with open(file_path, 'r') as f:
 				reader = csv.DictReader(f, delimiter=delimiter, quotechar=quotechar)
 				data = [dict(row) for row in reader]
 			return data
+		elif file_type == 'txt':
+		    with open(file_path, 'r') as f:
+		        data = f.readlines()
+		    return data
 		elif file_type == 'excel':
 			workbook = openpyxl.load_workbook(filename=file_path)
 			sheet = workbook.active
@@ -108,17 +159,25 @@ class FileConnector(Connectors):
 				row_data = {subchild.tag: subchild.text for subchild in child}
 				data.append(row_data)
 			return data
-		# elif file_type == 'other':
-		#	 with open(file_path, 'r') as f:
-		#		 data = f.readlines()
-		#	 return data
+		elif file_type == 'pdf':
+			vortex_pdf_parser = VortexPdfParser()
+			vortex_pdf_parser.set_pdf_file_path(file_path)
+			document_chunks = vortex_pdf_parser.clean_text_to_docs()
+			return document_chunks
+		elif file_type == 'docx' or file_type == 'doc':
+			doc = docx.Document(file_path)
+			content = '\n'.join([p.text for p in doc.paragraphs])
+			return content
 		else:
 			raise ValueError(f'Unsupported file type: {file_type}') 
+
+
 
 	def post(self,data):
 		log(self.name+"-"+str(self.connector.pk),data)
 		self.log_connection('POST',data)
 
+ 
 
 
 
@@ -129,15 +188,16 @@ class DatabaseConnector(Connectors):
 
 	def connect(self):
 		self.connect_to_database()
-		self.data = self.pull_data()
-		self.log_connection('GET',self.data)
+		if self.connector.pk != 'test':
+			self.data = self.pull_data()
+			self.log_connection('GET',self.data)
 
 
 
 	def connect_to_database(self):
 
 		# Extract form inputs
-		db_type = self.credentials['db_type']
+		db_type = str(self.credentials['db_type']).lower()
 		host = self.credentials['host']
 		port = self.credentials['port']
 		db_name = self.credentials['db_name']
@@ -155,7 +215,34 @@ class DatabaseConnector(Connectors):
 		elif db_type == 'oracle':
 			db_url = f'oracle://{username}:{password}@{host}:{port}/{db_name}'
 		elif db_type == 'mssql':
-			db_url = f'mssql+pyodbc://{username}:{password}@{host}:{port}/{db_name}'
+			driver = 'ODBC Driver 17 for SQL Server'
+			db_url = f'mssql+pyodbc://{username}:{password}@{host}:{port}/{db_name}?driver={driver}'
+		elif db_type == 'amazon_redshift':
+			db_url = f'redshift+psycopg2://{username}:{password}@{host}:{port}/{db_name}'
+		elif db_type == 'google_bigquery':
+			db_url = f'bigquery://{username}:{password}@{host}:{port}/{db_name}'
+		elif db_type == 'snowflake':
+			db_url = f'snowflake://{username}:{password}@{host}:{port}/{db_name}'
+		elif db_type == 'apache_cassandra':
+			db_url = f'cassandra://{username}:{password}@{host}:{port}/{db_name}'
+		elif db_type == 'apache_hadoop':
+			db_url = f'hadoop://{username}:{password}@{host}:{port}/{db_name}'
+		elif db_type == 'teradata':
+			db_url = f'teradata://{username}:{password}@{host}:{port}/{db_name}'
+		elif db_type == 'ibm_db2':
+			db_url = f'db2://{username}:{password}@{host}:{port}/{db_name}'
+		elif db_type == 'sqlite':
+			db_url = f'sqlite:///{db_name}'
+		elif db_type == 'informix':
+			db_url = f'informix://{username}:{password}@{host}:{port}/{db_name}'
+		elif db_type == 'sap_hana':
+			db_url = f'hana://{username}:{password}@{host}:{port}/{db_name}'
+		elif db_type == 'vertica':
+			db_url = f'vertica+pyodbc://{username}:{password}@{host}:{port}/{db_name}'
+		elif db_type == 'MariaDB':
+			db_url = 'mysql+pymysql://{username}:{password}@{host}:{port}/{db_name}'
+		else:
+			raise ValueError('Invalid database type')
 
 		# Connect to the database 
 		self.engine = create_engine(db_url)
@@ -174,7 +261,6 @@ class DatabaseConnector(Connectors):
 			result = self.session.execute(f'SELECT * FROM {table_name}' )
 
 		column_names = [desc[0] for desc in result.cursor.description]  # Retrieve column names from the ResultSet
-
 		data = []
 		while True:
 			rows = result.fetchmany(50)  # Retrieve 50 rows at a time
@@ -236,8 +322,8 @@ class DatabaseConnector(Connectors):
 		self.session.commit()
 		# Close the session
 		self.session.close()
-
-		self.log_connection('POST',data)
+		if self.connector.pk != 'test':
+			self.log_connection('POST',data)
 
 
 	
@@ -247,10 +333,92 @@ class TaskConnector(Connectors):
 		super(TaskConnector, self).__init__(connector,task)
 
 	def connect(self):
+		try:
+			task_id = f"{self.credentials['tasks']}-{self.task.pk}"
+			task_data = TaskConnectorData.objects.get(task_id=task_id )
+			self.data = json.loads(task_data.data)
+			task_data.delete()
+		except ObjectDoesNotExist:
+			self.log_connection('GET',f"No Data for Task: {self.task.pk}-{self.task.name} in Task Connector")
+
+	def post(self,data=[]):
+		try:
+			task_id = f"{self.credentials['tasks']}-{self.task.pk}"
+			task_data = TaskConnectorData.objects.get(task_id=task_id )
+			task_data.data = json.dumps(data)
+			task_data.save()
+		except ObjectDoesNotExist:
+			json_data = json.dumps(data)
+			task_data = TaskConnectorData.objects.create(**{"task_id":task_id,"data":json_data}  )
+
+			self.log_connection('POST',data)	
+
+
+
+class EmailConnector(Connectors):
+	"""docstring for DatasetConnector"""
+	def __init__(self,connector=None,task=None):
+		super(EmailConnector, self).__init__(connector,task)
+
+
+	def connect(self):
+		try:
+			self.mail_client = Mail(self.credentials['email'], self.credentials['password'], self.credentials['smtp_server'], self.credentials['smtp_port'])
+			self.data = self.mail_client.read_emails(num_emails=50) 
+			self.log_connection('GET',self.data)
+		except ObjectDoesNotExist:
+			self.log_connection('GET',f"No Data for Email: {self.task.pk}-{self.task.name} in Email Connector")
+
+
+	def post(self,data=[]):
+		# 0 - 'recipient' | 1 - 'subject'  |  2 - 'body'
+		self.mail_client.send_email(data[0] ,data[1], data[2])
+		self.log_connection('POST',data)
+	
+
+
+class TrainConnector(Connectors):
+	"""docstring for DatasetConnector"""
+	def __init__(self,connector=None,task=None):
+		super(TrainConnector, self).__init__(connector,task)
+
+	def connect(self):
 		pass
+
+	def post(self,data=None):
+		if data and len(data):
+			try:
+				ex_connections = Connections.objects.get(name = self.connector.name)
+				pipeline_exist = ex_connections.pipelines.filter(name=self.task.name).count()
+				if not pipeline_exist:
+					ex_connections.pipelines.add(self.task)
+
+			except Exception as e:
+				create_connections = Connections.objects.create(
+				name=self.connector.name,
+				description=self.connector.description,
+				connector = self.connector
+					)
+				create_connections.pipelines.add(self.task)
+				create_connections.save()
+
+			ingester = VortexIngester(str(data),f"{self.connector.name}_{str(self.connector.created_by)}")
+			ingester.ingest()
+			# print('dfd1',FileModels.objects.filter(connector_id=self.connector.pk).exclude(ingest=1))
+			FileModels.objects.filter(connector_id=self.connector.pk).exclude(ingest=1).update(ingest=1)
+			self.log_connection(self.connector.name,data)
 
 
 class APIConnector(Connectors):
+	"""docstring for DatasetConnector"""
+	def __init__(self,connector=None,task=None):
+		super(APIConnector, self).__init__(connector,task)
+
+	def connect(self):
+		pass
+
+
+class DAConnector(Connectors):
 	"""docstring for DatasetConnector"""
 	def __init__(self,connector=None,task=None):
 		super(APIConnector, self).__init__(connector,task)
@@ -305,8 +473,6 @@ class IOTConnector(Connectors):
 
 
 connector_map = {
-	"dummy":DatasetConnector,
-	"task":TaskConnector,
 	"database":DatabaseConnector,
 	"flatfile":FileConnector,
 	"api":APIConnector,
@@ -318,8 +484,24 @@ connector_map = {
 }	
 
 def pick_connector(Connector,task):
-	con =  connector_map[Connector.connector_type](Connector,task) 
-	return con
+
+	if Connector.type_name == 'datasets':
+		return DatasetConnector(Connector,task) 
+	elif Connector.type_name == 'blank':
+		return RawConnector(Connector,task) 
+	elif Connector.type_name == 'pipeline':
+		return TaskConnector(Connector,task) 
+	elif Connector.type_name == 'pye da':
+		return DAConnector(Connector,task) 
+	elif Connector.type_name == 'ai model':
+		return TrainConnector(Connector,task)
+	elif Connector.type_name == 'email':
+		return EmailConnector(Connector,task) 
+	elif Connector.type_name == 'links':
+		return LinksConnector(Connector,task) 
+	else:
+		con =  connector_map[Connector.connector_type](Connector,task) 
+		return con
 
 
 def log(name,data=[]):
@@ -330,6 +512,7 @@ def log(name,data=[]):
 		os.makedirs(path, exist_ok=True)
 		date_strf = datetime.datetime.now().strftime('%Y%m%d_%H%M%S')
 		log_file = os.path.join(path, f'{date_strf}.txt')
+
 		with open(log_file, "a") as f:
 			if isinstance(data, str):
 				f.write(data)

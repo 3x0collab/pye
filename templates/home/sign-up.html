@@ -1,19 +1,17 @@
-{% extends 'layouts/base-fullscreen.html' %}
 {% load widget_tweaks %}
 {% load static %}
-
-{% block title %} Sign UP {% endblock title %}
 
 <!-- Specific CSS goes HERE -->
 {% block stylesheets %}{% endblock stylesheets %}
 
 {% block content %}
+
 <head>
     <!-- ========== Meta Tags ========== -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Anada - Data Science & Analytics Template">
+    <meta name="description" content="Personalised AI Solutions">
 
     <!-- ========== Page Title ========== -->
     <title>PYE</title>
@@ -22,7 +20,7 @@
     <link rel="shortcut icon" href="{% static 'assets/img/favicon1.png' %}" type="image/x-icon">
 
     <!-- ========== Start Stylesheet ========== -->
-    <!-- <link href="{% static 'assets/css/bootstrap.min.css' %}" rel="stylesheet" /> -->
+    <link href="{% static 'assets/css/bootstrap.min.css' %}" rel="stylesheet" />
     <link href="{% static 'assets/css/font-awesome.min.css' %}" rel="stylesheet" />
     <link href="{% static 'assets/css/themify-icons.css' %}" rel="stylesheet" />
     <link href="{% static 'assets/css/flaticon-set.css' %}" rel="stylesheet" />
@@ -31,6 +29,7 @@
     <link href="{% static 'assets/css/owl.theme.default.min.css' %}" rel="stylesheet" />
     <link href="{% static 'assets/css/animate.css' %}" rel="stylesheet" />
     <link href="{% static 'assets/css/bootsnav.css' %}" rel="stylesheet" />
+    <link href="{% static 'assets/css/style.css' %}" rel="stylesheet">
     <link href="{% static 'assets/css/responsive.css' %}" rel="stylesheet" />
     <!-- ========== End Stylesheet ========== -->
 
@@ -45,89 +44,121 @@
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;600;700;800&display=swap" rel="stylesheet">
 
 </head>
-    <!-- Header 
+<body>
+ 
+</head>
+   
+ 
+
+
+    <!-- End Services Area -->
+
+    <!-- Start Work Process Area
     ============================================= -->
-    <header id="home">
+   
+    <!-- End Blog Area -->
 
-        <!-- Start Navigation -->
-        <nav class="navbar navbar-default navbar-fixed-light attr-border navbar-fixed dark no-background bootsnav">
+<style>
+    section {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      width: 50%;
+    }
 
-            <!-- Start Top Search -->
-            <div class="container">
-                <div class="row">
-                    <div class="top-search">
-                        <div class="input-group">
-                            <form action="#">
-                                <input type="text" name="text" class="form-control" placeholder="Search">
-                                <button type="submit">
-                                    <i class="ti-search"></i>
-                                </button>  
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- End Top Search -->
+    .signin-container {
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #f7f7f7;
+      margin-bottom: 10px;
+    }
 
-            <div class="container">
+    .card {
+      width: 100%;
+      max-width: 800px; /* Increase the max-width to make it wider */
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
 
-                <!-- Start Atribute Navigation -->
-                <div class="attr-nav">
-                 
-                </div>        
-                <!-- End Atribute Navigation -->
+    .card-header {
+      background-color: #f9f9f9;
+      border-bottom: 1px solid #e0e0e0;
+      width: 100%;
+      padding: 1rem;
+      text-align: center;
+    }
 
-                <!-- Start Header Navigation -->
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-menu">
-                        <i class="fa fa-bars"></i>
-                    </button>
-                    <a class="navbar-brand" href="/">
-                        <img src="{% static 'assets/img/logo-light1.png' %}" class="logo default" alt="Logo">
-                        <img src="{% static 'assets/img/logo1.png' %}" class="logo logo-responsive" alt="Logo">
-                    </a>
-                </div>
-                <!-- End Header Navigation -->
+    .card-body {
+      padding: 2rem;
+      width: 100%;
+    }
 
-                <!-- Collect the nav links, forms, and other content for toggling -->
-                <div class="collapse navbar-collapse" id="navbar-menu">
-                    <ul class="nav navbar-nav navbar-right" data-in="fadeInDown" data-out="fadeOutUp">
-                      
-                        <li>
-                            <a href="/">Home</a>
-                        </li>
-                         <li>
-                            <a href="/customer/tasks">Jobs</a>
-                        </li>
-                        <li>
-                            <a href="presentation" style="color: green; " >Go Pro</a>
-                        </li>
-                     
-                      
-                    </ul>
-                </div><!-- /.navbar-collapse -->
-            </div>
+    .form-control {
+      border: 1px solid #e0e0e0;
+      border-radius: 4px;
+      width: 100%;
+      padding: 0.75rem;
+      margin-bottom: 1rem;
+    }
 
-          
-        </nav>
-        <!-- End Navigation -->
+    .form-check-label {
+      font-weight: normal;
+    }
 
-    </header>
+    .btn {
+      border-radius: 4px;
+      width: 100%;
+    }
+    
+    /* Center the card within the container */
+    .signin-container .card {
+      position: relative;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    input {
+        min-height: 47px;
+    }
+</style>
+
+     {% include 'layouts\header.html' %}
 
 
-  <section>
-    <div class="page-header section-height-75">
-      <div class="container">
-        <div class="row">
-          <div class="col-xl-4 col-lg-5 col-md-6 d-flex flex-column mx-auto">
-            <div class="card card-plain mt-8">
-              <div class="card-header pb-0 text-left bg-transparent">
-                <h3 class="font-weight-bolder " style="color: #138b20 !important;" >Create your account</h3>
-                <p class="mb-0">Please provide your credentials</p>
-              </div>
-              <div class="card-body">
-                <form method="post" enctype="multipart/form-data" role="form text-left">{% csrf_token %}
-                  <label>Username</label>
+<!-- Button trigger modal (This is hidden, just to trigger the modal) -->
+<button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#bigModal"></button>
+
+<!-- Big Modal -->
+<div class="modal fade" id="bigModal" tabindex="-1" aria-labelledby="bigModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="color:#04042d !important; font-weight: bold;" >Skip Content</button>
+      <div class="modal-body" style="padding: 0px; border-radius: 6px;" >
+         {% include 'index_modal.html' %}
+      </div>
+ 
+    </div>
+  </div>
+</div>
+
+
+<div style="display: flex; height:100%" >
+
+    <div class="signin-container w-50" >
+
+        <section style="margin-top: 8%;  ">
+      <div class="page-header">
+        <div class="">
+          <div class="card-heade pb-0 text-center">
+            <h3 class="font-weight-bold text-success" style="color: #04042d!important;"><a href='/' style="  padding: 5px;   margin-left: 10px!important; font-size:60px; color: #04042d!important; " ></a></h3>
+            <p style=" font-size:24px; font-weight: bold; color: black; " > Create an account </p>
+          </div>
+          <div class="card-body">
+            <form method="post" role="form text-left">
+              {% csrf_token %} 
+             
+                          <label>Username</label>
                   <div class="mb-3">
                     {% render_field userForm.username|attr:'required:true'  class="form-control" placeholder="Username" %}
                   </div>
@@ -177,152 +208,45 @@
                   </div> -->
                   <div class="form-check form-switch">
                     <input class="form-check-input" type="checkbox" id="rememberMe"  >
-                    <label class="form-check-label" for="rememberMe"> I agree to the <a href="/terms/">Terms and Conditions</a>
-                                        and the <a href="/privacy/">Privacy and Cookies Policy</a>,
-                                        and confirm that I am at least 13 years old.</label>
+                    <label class="form-check-label" for="rememberMe" style="margin-top: 14px;"> I agree to the <a href="/terms/">Terms and Conditions</a>
+                                        and the <a href="/privacy/">Privacy and Cookies Policy</a></label>
                   </div>
-                  <div class="text-center">
-                    <button type="submit" class="btn bg-gradient-info w-100 mt-4 mb-0 text-uppercase">Register</button>
-                  </div>
-                </form>
+
+
+              <div class="text-center">
+                <button type="submit" class="btn btn-success w-100 mt-4 py-3" style="background-color: #04042d;">Sign in</button>
               </div>
-              <div class="card-footer text-center pt-0 px-lg-2 px-1">
-                <p class="mb-4 text-sm mx-auto">
-                  Already have an account?
-                  <a href="login" class="text-info text-gradient font-weight-bold text-uppercase ">Sign IN</a>
-                </p>
-              </div>
-            </div>
+            </form>
           </div>
-          <div class="col-md-6">
-            <div class="oblique position-absolute top-0 h-100 d-md-block d-none me-n8">
-              <!-- <div class="oblique-image bg-cover position-absolute fixed-top ms-auto h-100 z-index-0 ms-n6" style="background-image:url('/static/assets/img/curved-images/curved6.jpg')"></div>
-            </div> -->
+          <div class="card-foote text-center pt-0">
+           <p class="mb-4 mt-2 text-sm mx-auto">
+                  Already have an account?
+                  <a href="/customer/login" class="text-info text-gradient font-weight-bold text-uppercase ">Sign In</a>
+                </p>
           </div>
         </div>
       </div>
-    </div>
-  </section>
- <hr>
- <footer>
-        <div class="container">
-            <div class="f-items default-padding">
-                <div class="row">
-                    <div class="equal-height col-lg-4 col-md-6 item">
-                        <div class="f-item about">
-                            <img src="{% static 'assets/img/logo1.png' %}" alt="Logo">
-                            <p>
-                                Required honoured trifling eat pleasure man relation. Assurance yet bed was improving furniture man. Distrusts delighted
-                            </p>
-                        </div>
-                    </div>
+    </section>
 
-                    <div class="equal-height col-lg-2 col-md-6 item">
-                        <div class="f-item link">
-                            <h4 class="widget-title">Usefull Links</h4>
-                            <ul>
-                                <li>
-                                    <a href="#">Classic Business</a>
-                                </li>
-                                <li>
-                                    <a href="#">Blog</a>
-                                </li>
-                                <li>
-                                    <a href="#">Project</a>
-                                </li>
-                                <li>
-                                    <a href="#">About Us</a>
-                                </li>
-                                <li>
-                                    <a href="#">Contact</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
 
-                    <div class="equal-height col-lg-2 col-md-6 item">
-                        <div class="f-item link">
-                            <h4 class="widget-title">Services</h4>
-                            <ul>
-                                <li>
-                                    <a href="#">Marketing & Sales</a>
-                                </li>
-                                <li>
-                                    <a href="#">Manufacturing</a>
-                                </li>
-                                <li>
-                                    <a href="#">Supply Chain</a>
-                                </li>
-                                <li>
-                                    <a href="#">Data Visualization</a>
-                                </li>
-                                <li>
-                                    <a href="#">Big Data</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
 
-                    <div class="equal-height col-lg-4 col-md-6 item">
-                        <div class="f-item contact">
-                            <h4 class="widget-title">Contact Info</h4>
-                            <p>
-                                 Possible offering at contempt mr distance stronger an. Attachment excellence announcing
-                            </p>
-                            <div class="address">
-                                <ul>
-                                    <li>
-                                        <strong>Email:</strong> 3xotech@gmail.com
-                                    </li>
-                                    <li>
-                                        <strong>Contact:</strong> +44-20-7328-4499
-                                    </li>
-                                </ul>
-                            </div>
-                            <ul class="social">
-                                <li class="facebook">
-                                    <a href="#"><i class="fab fa-facebook-f"></i></a>
-                                </li>
-                                <li class="twitter">
-                                    <a href="#"><i class="fab fa-twitter"></i></a>
-                                </li>
-                                <li class="youtube">
-                                    <a href="#"><i class="fab fa-youtube"></i></a>
-                                </li>
-                                <li class="instagram">
-                                    <a href="#"><i class="fab fa-instagram"></i></a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <div class="row">
-                    <div class="col-lg-6">
-                        <p>&copy; Copyright 2019. All Rights Reserved by <a href="#">validthemes</a></p>
-                    </div>
-                    <div class="col-lg-6 text-right link">
-                        <ul>
-                            <li>
-                                <a href="#">Terms</a>
-                            </li>
-                            <li>
-                                <a href="#">Privacy</a>
-                            </li>
-                            <li>
-                                <a href="#">Support</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Shape -->
-        <div class="footer-shape" style="background-image: url(assets/img/shape/1.svg);"></div>
-        <!-- End Shape -->
-    </footer>
-    <!-- End Footer-->
+ 
+  </div>
+     <div class="signin-containeer w-50 bg-white px-4 " style="display: flex; flex-direction:column; align-items: center;justify-content: flex-start;" >
+        <a href='/' style="  padding: 5px;   margin-left: 10px!important; font-size:60px; color: #04042d!important;margin-top:20%;  " >☫</a>
+        <h1 class="font-weight-bolder " style="margin-top:2%;" >Welcome to Pye</h1>
+                    <h3 class="text-lg mb-1 mx-4  text-dark text-center mb-3" style="padding-left:10%;padding-right:10%;" >Start fine-tuning your AI model today with your private data and embrace the future of innovation…</h3>
+
+                    <svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.0" width="107px" height="10px" viewBox="0 0 128 6" xml:space="preserve"><rect x="0" y="0" width="100%" height="100%" fill="#FFFFFF"/><path fill="#c5e8d9" d="M3.034,0.054H8.081A2.973,2.973,0,1,1,8.081,6H3.034A2.973,2.973,0,1,1,3.034.054Zm14.6,0h5.047a2.973,2.973,0,1,1,0,5.946H17.638A2.973,2.973,0,1,1,17.638.054Zm14.6,0h5.047a2.973,2.973,0,1,1,0,5.946H32.242A2.973,2.973,0,1,1,32.242.054Zm14.6,0h5.047a2.973,2.973,0,1,1,0,5.946H46.846A2.973,2.973,0,1,1,46.846.054Zm14.6,0H66.5A2.973,2.973,0,1,1,66.5,6H61.45A2.973,2.973,0,1,1,61.45.054Zm14.6,0H81.1A2.973,2.973,0,1,1,81.1,6H76.054A2.973,2.973,0,1,1,76.054.054Zm14.6,0H95.7A2.973,2.973,0,1,1,95.7,6H90.658A2.973,2.973,0,1,1,90.658.054Zm14.6,0h5.047a2.973,2.973,0,1,1,0,5.946h-5.047A2.973,2.973,0,1,1,105.262.054Zm14.6,0h5.047a2.973,2.973,0,1,1,0,5.946h-5.047A2.973,2.973,0,1,1,119.866.054Z"/><g><path fill="#13a165" d="M-26.993,0H-7.235A3,3,0,0,1-4.228,3,3,3,0,0,1-7.235,6H-26.993A3,3,0,0,1-30,3,3,3,0,0,1-26.993,0Z"/><animateTransform attributeName="transform" type="translate" values="16 0;30 0;44.5 0;59 0;74 0;88.5 0;103 0;117.5 0;132 0;147 0;160.5 0" calcMode="discrete" dur="990ms" repeatCount="indefinite"/></g></svg>
+  <div style="margin-top:50%" >
+    
+    © 2023 By signing up to Pye, you agree to our <a href="">terms of service.</a> | Powered by 3x0.
+</div>
+
+</div>
+
+
+  </div>
 
     <!-- jQuery Frameworks
     ============================================= -->
@@ -352,12 +276,200 @@
 
   .youtube-video-alternative{display:none}@media (max-width:480px){.jumbotron{padding:20px}.jumbotron h1{font-size:40px}}@media (max-width:767px){.jumbotron{padding:40px}.bumf-left{margin-left:0;width:100%;float:left}}@media (max-width:979px){.jumbotron{padding:40px}.bumf-left{margin-left:0;width:100%;float:left}}@media (min-width:1200px){.bumf-left{margin-left:0;margin-right:20px;width:40.4255%;float:left}}.jumbotron h1{font-size:50px;margin-top:12px;padding-bottom:25px;font-weight:bold}.bumf-left{margin-right:30px}#id_main_screenshot{margin-top:10px;box-shadow:12px 12px 29px #555}.carousel{height:250px}.details-stripe{padding:20px}.details-stripe p{font-size:16px!important;line-height:150%}#id_buttons{padding-top:20px;padding-bottom:20px}#id_hosting_details{background-color:#5D707F;color:#EEEEEE;margin-top:50px}#id_hosting_details h1{color:#EEEEEE}#id_hosting_details h2{color:#EEEEEE}#id_hosting_details a{color:#BAE0FF!important}#id_hosting_details a.btn{color:#FFFFFF!important}#id_develop_anywhere_details{background-color:white}#id_education_details{background-color:#5D707F;color:#EEEEEE;margin-top:50px}#id_education_details h1{color:#EEEEEE}#id_education_details h2{color:#EEEEEE}#id_education_details h3{color:#EEEEEE}#id_education_details a{color:#BAE0FF!important}#id_education_details a.btn{color:#FFFFFF!important}#id_support_details{background-color:#6DBEFF}#id_support_details table{border-collapse:separate;border-spacing:10px}#id_support_details a{color:#FFFFFF!important}.jumbotron{-webkit-border-radius:0;-moz-border-radius:0;border-radius:0;padding:30px;margin-top:12px}h3{margin-top:0}#id_company_info_strip{color:#888888;padding-top:15px;padding-bottom:15px;margin-left:0;margin-top:30px;margin-bottom:30px;border-radius:6px}
 </style>
+</body>
+<style>
+    .highlight {
+        background-color: #007bff;
+        color: #fff;
+        padding: 8px 12px;
+        border-radius: 100px;
+    }    
+    .highlight1 {
+        color: #000;
+        padding: 10px 12px;
+        border-radius: 4px;
+    }
+    .highlight0 {
+        background-color: #000000e6;
+        color: #fff;
+        padding: 8px 12px;
+        border-radius: 4px;
+    }
+    .highlight2 {
+        background-color: #1289dd;
+        color: #fff;
+        padding: 8px 12px;
+        border-radius: 4px;
+    }
+        .btn-rounded {
+        border-radius: 10px;
+    }
+
+    .btn-black-white {
+        background-color: #dadee3;
+        color: #fff;
+    }
+     .blue-text {
+        color: blue;
+    }
+</style>
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <form action="/customer/connector" method="POST">
+        {% csrf_token %}
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" style="border-radius: 20px;">
+                <div class="modal-header" style="background-color: #dadee3; color: #fff; border-radius: 10px;">
+                    <h5 class="modal-title text-uppercase" id="exampleModalLabel" style="font-weight: bold; font-family: 'Arial', sans-serif; text-transform: uppercase;">Your plan</h5>
+                    <button type="button" class="btn btn-secondary btn-advanced btn-rounded btn-black-white" data-dismiss="modal" onclick="fadeButton(this)">
+                        <span aria-hidden="true" class="blue-text icon">&times;</span>
+                        <span class="blue-text">Close</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                                <p class="lead"><span class="highlight1">Free Plan</span></p>
+                                <p class="lead"><span class="highlight0">Your current plan.</span></p>
+                            </p>
+                            <ul class="text-start">
+                                <li>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2 text-success" viewBox="0 0 16 16">
+                                        <path d="M0 7.477l4.096 4.096L11.74 1.28 10.32 0l-6 6L1.28 4.32 0 5.736V7.48zm13.06-5.354l1.06 1.06L6 12.628.896 7.525l1.061-1.06L6 10.508l5.043-5.042z"/>
+                                    </svg>
+                                    Available when demand is low
+                                </li>
+                                <li>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2 text-success" viewBox="0 0 16 16">
+                                        <path d="M0 7.477l4.096 4.096L11.74 1.28 10.32 0l-6 6L1.28 4.32 0 5.736V7.48zm13.06-5.354l1.06 1.06L6 12.628.896 7.525l1.061-1.06L6 10.508l5.043-5.042z"/>
+                                    </svg>
+                                    Standard response speed
+                                </li>
+                                <li>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2 text-success" viewBox="0 0 16 16">
+                                        <path d="M0 7.477l4.096 4.096L11.74 1.28 10.32 0l-6 6L1.28 4.32 0 5.736V7.48zm13.06-5.354l1.06 1.06L6 12.628.896 7.525l1.061-1.06L6 10.508l5.043-5.042z"/>
+                                    </svg>
+                                    Regular Transformer updates
+                                </li>
+                                <!-- <li>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2 text-success" viewBox="0 0 16 16">
+                                        <path d="M0 7.477l4.096 4.096L11.74 1.28 10.32 0l-6 6L1.28 4.32 0 5.736V7.48zm13.06-5.354l1.06 1.06L6 12.628.896 7.525l1.061-1.06L6 10.508l5.043-5.042z"/>
+                                    </svg>
+                                     Up <span id="jobCount"></span> running jobs
+                                </li> -->
+                                <li>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2 text-success" viewBox="0 0 16 16">
+                                        <path d="M0 7.477l4.096 4.096L11.74 1.28 10.32 0l-6 6L1.28 4.32 0 5.736V7.48zm13.06-5.354l1.06 1.06L6 12.628.896 7.525l1.061-1.06L6 10.508l5.043-5.042z"/>
+                                    </svg>
+                                    Up to <span id="jobCount" class="jobCount"></span> running jobs
+                                </li>
+
+                            </ul>
+                        </div>
+                        <div class="col-md-6" style="border-left: 1px solid #999;">
+                            <!-- <h4><strong>PYE Plus</strong></h4> -->
+                            <!-- <hr style="border: none; border-top: 2px dashed #999; margin: 10px 0;"> -->
+                            <!-- <p class="lead">
+                                <span class="highlight2">PRO Plan</span>
+                            </p> -->
+                            <p class="text-primary">
+                                <span><strong>PYE Plus</strong></span> USD $20/mo
+                            </p>
+                            <p>
+                                <a class="highlight" href="customer/gopro">Upgrade</a>
+                            </p>
+                            <ul class="text-start">
+                                <li>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2 text-success" viewBox="0 0 16 16">
+                                        <path d="M0 7.477l4.096 4.096L11.74 1.28 10.32 0l-6 6L1.28 4.32 0 5.736V7.48zm13.06-5.354l1.06 1.06L6 12.628.896 7.525l1.061-1.06L6 10.508l5.043-5.042z"/>
+                                    </svg>
+                                    Available even when demand is high 
+                                </li>
+                                <li>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2 text-success" viewBox="0 0 16 16">
+                                        <path d="M0 7.477l4.096 4.096L11.74 1.28 10.32 0l-6 6L1.28 4.32 0 5.736V7.48zm13.06-5.354l1.06 1.06L6 12.628.896 7.525l1.061-1.06L6 10.508l5.043-5.042z"/>
+                                    </svg>
+                                    Faster response speed
+                                </li>
+                                <li>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2 text-success" viewBox="0 0 16 16">
+                                        <path d="M0 7.477l4.096 4.096L11.74 1.28 10.32 0l-6 6L1.28 4.32 0 5.736V7.48zm13.06-5.354l1.06 1.06L6 12.628.896 7.525l1.061-1.06L6 10.508l5.043-5.042z"/>
+                                    </svg>
+                                    Priority access to new features
+                                </li>
+                                <li>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2 text-success" viewBox="0 0 16 16">
+                                        <path d="M0 7.477l4.096 4.096L11.74 1.28 10.32 0l-6 6L1.28 4.32 0 5.736V7.48zm13.06-5.354l1.06 1.06L6 12.628.896 7.525l1.061-1.06L6 10.508l5.043-5.042z"/>
+                                    </svg>
+                                    "Unlimited running jobs
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <hr style="border-top: 1px solid #999;">
+                    <a href="billing-issue-page" style="text-decoration: underline;">I need help with a billing issue</a>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<style>
+@keyframes jobCountAnimation {
+    0% {
+        background: radial-gradient(circle at center, black, black 50%, transparent 50%, transparent);
+        color: white;
+    }
+    100% {
+        background: radial-gradient(circle at center, black, black 50%, transparent 50%, transparent);
+        color: white;
+    }
+}
+
+.jobCount {
+    animation: jobCountAnimation 5s steps(5) infinite;
+    display: inline-block;
+    padding: 2px 5px;
+    border-radius: 10px;
+    background-color: blue;
+</style>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+
+      document.addEventListener("DOMContentLoaded", function() {
+    const modal = new bootstrap.Modal(document.getElementById('bigModal'));
+    modal.show();
+  });
+
+</script>
+
+
 {% endblock content %}
+
 
 <!-- Specific JS goes HERE --> 
 {% block javascripts %}
 
   <script>
+
+    function increaseBrowserZoom(zoom) {
+  document.documentElement.style.zoom = zoom ;
+}
+
+function getSystemDimensions() {
+const viewportWidth = window.innerWidth || document.documentElement.clientWidth;
+const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+return viewportWidth +' x ' + viewportHeight
+}
+
+console.log('getSystemDimensions: ',getSystemDimensions() )
+
+if ( getSystemDimensions()  < '1100 x 930'){
+  increaseBrowserZoom('70%');
+}
+
+
+
     var win = navigator.platform.indexOf('Win') > -1;
     if (win && document.querySelector('#sidenav-scrollbar')) {
       var options = {

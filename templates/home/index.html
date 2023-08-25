@@ -2,441 +2,445 @@
 {% block title %} Dashboard {% endblock title %}
 
 <!-- Specific CSS goes HERE -->
-{% block stylesheets %}{% endblock stylesheets %}
+{% block stylesheets %}
+
+<style>
+
+ 
+.ias-border-activating {
+    border-left: 4px solid #0fb9dd;
+}
+.sheet__section {
+    margin-bottom: 0;
+    padding: 28px 30px;
+    position: relative;
+}
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+    display: block;
+}
+
+
+.title_label {
+  word-wrap: break-word;
+    display: block;
+    font-family: OpenSansSemibold,arial,sans-serif;
+    font-size: 16px;
+    line-height: 22px;
+    margin: 4px auto;
+    overflow: hidden;
+    overflow-wrap: break-word;
+    text-overflow: ellipsis;
+    white-space: normal;
+    word-break: break-word;
+    color: #095bb1;
+}
+.title_description {
+      display: block;
+    font-size: 14px;
+    margin: 4px auto;
+    overflow: hidden;
+    text-overflow: ellipsis
+}
+
+#product:hover {
+ box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+</style>
+{% endblock stylesheets %}
 
 {% block content %}
 
     <div class="container-fluid py-4">
       
       <div class="row">
-        <div class="col-lg-7 mb-lg-0 mb-4">
-          <div class="card">
-            <div class="card-body p-3">
+        <div class="col-lg-12 mb-lg-0 mb-4">
+          <div class=" ">
+            <div class="  px-3">
               <div class="row">
-                <div class="col-lg-6">
+                
+
+                <div class="col-lg-8">
                   <div class="d-flex flex-column h-100">
-                    <p class="text-lg mb-1 pt-2 text-bold">Built by "Company Name"</p>
-                    <h4 class="font-weight-bolder">Intern Employee Dashboard</h4>
-                    <p class="mb-5">Our HR software is made up of several modules. Register for free. Online HR software. Leave, planning, time, payroll and many other modules.</p>
-                    <a class="text-body text-sm font-weight-bold mb-0 icon-move-right mt-auto" href="javascript:;">
-                      Read More
-                      <i class="fas fa-arrow-right text-sm ms-1" aria-hidden="true"></i>
-                    </a>
-                  </div>
-                </div>
-                <div class="col-lg-5 ms-auto text-center mt-5 mt-lg-0">
-                  <div class="bg-gradient-primary border-radius-lg h-100">
-                    <img src="/static/assets/img/shapes/waves-white.svg" class="position-absolute h-100 w-50 top-0 d-lg-block d-none" alt="waves">
-                    <div class="position-relative d-flex align-items-center justify-content-center h-100">
-                      <img class="w-100 position-relative z-index-2 pt-4" src="/static/assets/img/illustrations/camaro.png">
-                    </div>
-                  </div>
-                </div>
-              </div>
+                    <h2 class="font-weight-bolder">Welcome, {{user}}!</h2>
+                    <p class="text-lg mb-1   text-dark">Start training your AI model today and embrace the future of innovation …</p>
+
+
+                          <div class='search-filter px-4 mt-4' id="product" style="    background: white;
+    padding-top: 10px;
+    padding-bottom: 15px;
+    border: 1.3px solid silver;
+    border-radius: 20px;
+        border-left: 5px solid #1b1b87;" >
+            <span class="paragraph">Our recommendation</span>
+            <h5 class="headline headline--sub">Get Inspired by Weekly Prompts</h5>
+            <div class="">
+            Stay ahead of the game with our cutting-edge Real-time AI Prompts. Delve into the limitless possibilities of generative AI and unleash your creativity like never before. Instantly receive thought-provoking prompts, tailored to your preferences, to spark new ideas and fuel your creative process.
             </div>
+             
+            <div style="display: flex; align-items:center;" class="mt-3" >
+        <a class="btn circle btn-md btn-outline-dark wow fadeInUp py-2 " style="border-radius: 28px; height: 33px;" data-wow-duration="1.8s" data-bs-toggle="modal" data-bs-target="#exampleModal" >
+                                   
+                                              <span class="nav-link-text ms-1 text-capitalize"> Subscribe to prompts »</span>
+                                            </a>
+
+                                               <a  class="btn circle btn-md btn-outline-dark wow fadeInUp py-2 text-capitalize mx-3 " style="border-radius: 28px; height: 33px; 
+                                               width:170px ;"  href="tutorial">
+           
+        <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M20 18.4151C20.3136 18.2627 20.5862 18.0706 20.8284 17.8284C22 16.6569 22 14.7712 22 11C22 7.22876 22 5.34315 20.8284 4.17157C19.6569 3 17.7712 3 14 3H10C6.22876 3 4.34315 3 3.17157 4.17157C2 5.34315 2 7.22876 2 11C2 14.7712 2 16.6569 3.17157 17.8284C3.41375 18.0706 3.68645 18.2627 4 18.4151" stroke="#1C274C" stroke-width="1.5" stroke-linecap="round"></path> <path d="M9.94955 16.0503C10.8806 15.1192 11.3461 14.6537 11.9209 14.6234C11.9735 14.6206 12.0261 14.6206 12.0787 14.6234C12.6535 14.6537 13.119 15.1192 14.0501 16.0503C16.0759 18.0761 17.0888 19.089 16.8053 19.963C16.7809 20.0381 16.7506 20.1112 16.7147 20.1815C16.2973 21 14.8648 21 11.9998 21C9.13482 21 7.70233 21 7.28489 20.1815C7.249 20.1112 7.21873 20.0381 7.19436 19.963C6.91078 19.089 7.92371 18.0761 9.94955 16.0503Z" stroke="#1C274C" stroke-width="1.5"></path> </g></svg>
+            <span class="nav-link-text ms-1 text-capitalize ">Watch Tutorial</span>
+          </a>
+
+
+
           </div>
-        </div>
-        <div class="col-lg-5">
-          <div class="card h-100">
+          </div>
+
+                  
+
+ 
+
+
+
+<div class="container mt-4" style="padding-left:0px !important;
+padding-right:0px !important; margin-top: 10px;">
+  <div class="row">
+       
+
+
+
+
+
+
+
+       <!-- start 1 -->
+    <div class="col-lg-3 col-md-4 col-sm-4 col-6 mb-4 mx-3  py-4 " id='product' style="background:white; 
+    padding-top: 10px; 
+
+    border: 1px solid silver;border-radius: 14px; "   >
+     
+
+      <a class="box text-secondary "  href="/customer/ai_models" style="      
+      display: flex;
+    flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding-top:5px ;
+
+        "
+
+     >
+
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 500 500" xml:space="preserve" width="74px" height="74px" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <style type="text/css"> .st0{fill:#FFFFFF;stroke:#FFFFFF;stroke-width:10;stroke-miterlimit:10;} .st1{fill:#206494;} .st2{fill:#76D3E8;} </style> <g id="border"> <path class="st0" d="M439.3,188.3c-19.7-32.9-39.1-46.2-51.3-51.5c0,0,0,0,0,0c0,0,0,0,0,0c-0.7-0.3-1.4-0.6-2-0.8 c-0.1,0-0.1,0-0.2-0.1c-0.6-0.2-1.2-0.5-1.8-0.6c-0.1,0-0.1,0-0.2-0.1c-0.6-0.2-1.2-0.4-1.7-0.5c0,0,0,0-0.1,0 c-0.5-0.2-1-0.3-1.5-0.4c-0.1,0-0.1,0-0.2,0c-0.4-0.1-0.9-0.2-1.3-0.3c0,0-0.1,0-0.1,0c-0.4-0.1-0.8-0.2-1.1-0.2c0,0,0,0,0,0 c-0.3-0.1-0.6-0.1-0.9-0.2c0,0,0,0-0.1,0c-0.3,0-0.5-0.1-0.7-0.1c0,0,0,0,0,0c0,0,0,0,0,0c-0.6-0.1-0.9-0.1-0.9-0.1 c-15.4-38.1-83.6-54.1-83.6-54.1l-42.9-1.4c-10.1,0.6-45.9,8.8-84.8,25.7v0c0,0,0,0,0,0c-1.6,0.7-3.3,1.4-4.9,2.2c0,0,0,0,0,0v0 c-32.9,14.8-67.4,35.7-90.1,63.4v0c0,0,0,0,0,0c-1.4,1.6-2.7,3.3-3.9,5c0,0,0,0,0,0l0,0c-17,22.7-25.9,49.7-20.2,81.3 c1.2,6.5,2.5,12.5,3.8,18.1l0,0c0,0,0,0,0,0c24,99.3,75.5,77.5,78,76.4c0,0,0,0,0,0c0.1,0,0.1,0,0.1,0s54.6,44,98.9,31.9 c20.1-5.5,29.5-10.1,33.9-13.6h0c0,0,0,0,0,0c2.7-2.1,3.5-3.7,3.6-4.9c0,0,0,0,0,0c0-0.2,0-0.3,0-0.4v0l0,0 c-0.1-0.8-0.4-1.2-0.4-1.2c20.1,9.4,31.2,13.2,44.8,26.5c13.7,13.3,34.3,33.9,34.3,33.9l18.6-5.1l-14.8-31.1c0,0,23.6,13,57.6-22.6 c25.3-26.4,24.9-50.9,23-61.7h0c0,0,0,0,0,0c0-0.3-0.1-0.5-0.1-0.8c0-0.1,0-0.1,0-0.2c-0.2-0.8-0.3-1.5-0.5-2.1 c0-0.1,0-0.2-0.1-0.2c0-0.2-0.1-0.3-0.1-0.5c0-0.1,0-0.1-0.1-0.2c-0.1-0.2-0.1-0.5-0.2-0.7c0-0.1,0-0.1-0.1-0.2 c0-0.1-0.1-0.2-0.1-0.3c0,0,0,0,0,0h0c-0.1-0.4-0.2-0.7-0.2-0.7C455,273.1,471.6,242.4,439.3,188.3z"></path> </g> <g id="object" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:svg="http://www.w3.org/2000/svg"> <g> <path class="st1" d="M126.8,349.9c0,0-59.6,28.4-82-94.5s177.7-175.9,204-177.5l42.9,1.4c0,0,68.2,16,83.6,54.1 c0,0,31.5,0.9,63.9,55s15.7,84.8-14.4,107.5c0,0,12.5,32-21.6,67.5s-57.6,22.6-57.6,22.6l14.8,31.1l-18.6,5.1 c0,0-20.6-20.6-34.3-33.9c-13.7-13.3-24.7-17.1-44.8-26.5c0,0,7.2,8-37.1,20.1C181.4,393.9,126.8,349.9,126.8,349.9z"></path> <path class="st2" d="M380.9,137.7c6.4,5.6,10.2,9,6.2,19.4c-2.2,5.6-15.6,8.7-26.6,9.7c-1.2-2.4-3.6-4-6.4-4 c-3.9,0-7.1,3.2-7.1,7.1c0,3.9,3.2,7.1,7.1,7.1c3.1,0,5.8-2,6.7-4.8c10-0.9,27.7-3.9,31.3-13.2c4.4-11.4,0.9-17.3-4.1-22.2 c-5.9-2.6-10-3.3-11.8-3.5C377.8,134.9,379.4,136.3,380.9,137.7z"></path> <path class="st2" d="M426.4,301.7c-0.4-2.5-0.9-4.3-1.2-5.2c-5,0.4-19.5,0.6-30.2-1.9c-10.7-2.5-19.2-9.6-23.6-13.9 c0.2-0.7,0.4-1.5,0.4-2.3c0-3.9-3.2-7.1-7.1-7.1c-3.9,0-7.1,3.2-7.1,7.1c0,3.9,3.2,7.1,7.1,7.1c1.2,0,2.3-0.3,3.2-0.8 c4.9,4.7,14.1,12.2,25.9,15c7.4,1.8,16.6,2.3,23.7,2.3C421.2,302,424.5,301.8,426.4,301.7z"></path> <path class="st2" d="M271.9,277.1c-3.2,0-5.9,2.2-6.8,5.1c-8.5,2.1-19.6,2.7-32.2-8c-6.5-5.5-12-18.2-14.1-23.5 c2.2-1.2,3.8-3.5,3.8-6.2c0-3.9-3.2-7.1-7.1-7.1s-7.1,3.2-7.1,7.1c0,3.1,2.1,5.8,4.9,6.7c1.7,4.5,7.9,20.1,16.2,27.1 c8.8,7.4,17,10,24.3,10.4c0,0.1-0.1,0.1-0.1,0.2c-3.5,7.3-6.9,14.1-22.6,14.6c-11.5,0.3-23.3-7.7-23.4-7.8l-3.1,4.4c0,0,0,0,0,0 c-5,5.3-12.2,4.3-26.3-2.8c-5.5-2.8-9.4-7.6-11.7-11.5c1.1-1.2,1.8-2.9,1.8-4.6c0-3.9-3.2-7.1-7.1-7.1c-3.9,0-7.1,3.2-7.1,7.1 c0,3.9,3.2,7.1,7.1,7.1c0.2,0,0.3,0,0.5-0.1c2.7,4.5,7.2,10.4,14.1,13.8c2.1,1.1,4.3,2.1,6.5,3.1c-0.8,8.4-8.1,21.5-23.2,33.5 c-9.1,7.3-32.4,11.1-32.6,11.1l0,0.1c0.3-0.1,0.4-0.2,0.4-0.2s2.1,1.7,5.8,4.3c7.9-1.7,22.4-5.4,29.7-11.2 c13.9-11,23.3-24.7,25-35.8c3.1,1,6.2,1.7,9.1,1.7c4.7,0,9-1.6,12.6-6c4.9,2.6,12.8,6,21,6c0.3,0,0.6,0,0.8,0 c19-0.5,23.6-10,27.3-17.6c0.5-0.9,0.9-1.8,1.3-2.7c2.1-0.2,4.1-0.6,5.9-1c1.2,2.2,3.5,3.7,6.2,3.7c3.9,0,7.1-3.2,7.1-7.1 C279,280.3,275.8,277.1,271.9,277.1z"></path> <path class="st2" d="M241.9,355.8c-2.6-1.7-5.4-5.6-7.5-9.1c1-1.2,1.7-2.8,1.7-4.5c0-3.9-3.2-7.1-7.1-7.1c-3.9,0-7.1,3.2-7.1,7.1 c0,3.9,3.2,7.1,7.1,7.1c0.2,0,0.4,0,0.7-0.1c2.3,3.9,5.6,8.7,9.3,11.1c6.8,4.5,14.3,7.3,20.7,7.9c3.1-2.4,3.6-4.2,3.6-5.3 C258.1,363.2,250,361.2,241.9,355.8z"></path> <path class="st2" d="M251.3,134.6c-3.9,0-7.1,3.2-7.1,7.1c0,1.2,0.3,2.4,0.9,3.4c-3.1,2-8,3.5-13.8,3.4 c-4.6-0.1-20.1-1.7-24.6-19.4c4.6-3.2,7.7-7.5,8.4-11.6c0.1,0,0.2,0,0.3,0c3.9,0,7.1-3.2,7.1-7.1c0-3.9-3.2-7.1-7.1-7.1 c-3.9,0-7.1,3.2-7.1,7.1c0,1.9,0.8,3.7,2,4.9l-0.5,0.1c0.4,3.4-4,9-11.2,11.9c-3.7,1.5-16.4,5.3-25.9-7.5 c-4.5-6-7.6-13.7-8.6-16.4c-1.6,0.7-3.3,1.4-5,2.2c1.2,3.2,4.4,11,9.2,17.5c5.6,7.5,13.2,11.5,21.4,11.5c3.5,0,7.2-0.7,10.8-2.2 c0.4-0.2,0.8-0.4,1.2-0.5c4,13.6,14.9,21.8,29.4,22c0.2,0,0.4,0,0.6,0c7.2,0,13.6-2.1,17.7-5.4c0.6,0.1,1.2,0.2,1.8,0.2 c3.9,0,7.1-3.2,7.1-7.1C258.4,137.8,255.2,134.6,251.3,134.6z"></path> <path class="st2" d="M102.8,192c-2.9,0-5.4,1.7-6.5,4.2c-4.6,0.7-10.4-0.1-17.3-7.3c-5.2-5.4-9.9-19.1-10.1-19.8 c-1.4,1.6-2.7,3.3-3.9,5c1.9,4.9,5.7,13.9,10.1,18.5c7,7.3,13.3,9.2,18.5,9.2c0.9,0,1.7-0.1,2.5-0.2c1,2.7,3.6,4.6,6.6,4.6 c3.9,0,7.1-3.2,7.1-7.1C109.9,195.2,106.7,192,102.8,192z"></path> <path class="st2" d="M111.3,259c-3.9,0-7.1,3.2-7.1,7.1c0,0.4,0.1,0.8,0.1,1.2c-5.4,1.7-12.4,2.8-18.4-2.7 c-3.6-3.3-5.1-9.1-5.8-12.7c1.6-1.3,2.6-3.3,2.6-5.5c0-3.9-3.2-7.1-7.1-7.1c-3.9,0-7.1,3.2-7.1,7.1c0,3.7,2.8,6.7,6.4,7 c0.8,4,2.6,10.1,6.4,14.2c-2.7,5.3-7.2,13.1-16.9,13.1c-0.1,0-0.2,0-0.2,0c-7.2-0.1-15-7.5-15.1-7.6l-0.3,0.4 c0.6,2.7,1.3,5.3,2,7.7c3.5,2.4,8.4,4.8,13.4,4.9c0.1,0,0.2,0,0.3,0c12.2,0,18.1-9.2,21.2-15.1c3.6,2.2,7.3,3,10.8,3 c4.1,0,7.9-1.1,10.9-2.1c1.1,0.8,2.5,1.2,4,1.2c3.9,0,7.1-3.2,7.1-7.1C118.4,262.2,115.2,259,111.3,259z"></path> </g> </g> </g></svg>
+
+
+<div style="    
+    padding-left: 5px;
+    width: 100%;
+    text-align: center;
+    margin-top: -10px;
+    ">
+
+<span class='title_label font-weight-bold mt-3'   >AI Model </span> 
+<span class='title_description'   >Interact and extract insights from your private data </span>
+ 
+
+ </div>
+
+</a>
+    </div>
+
+<!-- end 1 -->
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+       <!-- start 1 -->
+    <div class="col-lg-3 col-md-4 col-sm-4 col-6 mb-4 mx-3  py-4 " id='product' style="background:white; 
+    padding-top: 10px; 
+
+    border: 1px solid silver;border-radius: 14px; "   >
+     
+
+    <a class="box text-secondary " href="/customer/connector" style="      
+      display: flex;
+    flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding-top:5px ;
+
+        "
+
+     >
+
+<svg height="64px" width="64px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 392.533 392.533" xml:space="preserve" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path style="fill:#FFC10D;" d="M44.25,325.883c-12.347,0-22.432,10.02-22.432,22.432c0,12.412,10.02,22.432,22.432,22.432 s22.432-10.02,22.432-22.432C66.683,335.968,56.598,325.883,44.25,325.883z"></path> <path style="fill:#56ACE0;" d="M196.299,325.883c-12.347,0-22.432,10.02-22.432,22.432c0,12.412,10.02,22.432,22.432,22.432 c12.412,0,22.432-10.02,22.432-22.432C218.731,335.968,208.646,325.883,196.299,325.883z"></path> <g> <path style="fill:#FFC10D;" d="M348.347,325.883c-12.347,0-22.432,10.02-22.432,22.432c0,12.412,10.02,22.432,22.432,22.432 s22.432-10.02,22.432-22.432C370.78,335.968,360.76,325.883,348.347,325.883z"></path> <path style="fill:#FFC10D;" d="M196.299,106.537c23.337,0,42.408-19.006,42.408-42.408c0-23.337-19.006-42.343-42.408-42.343 c-23.337,0-42.343,19.006-42.343,42.343C153.955,87.531,172.962,106.537,196.299,106.537z"></path> </g> <path style="fill:#194F82;" d="M359.273,305.519v-96.259c0-6.012-4.848-10.925-10.925-10.925H207.224v-70.982 c30.19-5.172,53.333-31.547,53.333-63.224C260.557,28.832,231.725,0,196.364,0S132.17,28.832,132.17,64.194 c0,31.677,23.079,58.053,53.333,63.224V198.4H44.25c-6.012,0-10.925,4.848-10.925,10.925v96.194 c-19.071,4.848-33.293,22.174-33.293,42.796c0,24.372,19.846,44.218,44.218,44.218c24.436,0,44.218-19.846,44.218-44.218 c0-20.622-14.222-37.947-33.293-42.796v-85.333h130.133v85.333c-19.071,4.848-33.293,22.174-33.293,42.796 c0,24.436,19.846,44.218,44.218,44.218c24.436,0,44.218-19.846,44.218-44.218c0-20.622-14.222-37.947-33.293-42.796v-85.333h130.198 v85.333c-19.071,4.848-33.293,22.174-33.293,42.796c0,24.436,19.846,44.218,44.218,44.218c24.436,0,44.218-19.846,44.218-44.218 C392.566,327.693,378.343,310.368,359.273,305.519z M44.25,370.747c-12.347,0-22.432-10.02-22.432-22.432 c0-12.412,10.02-22.432,22.432-22.432s22.432,10.02,22.432,22.432C66.683,360.727,56.598,370.747,44.25,370.747z M196.299,370.747 c-12.347,0-22.432-10.02-22.432-22.432c0-12.412,10.02-22.432,22.432-22.432c12.412,0,22.432,10.02,22.432,22.432 C218.731,360.727,208.646,370.747,196.299,370.747z M196.299,21.786c23.337,0,42.408,19.006,42.408,42.343 s-19.006,42.408-42.408,42.408c-23.337,0-42.343-19.006-42.343-42.408C153.955,40.792,172.962,21.786,196.299,21.786z M348.347,370.747c-12.347,0-22.432-10.02-22.432-22.432c0-12.412,10.02-22.432,22.432-22.432s22.432,10.02,22.432,22.432 C370.78,360.727,360.76,370.747,348.347,370.747z"></path> </g></svg>
+
+
+<div style="    
+    padding-left: 5px;
+    width: 100%;
+    text-align: center;
+    ">
+
+<span class='title_label font-weight-bold mt-2'   >Connectors </span> 
+<span class='title_description'   > Power up your data integration from multiple sources </span>
+ 
+
+ </a>
+
+</div>
+    </div>
+
+<!-- end 1 -->
+
+
+
+
+
+
+
+       <!-- start 1 -->
+    <div class="col-lg-3 col-md-4 col-sm-4 col-6 mb-4 mx-3  py-4 " id='product' style="background:white; 
+    padding-top: 10px; 
+
+    border: 1px solid silver;border-radius: 14px; "   >
+     
+
+      <a class="box text-secondary " href="/customer/tasks"  style="      
+      display: flex;
+    flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding-top:5px ;
+
+        "
+
+     >
+
+<svg width="64px" height="64px" viewBox="0 0 73 73" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>progressive-webapps/rendering-performance/the-pixel-pipeline</title> <desc>Created with Sketch.</desc> <defs> <rect id="path-1" x="0" y="0" width="69" height="69" rx="14"> </rect> </defs> <g id="progressive-webapps/rendering-performance/the-pixel-pipeline" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g id="container" transform="translate(2.000000, 2.000000)"> <rect id="mask" stroke="#41769E" stroke-width="2" fill="#FFFFFF" fill-rule="nonzero" x="-1" y="-1" width="71" height="71" rx="14"> </rect> <g id="pipe"> <mask id="mask-2" fill="white"> <use xlink:href="#path-1"> </use> </mask> <rect stroke="#41769E" stroke-width="2" x="-1" y="-1" width="71" height="71" rx="14"> </rect> <g mask="url(#mask-2)" fill-rule="nonzero" id="Shape"> <g transform="translate(3.000000, -2.000000)"> <path d="M2.51739501,20.1380463 L22.6548842,20.1380463 C24.045578,20.1380463 25.1722792,19.010788 25.1722792,17.6206512 C25.1722792,16.2305145 24.045578,15.1038131 22.6548842,15.1038131 L2.51739501,15.1038131 C1.13115695,15.1138381 0.0100250244,16.2349701 0,17.6206512 C0.00389862772,19.0091171 1.12892917,20.1335907 2.51739501,20.1380463 Z" fill="#41769E"> </path> <path d="M37.7586974,55.3793485 C37.762596,56.7678144 38.8876265,57.8922879 40.2755355,57.8961866 L60.4135816,57.8961866 C61.7998196,57.8861616 62.9209516,56.7650296 62.9309766,55.3793485 C62.9270779,53.9908826 61.8020476,52.866409 60.4135816,52.8619535 L40.2755355,52.8619535 C38.8870696,52.866409 37.762596,53.9908826 37.7586974,55.3793485 Z" fill="#41769E"> </path> <path d="M31.4652098,49.086418 C32.8542327,49.0819624 33.9787062,47.9574888 33.9826048,46.569023 L33.9826048,26.4309767 C33.9725799,25.0452956 32.8514479,23.9241637 31.4652098,23.9135817 C30.076744,23.9180373 28.9522704,25.0425109 28.9483717,26.4309767 L28.9483717,46.569023 C28.9522704,47.9574888 30.076744,49.0819624 31.4652098,49.086418 Z" fill="#41769E"> </path> <polygon fill="#5AAAE7" points="2.51739501 0 12.5858612 0 12.5858612 15.1032562 2.51739501 15.1032562"> </polygon> <polygon fill="#78B9EB" points="12.5858612 0 22.6548842 0 22.6548842 15.1032562 12.5858612 15.1032562"> </polygon> <polygon fill="#5AAAE7" points="40.2755355 57.8967435 50.3445584 57.8967435 50.3445584 72.9999997 40.2755355 72.9999997"> </polygon> <polygon fill="#78B9EB" points="50.3445584 57.8967435 60.4135816 57.8967435 60.4135816 72.9999997 50.3445584 72.9999997"> </polygon> <path d="M40.2755355,37.7586974 L33.9826048,37.7586974 L33.9826048,46.569023 L37.7586974,46.569023 C39.1488341,46.569023 40.2755355,47.6957244 40.2755355,49.086418 L40.2755355,52.8619535 L50.3445584,52.8619535 L50.3445584,47.8277205 C50.3445584,42.2666166 45.8366392,37.7586974 40.2755355,37.7586974 Z" fill="#5AAAE7"> </path> <path d="M60.4135816,41.534233 C60.4135816,33.1928558 53.6517027,26.4309767 45.3103255,26.4309767 L33.9826048,26.4309767 L33.9826048,37.7586974 L40.2755355,37.7586974 C45.8366392,37.7586974 50.3445584,42.2666166 50.3445584,47.8277205 L50.3445584,52.8619535 L60.4135816,52.8619535 L60.4135816,41.534233 Z" fill="#78B9EB"> </path> <path d="M25.1722792,26.4309767 C23.7821425,26.4309767 22.6548842,25.3042753 22.6548842,23.9135817 L22.6548842,20.1380463 L12.5864181,20.1380463 L12.5864181,27.6896742 C12.5864181,33.2507781 17.0943374,37.7586974 22.6548842,37.7586974 L28.9483717,37.7586974 L28.9483717,26.4309767 L25.1722792,26.4309767 Z" fill="#78B9EB"> </path> <path d="M12.5858612,27.6896742 L12.5858612,20.1380463 L2.51739501,20.1380463 L2.51739501,31.4657667 C2.51739501,39.8071439 9.27927391,46.569023 17.6206512,46.569023 L28.9483717,46.569023 L28.9483717,37.7586974 L22.6548842,37.7586974 C17.0943374,37.7586974 12.5858612,33.2507781 12.5858612,27.6896742 Z" fill="#5AAAE7"> </path> </g> </g> </g> </g> </g> </g></svg>
+
+
+<div style="    
+    padding-left: 5px;
+    width: 100%;
+    text-align: center;
+    ">
+
+<span class='title_label font-weight-bold mt-2'   >Pipelines </span> 
+<span class='title_description'   >Feed your AI model with near real-time data </span>
+ 
+
+ </a>
+
+</div>
+    </div>
+
+<!-- end 1 -->
+
+
+
+
+
+
+
+       <!-- start 1 -->
+    <div class="col-lg-3 col-md-4 col-sm-4 col-6 mb-4 mx-3  py-4 " id='product' style="background:white; 
+    padding-top: 10px; 
+
+    border: 1px solid silver;border-radius: 14px; "   >
+     
+
+        <a class="box text-secondary " href="/customer/transformer" style="      
+      display: flex;
+    flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding-top:5px ;
+
+        "
+
+     >
+<svg height="64px" width="64px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path style="fill:#25B6D2;" d="M0,260.908l174.648-81.136v38.568l-132.08,57.848v0.728l132.08,57.848v38.568L0,292.212V260.908z"></path> <path style="fill:#415E72;" d="M201.6,387.9l77.864-263.8h36.752L238.4,387.9H201.6z"></path> <path style="fill:#E04F5F;" d="M512,293.284L337.352,373.34v-38.568l134.992-57.848v-0.728L337.352,218.34v-38.568L512,259.828 V293.284z"></path> </g></svg>
+
+
+<div style="    
+    padding-left: 5px;
+    width: 100%;
+    text-align: center;
+    ">
+
+<span class='title_label font-weight-bold mt-2'   >Transformers </span> 
+<span class='title_description'   > Manipulate and shape your data in real-time </span>
+ 
+
+ </a>
+
+</div>
+    </div>
+
+<!-- end 1 -->
+
+
+
+
+
+
+
+
+       <!-- start 1 -->
+    <div class="col-lg-3 col-md-4 col-sm-4 col-6 mb-4 mx-3  py-4 " id='product' style="background:white; 
+    padding-top: 10px; 
+
+    border: 1px solid silver;border-radius: 14px; "   >
+     
+
+      <a class="box text-secondary "  href="/customer/profile" style="      
+      display: flex;
+    flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding-top:5px ;
+
+        "
+
+     >
+<svg width="64px" height="64px" viewBox="0 0 32 32" enable-background="new 0 0 32 32" version="1.1" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g id="Home"></g> <g id="Print"></g> <g id="Mail"></g> <g id="Camera"></g> <g id="Video"></g> <g id="Film"></g> <g id="Message"></g> <g id="Telephone"></g> <g id="User"> <path d="M21.6,17c2.1-1.6,3.4-4.2,3.4-7c0-5-4-9-9-9s-9,4-9,9c0,2.8,1.3,5.4,3.4,7C5.2,17.3,1,21.7,1,27v3 c0,0.5,0.5,1,1,1h14h14c0.5,0,1-0.5,1-1v-3C31,21.7,26.8,17.3,21.6,17z" fill="#FFC10A"></path> <path d="M21.6,17c-1.5,1.2-3.5,2-5.6,2s-4.1-0.7-5.6-2C5.2,17.3,1,21.7,1,27v3c0,0.5,0.5,1,1,1h14h14 c0.5,0,1-0.5,1-1v-3C31,21.7,26.8,17.3,21.6,17z" fill="#2197F3"></path> </g> <g id="File"></g> <g id="Folder"></g> <g id="Map"></g> <g id="Download"></g> <g id="Upload"></g> <g id="Video_Recorder"></g> <g id="Schedule"></g> <g id="Cart"></g> <g id="Setting"></g> <g id="Search"></g> <g id="Pencils"></g> <g id="Group"></g> <g id="Record"></g> <g id="Headphone"></g> <g id="Music_Player"></g> <g id="Sound_On"></g> <g id="Sound_Off"></g> <g id="Lock"></g> <g id="Lock_open"></g> <g id="Love"></g> <g id="Favorite"></g> <g id="Film_1_"></g> <g id="Music"></g> <g id="Puzzle"></g> <g id="Turn_Off"></g> <g id="Book"></g> <g id="Save"></g> <g id="Reload"></g> <g id="Trash"></g> <g id="Tag"></g> <g id="Link"></g> <g id="Like"></g> <g id="Bad"></g> <g id="Gallery"></g> <g id="Add"></g> <g id="Close"></g> <g id="Forward"></g> <g id="Back"></g> <g id="Buy"></g> <g id="Mac"></g> <g id="Laptop"></g> </g></svg>
+
+
+<div style="    
+    padding-left: 5px;
+    width: 100%;
+    text-align: center;
+    ">
+
+<span class='title_label font-weight-bold mt-2'   >My Account </span> 
+<span class='title_description'   > Manage models, pipelines, connectors and transformers </span>
+ 
+
+ </a>
+
+</div>
+    </div>
+
+<!-- end 1 -->
+
+
+
+
+
+     <!-- start 1 -->
+    <div class="col-lg-3 col-md-4 col-sm-4 col-6 mb-4 mx-3  py-4 " id='product' style="  
+    padding-top: 10px; 
+
+    border: 2px dashed silver;border-radius: 14px; "   >
+     
+
+      <div class="box" style="      
+      display: flex;
+    flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding-top:5px ;
+
+        "
+
+     >
+<svg width="64px" height="64px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <defs> <style>.c{fill:none;stroke:#4eb8ff;stroke-linecap:round;stroke-linejoin:round;}.d{fill:#1237a5;}</style> </defs> <g id="a"></g> <g id="b"> <circle class="d" cx="12" cy="12" r="10.5"></circle> <line class="c" x1="4.5" x2="19.5" y1="12" y2="12"></line> <line class="c" x1="12" x2="12" y1="4.5" y2="19.5"></line> </g> </g></svg>
+
+<a  href="/customer/ai_models" style="    
+    padding-left: 5px;
+    width: 100%;
+    text-align: center;
+    ">
+
+<span class='title_label font-weight-bold mt-3 mx-2'   > Train and customize your bot ... </span>  
+ 
+
+ </a>
+
+</div>
+    </div>
+
+<!-- end 1 -->
+
+
+
+
+    
+  </div>
+</div>
+
+
+
+
+
+                  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                </div>
+
+
+          
+        <div class="col-lg-4">
+             <a href="/customer/ai_models" class="btn circle btn-md text-white  wow fadeInUp my-4" style="border-radius: 14px;background-color: #0053a6;" >
+                                          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16"> <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/> </svg>
+                                              <span class="nav-link-text ms-1 text-uppercase">Train your custom bot »</span>
+                                            </a>
+
+          <div class="card ">
             <div class="overflow-hidden position-relative border-radius-xl bg-cover h-100" style="background-image: url('/static/assets/img/ivancik.jpg');">
               <span class="mask bg-gradient-dark"></span>
               <div class="card-body position-relative z-index-1 d-flex flex-column h-100 p-3">
-                <h5 class="text-white font-weight-bolder mb-4 pt-2">AI-based Human Ressource company</h5>
-                <p class="text-white">As An employee you could inetract directly with our Stuff, demand vocations, ask questions, and access to our available paid courses</p>
+                <h5 class="text-white font-weight-bolder mb-4 pt-2">AI-Powered Bot Solution</h5>
+                <p class="text-white">As a valued client, you can interact directly with our team, request supports, ask questions, and access our extensive library of tutorials. Empower your workforce with our innovative AI-based  services.</p>
                 <a class="text-white text-sm font-weight-bold mb-0 icon-move-right mt-auto" href="javascript:;">
                   Read More
                   <i class="fas fa-arrow-right text-sm ms-1" aria-hidden="true"></i>
                 </a>
               </div>
+            <div class="card-body  position-relative z-index-1  py-3 px-3" style="background-color: white; opacity: 1;" >
+              <span   > Help us to improve our service and recommendations with your preferences. </span> </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="row mt-4">
-        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-          <div class="card">
-            <div class="card-body p-3">
-              <div class="row">
-                <div class="col-7">
-                  <div class="numbers">
-                    <p class="text-sm mb-0 text-capitalize font-weight-bold"><a href="apply-policy">Available Leaves</a></p>
-                    <h5 class="font-weight-bolder">{{available_policy}}</h5>
-                    <span class="text-success text-sm font-weight-bolder"></span>
-                    <span class="text-sm"></span>
-                  </div>
-                </div>
-                <div class="col-5 text-end my-auto">
-                  <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
-                    <i class="ni ni-money-coins text-lg opacity-10" aria-hidden="true"></i>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-          <div class="card">
-            <div class="card-body p-3">
-              <div class="row">
-                <div class="col-7">
-                  <div class="numbers">
-                    <p class="text-sm mb-0 text-capitalize font-weight-bold"><a href="contracts">My leave requests</a></p>
-                    <h5 class="font-weight-bolder">{{applied_policy}}</h5>
-                    <span class="text-success text-sm font-weight-bolder"></span>
-                  </div>
-                </div>
-                <div class="col-5 text-end my-auto">
-                  <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
-                    <i class="ni ni-world text-lg opacity-10" aria-hidden="true"></i>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-          <div class="card">
-            <div class="card-body p-3">
-              <div class="row">
-                <div class="col-7">
-                  <div class="numbers">
-                    <p class="text-sm mb-0 text-capitalize font-weight-bold"><a href="profile">My profile</a></p>
-                    <h5 class="font-weight-bolder"></h5>
-                    <span class="text-success text-sm font-weight-bolder"></span>
-                    <span class="text-sm"></span>
-                  </div>
-                </div>
-                <div class="col-5 text-end my-auto">
-                  <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
-                    <i class="ni ni-paper-diploma text-lg opacity-10" aria-hidden="true"></i>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-xl-3 col-sm-6">
-          <div class="card">
-            <div class="card-body p-3">
-              <div class="row">
-                <div class="col-7">
-                  <div class="numbers">
-                    <p class="text-sm mb-0 text-capitalize font-weight-bold"><a href="question-history">My Questions</a></p>
-                    <h5 class="font-weight-bolder">{{total_question}}</h5>
-                    <span class="text-success text-sm font-weight-bolder"></span>
-                  </div>
-                </div>
-                <div class="col-5 text-end my-auto">
-                  <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
-                    <i class="ni ni-cart text-lg opacity-10" aria-hidden="true"></i>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="row mt-4">
-        <div class="col-lg-5 mb-lg-0 mb-4">
-          <div class="card">
-            <div class="card-body p-3">
-              <div class="bg-gradient-dark border-radius-lg py-3 pe-1 mb-3">
-                <div class="chart">
-                  <canvas id="chart-bars" class="chart-canvas" height="170px"></canvas>
-                </div>
-              </div>
-              <h6 class="ms-2 mt-4 mb-0"> Active Users </h6>
-              <p class="text-sm ms-2"> (<span class="font-weight-bolder">+23%</span>) than last week </p>
-              <div class="container border-radius-lg">
-                <div class="row">
-                  <div class="col-3 py-3 ps-0">
-                    <div class="d-flex mb-2">
-                      <div class="icon icon-shape icon-xxs shadow border-radius-sm bg-gradient-primary text-center me-2 d-flex align-items-center justify-content-center">
-                        <svg width="10px" height="10px" viewBox="0 0 40 44" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                          <title>document</title>
-                          <g id="Basic-Elements" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                            <g id="Rounded-Icons" transform="translate(-1870.000000, -591.000000)" fill="#FFFFFF" fill-rule="nonzero">
-                              <g id="Icons-with-opacity" transform="translate(1716.000000, 291.000000)">
-                                <g id="document" transform="translate(154.000000, 300.000000)">
-                                  <path class="color-background" d="M40,40 L36.3636364,40 L36.3636364,3.63636364 L5.45454545,3.63636364 L5.45454545,0 L38.1818182,0 C39.1854545,0 40,0.814545455 40,1.81818182 L40,40 Z" id="Path" opacity="0.603585379"></path>
-                                  <path class="color-background" d="M30.9090909,7.27272727 L1.81818182,7.27272727 C0.814545455,7.27272727 0,8.08727273 0,9.09090909 L0,41.8181818 C0,42.8218182 0.814545455,43.6363636 1.81818182,43.6363636 L30.9090909,43.6363636 C31.9127273,43.6363636 32.7272727,42.8218182 32.7272727,41.8181818 L32.7272727,9.09090909 C32.7272727,8.08727273 31.9127273,7.27272727 30.9090909,7.27272727 Z M18.1818182,34.5454545 L7.27272727,34.5454545 L7.27272727,30.9090909 L18.1818182,30.9090909 L18.1818182,34.5454545 Z M25.4545455,27.2727273 L7.27272727,27.2727273 L7.27272727,23.6363636 L25.4545455,23.6363636 L25.4545455,27.2727273 Z M25.4545455,20 L7.27272727,20 L7.27272727,16.3636364 L25.4545455,16.3636364 L25.4545455,20 Z" id="Shape"></path>
-                                </g>
-                              </g>
-                            </g>
-                          </g>
-                        </svg>
-                      </div>
-                      <p class="text-xs mt-1 mb-0 font-weight-bold">Users</p>
-                    </div>
-                    <h4 class="font-weight-bolder">36K</h4>
-                    <div class="progress w-75">
-                      <div class="progress-bar bg-dark w-60" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                  </div>
-                  <div class="col-3 py-3 ps-0">
-                    <div class="d-flex mb-2">
-                      <div class="icon icon-shape icon-xxs shadow border-radius-sm bg-gradient-info text-center me-2 d-flex align-items-center justify-content-center">
-                        <svg width="10px" height="10px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                          <title>spaceship</title>
-                          <g id="Basic-Elements" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                            <g id="Rounded-Icons" transform="translate(-1720.000000, -592.000000)" fill="#FFFFFF" fill-rule="nonzero">
-                              <g id="Icons-with-opacity" transform="translate(1716.000000, 291.000000)">
-                                <g id="spaceship" transform="translate(4.000000, 301.000000)">
-                                  <path class="color-background" d="M39.3,0.706666667 C38.9660984,0.370464027 38.5048767,0.192278529 38.0316667,0.216666667 C14.6516667,1.43666667 6.015,22.2633333 5.93166667,22.4733333 C5.68236407,23.0926189 5.82664679,23.8009159 6.29833333,24.2733333 L15.7266667,33.7016667 C16.2013871,34.1756798 16.9140329,34.3188658 17.535,34.065 C17.7433333,33.98 38.4583333,25.2466667 39.7816667,1.97666667 C39.8087196,1.50414529 39.6335979,1.04240574 39.3,0.706666667 Z M25.69,19.0233333 C24.7367525,19.9768687 23.3029475,20.2622391 22.0572426,19.7463614 C20.8115377,19.2304837 19.9992882,18.0149658 19.9992882,16.6666667 C19.9992882,15.3183676 20.8115377,14.1028496 22.0572426,13.5869719 C23.3029475,13.0710943 24.7367525,13.3564646 25.69,14.31 C26.9912731,15.6116662 26.9912731,17.7216672 25.69,19.0233333 L25.69,19.0233333 Z" id="Shape"></path>
-                                  <path class="color-background" d="M1.855,31.4066667 C3.05106558,30.2024182 4.79973884,29.7296005 6.43969145,30.1670277 C8.07964407,30.6044549 9.36054508,31.8853559 9.7979723,33.5253085 C10.2353995,35.1652612 9.76258177,36.9139344 8.55833333,38.11 C6.70666667,39.9616667 0,40 0,40 C0,40 0,33.2566667 1.855,31.4066667 Z" id="Path"></path>
-                                  <path class="color-background" d="M17.2616667,3.90166667 C12.4943643,3.07192755 7.62174065,4.61673894 4.20333333,8.04166667 C3.31200265,8.94126033 2.53706177,9.94913142 1.89666667,11.0416667 C1.5109569,11.6966059 1.61721591,12.5295394 2.155,13.0666667 L5.47,16.3833333 C8.55036617,11.4946947 12.5559074,7.25476565 17.2616667,3.90166667 L17.2616667,3.90166667 Z" id="color-2" opacity="0.598539807"></path>
-                                  <path class="color-background" d="M36.0983333,22.7383333 C36.9280725,27.5056357 35.3832611,32.3782594 31.9583333,35.7966667 C31.0587397,36.6879974 30.0508686,37.4629382 28.9583333,38.1033333 C28.3033941,38.4890431 27.4704606,38.3827841 26.9333333,37.845 L23.6166667,34.53 C28.5053053,31.4496338 32.7452344,27.4440926 36.0983333,22.7383333 L36.0983333,22.7383333 Z" id="color-3" opacity="0.598539807"></path>
-                                </g>
-                              </g>
-                            </g>
-                          </g>
-                        </svg>
-                      </div>
-                      <p class="text-xs mt-1 mb-0 font-weight-bold">Clicks</p>
-                    </div>
-                    <h4 class="font-weight-bolder">2m</h4>
-                    <div class="progress w-75">
-                      <div class="progress-bar bg-dark w-90" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                  </div>
-                  <div class="col-3 py-3 ps-0">
-                    <div class="d-flex mb-2">
-                      <div class="icon icon-shape icon-xxs shadow border-radius-sm bg-gradient-warning text-center me-2 d-flex align-items-center justify-content-center">
-                        <svg width="10px" height="10px" viewBox="0 0 43 36" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                          <title>credit-card</title>
-                          <g id="Basic-Elements" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                            <g id="Rounded-Icons" transform="translate(-2169.000000, -745.000000)" fill="#FFFFFF" fill-rule="nonzero">
-                              <g id="Icons-with-opacity" transform="translate(1716.000000, 291.000000)">
-                                <g id="credit-card" transform="translate(453.000000, 454.000000)">
-                                  <path class="color-background" d="M43,10.7482083 L43,3.58333333 C43,1.60354167 41.3964583,0 39.4166667,0 L3.58333333,0 C1.60354167,0 0,1.60354167 0,3.58333333 L0,10.7482083 L43,10.7482083 Z" id="Path" opacity="0.593633743"></path>
-                                  <path class="color-background" d="M0,16.125 L0,32.25 C0,34.2297917 1.60354167,35.8333333 3.58333333,35.8333333 L39.4166667,35.8333333 C41.3964583,35.8333333 43,34.2297917 43,32.25 L43,16.125 L0,16.125 Z M19.7083333,26.875 L7.16666667,26.875 L7.16666667,23.2916667 L19.7083333,23.2916667 L19.7083333,26.875 Z M35.8333333,26.875 L28.6666667,26.875 L28.6666667,23.2916667 L35.8333333,23.2916667 L35.8333333,26.875 Z" id="Shape"></path>
-                                </g>
-                              </g>
-                            </g>
-                          </g>
-                        </svg>
-                      </div>
-                      <p class="text-xs mt-1 mb-0 font-weight-bold">Sales</p>
-                    </div>
-                    <h4 class="font-weight-bolder">435$</h4>
-                    <div class="progress w-75">
-                      <div class="progress-bar bg-dark w-30" role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                  </div>
-                  <div class="col-3 py-3 ps-0">
-                    <div class="d-flex mb-2">
-                      <div class="icon icon-shape icon-xxs shadow border-radius-sm bg-gradient-danger text-center me-2 d-flex align-items-center justify-content-center">
-                        <svg width="10px" height="10px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                          <title>settings</title>
-                          <g id="Basic-Elements" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                            <g id="Rounded-Icons" transform="translate(-2020.000000, -442.000000)" fill="#FFFFFF" fill-rule="nonzero">
-                              <g id="Icons-with-opacity" transform="translate(1716.000000, 291.000000)">
-                                <g id="settings" transform="translate(304.000000, 151.000000)">
-                                  <polygon class="color-background" id="Path" opacity="0.596981957" points="18.0883333 15.7316667 11.1783333 8.82166667 13.3333333 6.66666667 6.66666667 0 0 6.66666667 6.66666667 13.3333333 8.82166667 11.1783333 15.315 17.6716667"></polygon>
-                                  <path class="color-background" d="M31.5666667,23.2333333 C31.0516667,23.2933333 30.53,23.3333333 30,23.3333333 C29.4916667,23.3333333 28.9866667,23.3033333 28.48,23.245 L22.4116667,30.7433333 L29.9416667,38.2733333 C32.2433333,40.575 35.9733333,40.575 38.275,38.2733333 L38.275,38.2733333 C40.5766667,35.9716667 40.5766667,32.2416667 38.275,29.94 L31.5666667,23.2333333 Z" id="Path" opacity="0.596981957"></path>
-                                  <path class="color-background" d="M33.785,11.285 L28.715,6.215 L34.0616667,0.868333333 C32.82,0.315 31.4483333,0 30,0 C24.4766667,0 20,4.47666667 20,10 C20,10.99 20.1483333,11.9433333 20.4166667,12.8466667 L2.435,27.3966667 C0.95,28.7083333 0.0633333333,30.595 0.00333333333,32.5733333 C-0.0583333333,34.5533333 0.71,36.4916667 2.11,37.89 C3.47,39.2516667 5.27833333,40 7.20166667,40 C9.26666667,40 11.2366667,39.1133333 12.6033333,37.565 L27.1533333,19.5833333 C28.0566667,19.8516667 29.01,20 30,20 C35.5233333,20 40,15.5233333 40,10 C40,8.55166667 39.685,7.18 39.1316667,5.93666667 L33.785,11.285 Z" id="Path"></path>
-                                </g>
-                              </g>
-                            </g>
-                          </g>
-                        </svg>
-                      </div>
-                      <p class="text-xs mt-1 mb-0 font-weight-bold">Items</p>
-                    </div>
-                    <h4 class="font-weight-bolder">43</h4>
-                    <div class="progress w-75">
-                      <div class="progress-bar bg-dark w-50" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-7">
-          <div class="card">
-            <div class="card-header pb-0">
-              <h6>Sales overview</h6>
-              <p class="text-sm">
-                <i class="fa fa-arrow-up text-success"></i>
-                <span class="font-weight-bold">4% more</span> in 2021
-              </p>
-            </div>
-            <div class="card-body p-3">
-              <div class="chart">
-                <canvas id="chart-line" class="chart-canvas" height="300px"></canvas>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="row my-4">
-        <div class="col-lg-8 col-md-6 mb-md-0 mb-4">
-          <div class="card">
-            <div class="card-header pb-0">
-              <div class="row">
-                <div class="col-lg-6 col-7">
-                  <h6>Available Paid Courses</h6>
-                    <h6>Personal growth</h6>
-                    <p>Ask your manager, get your voucher, then access your course, </p>
-                  <p class="text-sm mb-0">
-                    <i class="fa fa-check text-info" aria-hidden="true"></i>
-                    <span class="font-weight-bold ms-1">{{ course }} done</span> this month
-                  </p>
-                </div>
-                <div class="col-lg-6 col-5 my-auto text-end">
-                  <div class="dropdown float-lg-end pe-4">
-                    <a class="cursor-pointer" id="dropdownTable" data-bs-toggle="dropdown" aria-expanded="false">
-                      <i class="fa fa-ellipsis-v text-secondary"></i>
-                    </a>
-                    <ul class="dropdown-menu px-2 py-3 ms-sm-n4 ms-n5" aria-labelledby="dropdownTable">
-                      <li><a class="dropdown-item border-radius-md" href="javascript:;">Action</a></li>
-                      <li><a class="dropdown-item border-radius-md" href="javascript:;">Another action</a></li>
-                      <li><a class="dropdown-item border-radius-md" href="javascript:;">Something else here</a></li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="card-body px-0 pb-2">
-              <div class="table-responsive">
-                <table class="table align-items-center mb-0">
-                  <thead>
-                    <tr>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Title</th>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Members</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Price</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">cible</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Link</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                  {% for t in courses %}
 
 
-                    <tr>
-                      <td>
-                        <div class="d-flex px-2 py-1">
-                          <div>
-                            <img src="/static/assets/img/small-logos/logo-xd.svg" class="avatar avatar-sm me-3">
-                          </div>
-                          <div class="d-flex flex-column justify-content-center">
-                            <h6 class="mb-0 text-sm">{{ t.original_title}}</h6>
-                          </div>
-                        </div>
-                      </td>
-                      <td>
-                        <div class="avatar-group mt-2">
-                          <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Ryan Tompson">
-                            <img alt="Image placeholder" src="/static/assets/img/team-1.jpg">
-                          </a>
-                          <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Romina Hadid">
-                            <img alt="Image placeholder" src="/static/assets/img/team-2.jpg">
-                          </a>
-                          <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Alexander Smith">
-                            <img alt="Image placeholder" src="/static/assets/img/team-3.jpg">
-                          </a>
-                          <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Jessica Doe">
-                            <img alt="Image placeholder" src="/static/assets/img/team-4.jpg">
-                          </a>
-                        </div>
-                      </td>
-                      <td class="align-middle text-center text-sm">
-                        <span class="text-xs font-weight-bold"> $90 </span>
-                      </td>
-                      <td class="align-middle text-center">
-                        <h6><span class="badge bg-gradient-success text-xxs">{{ t.genres }}</span></h6>
-                      </td>
-                      <td class="align-middle">
-                        <div class="progress-wrapper">
-                          <div class="progress-info">
-                            <div class="progress-percentage">
-                              <span class="text-xs font-weight-bold"><a href="">{{ t.overview}}</a></span>
-                            </div>
-                          </div>
-                          <div class="progress">
-                            <div class="progress-bar bg-gradient-info w-60" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                    {% endfor %}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-4 col-md-6">
-          <div class="card">
-            <div class="card-header pb-0">
-              <h6>Orders overview</h6>
-              <p class="text-sm">
-                <i class="fa fa-arrow-up text-success" aria-hidden="true"></i>
-                <span class="font-weight-bold">24%</span> this month
-              </p>
-            </div>
-            <div class="card-body p-3">
-              <div class="timeline timeline-one-side">
-                <div class="timeline-block mb-3">
-                  <span class="timeline-step">
-                    <i class="ni ni-bell-55 text-success text-gradient"></i>
-                  </span>
-                  <div class="timeline-content">
-                    <h6 class="text-dark text-sm font-weight-bold mb-0">$2400, Design changes</h6>
-                    <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">22 DEC 7:20 PM</p>
-                  </div>
-                </div>
-                <div class="timeline-block mb-3">
-                  <span class="timeline-step">
-                    <i class="ni ni-html5 text-danger text-gradient"></i>
-                  </span>
-                  <div class="timeline-content">
-                    <h6 class="text-dark text-sm font-weight-bold mb-0">New order #1832412</h6>
-                    <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">21 DEC 11 PM</p>
-                  </div>
-                </div>
-                <div class="timeline-block mb-3">
-                  <span class="timeline-step">
-                    <i class="ni ni-cart text-info text-gradient"></i>
-                  </span>
-                  <div class="timeline-content">
-                    <h6 class="text-dark text-sm font-weight-bold mb-0">Server payments for April</h6>
-                    <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">21 DEC 9:34 PM</p>
-                  </div>
-                </div>
-                <div class="timeline-block mb-3">
-                  <span class="timeline-step">
-                    <i class="ni ni-credit-card text-warning text-gradient"></i>
-                  </span>
-                  <div class="timeline-content">
-                    <h6 class="text-dark text-sm font-weight-bold mb-0">New card added for order #4395133</h6>
-                    <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">20 DEC 2:20 AM</p>
-                  </div>
-                </div>
-                <div class="timeline-block mb-3">
-                  <span class="timeline-step">
-                    <i class="ni ni-key-25 text-primary text-gradient"></i>
-                  </span>
-                  <div class="timeline-content">
-                    <h6 class="text-dark text-sm font-weight-bold mb-0">Unlock packages for development</h6>
-                    <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">18 DEC 4:54 AM</p>
-                  </div>
-                </div>
-                <div class="timeline-block">
-                  <span class="timeline-step">
-                    <i class="ni ni-money-coins text-dark text-gradient"></i>
-                  </span>
-                  <div class="timeline-content">
-                    <h6 class="text-dark text-sm font-weight-bold mb-0">New order #9583120</h6>
-                    <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">17 DEC</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+
+
       </div>
+   
+
+
+
+
+
+
 
       {% include "includes/footer.html" %}
 
@@ -447,162 +451,9 @@
 <!-- Specific JS goes HERE --> 
 {% block javascripts %}
 
-  <script src="/static/assets/js/plugins/chartjs.min.js"></script>
-  <script src="/static/assets/js/plugins/Chart.extension.js"></script>
+  
   <script>
-    var ctx = document.getElementById("chart-bars").getContext("2d");
-
-    new Chart(ctx, {
-      type: "bar",
-      data: {
-        labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-        datasets: [{
-          label: "Sales",
-          tension: 0.4,
-          borderWidth: 0,
-          pointRadius: 0,
-          backgroundColor: "#fff",
-          data: [450, 200, 100, 220, 500, 100, 400, 230, 500],
-          maxBarThickness: 6
-        }, ],
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        legend: {
-          display: false,
-        },
-        tooltips: {
-          enabled: true,
-          mode: "index",
-          intersect: false,
-        },
-        scales: {
-          yAxes: [{
-            gridLines: {
-              display: false,
-            },
-            ticks: {
-              suggestedMin: 0,
-              suggestedMax: 500,
-              beginAtZero: true,
-              padding: 0,
-              fontSize: 14,
-              lineHeight: 3,
-              fontColor: "#fff",
-              fontStyle: 'normal',
-              fontFamily: "Open Sans",
-            },
-          }, ],
-          xAxes: [{
-            gridLines: {
-              display: false,
-            },
-            ticks: {
-              display: false,
-              padding: 20,
-            },
-          }, ],
-        },
-      },
-    });
-
-    var ctx2 = document.getElementById("chart-line").getContext("2d");
-
-    var gradientStroke1 = ctx2.createLinearGradient(0, 230, 0, 50);
-
-    gradientStroke1.addColorStop(1, 'rgba(203,12,159,0.2)');
-    gradientStroke1.addColorStop(0.2, 'rgba(72,72,176,0.0)');
-    gradientStroke1.addColorStop(0, 'rgba(203,12,159,0)'); //purple colors
-
-    var gradientStroke2 = ctx2.createLinearGradient(0, 230, 0, 50);
-
-    gradientStroke2.addColorStop(1, 'rgba(20,23,39,0.2)');
-    gradientStroke2.addColorStop(0.2, 'rgba(72,72,176,0.0)');
-    gradientStroke2.addColorStop(0, 'rgba(20,23,39,0)'); //purple colors
-
-
-    new Chart(ctx2, {
-      type: "line",
-      data: {
-        labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-        datasets: [{
-            label: "Mobile apps",
-            tension: 0.4,
-            borderWidth: 0,
-            pointRadius: 0,
-            borderColor: "#cb0c9f",
-            borderWidth: 3,
-            backgroundColor: gradientStroke1,
-            data: [50, 40, 300, 220, 500, 250, 400, 230, 500],
-            maxBarThickness: 6
-
-          },
-          {
-            label: "Websites",
-            tension: 0.4,
-            borderWidth: 0,
-            pointRadius: 0,
-            borderColor: "#3A416F",
-            borderWidth: 3,
-            backgroundColor: gradientStroke2,
-            data: [30, 90, 40, 140, 290, 290, 340, 230, 400],
-            maxBarThickness: 6
-
-          },
-        ],
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        legend: {
-          display: false,
-        },
-        tooltips: {
-          enabled: true,
-          mode: "index",
-          intersect: false,
-        },
-        scales: {
-          yAxes: [{
-            gridLines: {
-              borderDash: [2],
-              borderDashOffset: [2],
-              color: '#dee2e6',
-              zeroLineColor: '#dee2e6',
-              zeroLineWidth: 1,
-              zeroLineBorderDash: [2],
-              drawBorder: false,
-            },
-            ticks: {
-              suggestedMin: 0,
-              suggestedMax: 500,
-              beginAtZero: true,
-              padding: 10,
-              fontSize: 11,
-              fontColor: '#adb5bd',
-              lineHeight: 3,
-              fontStyle: 'normal',
-              fontFamily: "Open Sans",
-            },
-          }, ],
-          xAxes: [{
-            gridLines: {
-              zeroLineColor: 'rgba(0,0,0,0)',
-              display: false,
-            },
-            ticks: {
-              padding: 10,
-              fontSize: 11,
-              fontColor: '#adb5bd',
-              lineHeight: 3,
-              fontStyle: 'normal',
-              fontFamily: "Open Sans",
-            },
-          }, ],
-        },
-      },
-    });
+    
   </script>
   <script>
     var win = navigator.platform.indexOf('Win') > -1;

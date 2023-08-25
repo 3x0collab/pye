@@ -56,12 +56,13 @@ import fitz
 from backoffice.models import Course
 import pandas as pd
 import copy
-from .utils import setup_job, MyJsonEncoder,PyeScheduler
+from .utils import setup_job, MyJsonEncoder,PyeScheduler,Connector,Task,transformers_type,connector_list,train_model,embedding_model,replace_with_char
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
-
-
+from utils.connectors import pick_connector
+from utils.vortex_query import VortexQuery
+from django.core.serializers.json import DjangoJSONEncoder
  
 
 def auto_correction_word(bad_word,model_path,data_path):
@@ -359,7 +360,6 @@ def is_customer(user):
 def chatbot_view(request):
     if request.method=='GET':
         return render(request,'base.html')
-    pass
     
 @csrf_exempt
 def predict_view(request):
@@ -392,11 +392,8 @@ def customer_dashboard_view(request):
         'applied_policy':CMODEL.LeaveRecord.objects.all().filter(customer=models.Customer.objects.get(user_id=request.user.id)).count(),
         'total_category':CMODEL.Category.objects.all().count(),
         'total_question':CMODEL.Question.objects.all().filter(customer=models.Customer.objects.get(user_id=request.user.id)).count(),
-        "segment":"customer-dashboard",
-        'course':CMODEL.Course.objects.all().count(),
-
-
-        'courses' :CMODEL.Course.objects.filter(paid=True)
+        "segment":"customer-dashboard", 
+        'user':str(request.user)
 
 
     }
@@ -441,13 +438,13 @@ def profile_view(request):
 @login_required(login_url='login')
 def select_source_view(request,pk):
     connector= models.Connector.objects.get(pk=pk)
-    dict={"segment":"connector","pk":pk,"connector":connector}
+    dict={"segment":"connector","pk":pk,"connector":connector,"connector_list":connector_list}
     return render(request,'home/task.html',context=dict) 
 
 
 @login_required(login_url='login')
 def select_source_delete(request,pk):
-    connector= models.Connector.objects.get(pk=pk).delete()
+    connector= models.Connector.objects.get(pk=pk).delete() 
     return redirect("connector-history")
 
 
@@ -456,37 +453,149 @@ def select_source_delete(request,pk):
 @login_required(login_url='login')
 def source_credential_view(request):    
 
-    source_val = request.POST.get("connector_type","dummy")
-    copy_postdata = copy.copy(request.POST)
+    source_val = request.POST.get("connector_type","pye")
+    type_name = request.POST.get("db_type","MySQL")
+    redirect_link = request.POST.get("redirect")
+    connector_name = request.POST.get("connector_name","")
+    description = request.POST.get("connector_description","")
+    exclude = request.POST.get("exclude",None)
+    connections_pk = request.POST.get("connections_pk",None)
+    # print(request.POST)
+
+
+    copy_postdata = {}
+    for key in request.POST:
+        copy_postdata[key] = request.POST[key]
+
     print(copy_postdata)
     post_data = {}
     if request.POST:  
         pk = request.POST.get("connector_pk")
-        connector= models.Connector.objects.get(pk=pk)
+        if pk:
+            connector= models.Connector.objects.get(pk=pk)
+        else:
+            connector= models.Connector.objects.create(name=connector_name)
         connector.connector_type = source_val
+        connector.type_name = type_name
+        connector.created_by = request.user
+        connector.description = description
+        connector.save()
+
+        if redirect_link == 'ai_models':
+            try:
+                ex_connections = models.Connections.objects.get(name = connector_name)
+            except Exception as e:
+                create_connections = models.Connections.objects.create(
+                name=connector_name,
+                description=description,
+                connector = connector
+                    )
+                create_connections.save()
+
+        has_type = connector_list.get(source_val)
+
+        if len(has_type):
+            # print(has_type,type_name,list(filter(lambda x:x['name'] == type_name,has_type)))
+            connector_stc =  list(filter(lambda x:x['name'] == type_name,has_type))[0]
+            # print('connector_stc',connector_stc)
+            connector.can_source = connector_stc.get('source')
+            connector.can_target = connector_stc.get('target')
+
         connector.parameters = json.dumps(copy_postdata, cls=MyJsonEncoder)
         connector.save()
 
         if source_val=='flatfile':
             filetype = request.POST.get('filetype')
             files = request.FILES.getlist('files')
-            file_list = []
-            for file in files:
-                my_file = models.FilesModel.objects.create(file=file,filetype=filetype,connector_id=connector.pk)
-                file_list.append(my_file)
-            connector.files.set(file_list)
-            connector.save()
-                
 
-        return redirect('connector-history')
+            my_file = models.FileModels.objects.filter(connector_id=connector.pk)
+            my_file.delete()
+
+            for file in files:
+                try:
+                    # my_file = models.FileModels.objects.get(connector_id=connector.pk)
+                    # my_file.file = file
+                    # my_file.filetype = filetype
+                    # my_file.save()
+                    my_file = models.FileModels.objects.create(file=file,filetype=filetype,connector_id=connector.pk)
+
+                except Exception as e:
+                    raise Exception("FIle Error: ",e)
+            # connector.files.set(file_list)
+            # connector.save()
+
+        test_status = False
+        error = ""
+
+
+        try:
+            data = []
+            if type_name =='datasets':
+                json_path = os.path.join(os.getcwd(),   'static', 'json', 'sample_data.json')
+                with open(json_path,encoding="utf8") as f:
+                    data = json.load(f)['sample_data'] 
+
+            if exclude:
+                print('exclude',exclude)
+                task = models.Task.objects.create(name=connector.name, 
+                    description=connector.description, 
+                    created_by=connector.created_by,
+                    schedule_time='now')
+
+                task.source.add(connector)
+                print('hererrr',connections_pk)
+                task.targets.add(models.Connections.objects.get(pk=connections_pk).connector)
+
+                scheduler = PyeScheduler()
+                try:
+                    scheduler.schedule_job(task)
+                    return redirect('apply-policy')
+                except Exception as e:
+                    print('schedule error',e)
+                    task.status = "error"
+                    task.error = str(e)
+                task.save()
+
+            else:
+                task = Task() 
+                con = pick_connector(connector,task)
+                test_status = True
+
+
+        except Exception as e:
+            error = str(e) 
+            print('error',error)
+            if source_val=='task':
+                data =  models.Task.objects.filter(created_by=request.user).order_by('-date_created').values("name","pk")
+            if connector.parameters:
+                post_data = json.loads(connector.parameters)
+
+            # connector.delete()
+
+
+            dict={"segment":"connector","source_val":connector.connector_type,"data":data,"connector":connector,
+            'redirect':redirect_link,
+            'post_data':post_data,'test_status':test_status,'error':error,'is_test':True,"connector_list":connector_list,
+            'type_name':type_name, 'train_model':train_model,'embedding_model':embedding_model, **copy_postdata}
+            return render(request,'home/credential.html',context=dict) 
+
+
+        if redirect_link:
+            return redirect(redirect_link)
+        else:
+            return redirect('connector-history')
+    
 
     else:
-        source_val = request.GET.get("source-val","dummy")
+        source_val = request.GET.get("source-val","pye")
+        type_name = request.GET.get("type_name","MySQL")
+        redirect_link = request.GET.get("redirect")
+        exclude = request.GET.get("exclude")
+        connections_pk = request.GET.get("connections_pk")
         pk = request.GET.get("pk")
-        connector= models.Connector.objects.get(pk=pk)
 
         data = []
-        if source_val =='dummy':
+        if type_name =='datasets':
             json_path = os.path.join(os.getcwd(),   'static', 'json', 'sample_data.json')
             with open(json_path,encoding="utf8") as f:
                 data = json.load(f)['sample_data']
@@ -494,13 +603,28 @@ def source_credential_view(request):
         if source_val=='task':
             data =  models.Task.objects.filter(created_by=request.user).order_by('-date_created').values("name","pk")
 
-        if connector.parameters:
-            post_data = json.loads(connector.parameters)
+        if pk:
+            connector= models.Connector.objects.get(pk=pk)
+            if connector.parameters:
+                post_data = json.loads(connector.parameters)
 
+                if source_val=='flatfile':
+                    my_files = models.FileModels.objects.filter(connector_id=connector.pk) 
+                    post_data['file_path'] = [ str(x.file).replace("uploads/","") for x in my_files ]
+        else:
+            connector = None
+
+        type_name_icons = connector_list[source_val]
+        try:
+            filter_icon = list(filter(lambda e:e["name"]==type_name,type_name_icons))[0]["icon"]
+        except:
+            filter_icon = 'https://pbs.twimg.com/media/FyQlRbxWIAEfJ9J?format=png&name=small'
 
 
         dict={"segment":"connector","source_val":source_val,"data":data,"connector":connector,
-        'post_data':post_data}
+        'post_data':post_data,"connector_list":connector_list,"type_name":type_name,'icon':filter_icon,
+        'redirect':redirect_link,
+        'train_model':train_model,'embedding_model':embedding_model,"exclude":exclude,'connections_pk':connections_pk }
         return render(request,'home/credential.html',context=dict)  
     
 @login_required(login_url='login')
@@ -514,7 +638,7 @@ def new_task_view(request):
         name = request.POST.get('name')
         description = request.POST.get('description')
         created_by = request.user
-        source_ids = request.POST.get('source')
+        source_ids = request.POST.getlist('source')
         target_ids = request.POST.getlist('targets')
         transformers_ids = request.POST.getlist('transformers')
         schedule_time = request.POST.get('schedule_time')
@@ -526,6 +650,7 @@ def new_task_view(request):
         # Get the Connector objects for source and target
         sources = models.Connector.objects.filter(id__in=source_ids)
         targets = models.Connector.objects.filter(id__in=target_ids)
+
 
         # Get the Transformer objects
         transformers = models.Transformer.objects.filter(id__in=transformers_ids)
@@ -554,7 +679,6 @@ def new_task_view(request):
         # Add the Source to the Task
         for connector in sources:
             task.source.add(connector)
-
 
         # Add the Target to the Task
         for connector in targets:
@@ -615,7 +739,7 @@ def new_task_view(request):
             else:
                 task= models.Task.objects.get(pk=task_pk)
 
-        connectors = models.Connector.objects.filter(created_by=request.user).order_by('-date_created').values("name","description","pk")
+        connectors = models.Connector.objects.filter(created_by=request.user).order_by('-date_created').values("name","description","pk",'can_source','can_target')
         transformers = models.Transformer.objects.filter(Q(is_public="True") | Q(created_by=request.user) ).order_by('-last_modified')
 
         dict={"segment":"apply-policy",'task':task,"connectors":connectors,"transformers":transformers}
@@ -638,37 +762,290 @@ def billing_view(request):
 def apply_policy_view(request): 
     # customer = models.Customer.objects.get(user_id=request.user.id)
     query = request.GET.get('q',"") 
-    tasks = models.Task.objects.filter(created_by=request.user).order_by('-date_created')
+    per_page = request.GET.get('per_page',10) 
+
+    tasks = models.Task.objects.filter(created_by=request.user).order_by('-last_run_date','-last_run_time')
     if query:
         tasks = tasks.filter(
             Q(name__icontains=query) |
             Q(description__icontains=query)
         )  
 
-    paginator = Paginator(tasks, 10) # Display 10 tasks per page
+    paginator = Paginator(tasks, per_page) # Display 10 tasks per page
     page = request.GET.get('page')
     tasks = paginator.get_page(page)
 
-    return render(request,'home/task_list.html',{'tasks':tasks,'segment' : "apply-policy","q":query})
+    return render(request,'home/task_list.html',{'tasks':tasks,'segment' : "apply-policy","q":query,'per_page':per_page})
+
+
+@login_required(login_url='login')
+def ai_models(request): 
+    # customer = models.Customer.objects.get(user_id=request.user.id)
+
+    if request.method == 'POST': 
+        bot_name = request.POST.get('name')
+        connections_pk = request.POST.get('connections_pk')
+        edit = request.POST.get('edit')
+
+        if not bot_name:
+            return JsonResponse({ "error" :f"Name is required!"})        
+
+        try:
+
+            try: 
+                print('dfddffd')
+                connection = models.Connections.objects.get(pk=connections_pk)
+                chatbot = models.Chatbot.objects.get(name=bot_name,created_by=request.user,connection=connection)
+                chatbot.api_id = replace_with_char(f"{bot_name}-{request.user.id}-{chatbot.pk}")
+                
+                if edit:
+                    for key, value in request.POST.items():
+                        if value:
+                            setattr(chatbot, key, value)
+                        chatbot.save()
+
+                    return JsonResponse({ "error" :f"Chatbot {bot_name} update successfully!"})
+                
+                else:
+                    return JsonResponse({ "error" :f"Chatbot {bot_name} already created by you!"})
+
+            except ObjectDoesNotExist:
+
+                chatbot = models.Chatbot.objects.create(name=bot_name,configs=json.dumps(request.POST),created_by=request.user)
+                chatbot.connection = connection
+
+
+                chatbot.api_id = replace_with_char(f"{bot_name}-{request.user.id}-{chatbot.pk}")
+                chatbot.save()
+
+                # Save the send_icon_color to another table (e.g., FileUploads) and get its URL
+                bot_image = request.FILES.get('bot-image')
+                if bot_image:
+                    file_upload = models.BotFileUploads(chatbot=chatbot.pk, file=bot_image)
+                    file_upload.save()
+
+
+                return JsonResponse({ 'message':'Bot created successfully'})
+
+        except Exception as e:
+            print(e)
+            return JsonResponse({ "error" :str(e)})
+
+        
+
+    else:
+        query = request.GET.get('q',"") 
+        per_page = request.GET.get('per_page',10) 
+
+        connections = models.Connections.objects.filter(connector__created_by=request.user).order_by('-connector__date_created','-connector__time_created')
+        if query:
+            connections = connections.filter(
+                Q(name__icontains=query) |
+                Q(description__icontains=query)
+            )  
+
+        paginator = Paginator(connections, per_page) # Display 10 tasks per page
+        page = request.GET.get('page')
+        connections = paginator.get_page(page)
+
+        for con in connections:
+            try:
+                fnd = models.Task.objects.filter(targets__pk=con.connector.pk).values('status')
+                if any([x for x in fnd if x.get('status')=='error'  ]):
+                    con.status = 'error'
+            except ObjectDoesNotExist:
+                pass
+        
+        print(connections)
+
+        return render(request,'home/ai_models.html',{'connections':connections,'segment' : "ai_models","q":query,'per_page':per_page})
+
+@login_required(login_url='login')
+def ai_models_bot(request,pk): 
+    # customer = models.Customer.objects.get(user_id=request.user.id)
+
+    if request.method == 'POST': 
+        bot_name = request.POST.get('name')
+        connections_pk = request.POST.get('connections_pk')
+        edit = request.POST.get('edit')
+
+        if not bot_name:
+            return JsonResponse({ "error" :f"Name is required!"})        
+
+        try:
+
+            try: 
+                connection = models.Connections.objects.get(pk=connections_pk)
+                chatbot = models.Chatbot.objects.get(name=bot_name,created_by=request.user,connection=connection)
+                
+                if edit:
+                    for key, value in request.POST.items():
+                        if value:
+                            setattr(chatbot, key, value)
+                        chatbot.save()
+
+                    return JsonResponse({ "error" :f"Chatbot {bot_name} update successfully!"})
+                
+                else:
+                    return JsonResponse({ "error" :f"Chatbot {bot_name} already created by you!"})
+
+            except ObjectDoesNotExist:
+
+                chatbot = models.Chatbot.objects.create(name=bot_name,configs=json.dumps(request.POST),created_by=request.user)
+                chatbot.connection = connection
+                chatbot.api_id = replace_with_char(f"{bot_name}-{request.user.id}-{chatbot.pk}")
+                chatbot.save()
+
+                # Save the send_icon_color to another table (e.g., FileUploads) and get its URL
+                bot_image = request.FILES.get('bot-image')
+                if bot_image:
+                    file_upload = models.BotFileUploads.objects.create(chatbot=chatbot.pk, file=bot_image)
+                    file_upload.save()
+
+
+                return JsonResponse({ 'message':'Bot created successfully'})
+
+        except Exception as e:
+            print(e)
+            return JsonResponse({ "error" :str(e)})
+
+        
+
+    else:
+        query = request.GET.get('q',"") 
+        per_page = request.GET.get('per_page',10) 
+
+        connection = models.Connections.objects.get(pk=pk)
+
+        chatbots = models.Chatbot.objects.filter(connection=connection, created_by=request.user).order_by('-pk')
+        # print('pk',pk,chatbots)
+        if query:
+            chatbots = chatbots.filter(
+                Q(name__icontains=query) |
+                Q(configs__icontains=query)
+            )  
+
+        paginator = Paginator(chatbots, per_page) # Display 10 tasks per page
+        page = request.GET.get('page')
+        chatbots = paginator.get_page(page)
+
+        return render(request,'home/ai_models_bot.html',{'chatbots':chatbots,'connection':connection,'segment' : "ai_models","q":query,'per_page':per_page})
+
+
+def merge_key(config={}):
+    new_config = {}
+    for key in config.keys():
+        new_config[str(key).replace("-","_")] = config[key]
+    return new_config
+
+
+@login_required(login_url='login')
+def ai_models_bot_iframe(request,api_id): 
+    height = request.GET.get('height',"100%") 
+
+    try:
+        chatbot = models.Chatbot.objects.get(api_id=api_id)
+        connection = models.Connections.objects.get(pk=chatbot.connection.pk) 
+        configs = merge_key(json.loads(chatbot.configs)) 
+        file_upload = models.BotFileUploads.objects.get(chatbot=chatbot.pk)
+        configs['bot_image'] = file_upload.file.url
+        print(configs)
+    except Exception as e:
+        print(e) 
+
+    return render(request,'home/ai_models_bot_iframe.html',{'chatbot':chatbot,
+        'connection':connection,'api_id':api_id,'height':height,"configs":configs})
+
+@login_required(login_url='login')
+def chatbot_delete(request): 
+    pk = request.GET.get('pk') 
+    connections_pk = request.GET.get('connections_pk') 
+
+    chatbot = models.Chatbot.objects.get(pk=pk)
+    chatbot.delete()
+
+    url = reverse('ai_models_bot', args=[connections_pk])  # Replace 'ai_models_bot' with the actual view name
+    return redirect(url)
+
+
+@login_required(login_url='login')
+def ai_models_delete(request): 
+    pk = request.GET.get('pk') 
+    connection = models.Connections.objects.get(pk=pk)
+    connector = models.Connector.objects.get(pk=connection.connector.pk).delete()
+    chatbots = models.Chatbot.objects.filter(connection=connection).delete()
+    tasks = models.Task.objects.filter(targets__pk=connection.connector.pk).delete()
+    connection.delete()
+
+    url = reverse('ai_models')
+    return redirect(url)
+
+# @login_required(login_url='login')
+def process_message(request): 
+    form_data = request.GET
+    message = form_data.get('message',"")
+    api_id = form_data.get('api_id')
+    api_user = form_data.get('user_id')
+    prompt = ""
+    pk = form_data.get('pk') 
+
+    try:
+
+        try:
+            customer = models.Customer.objects.get(user__username=str(api_user if api_user else request.user) )
+            if str(customer.product_version) == 'free':
+                chat_history_len = -200
+            elif  str(customer.product_version).lower() == 'pro':
+                chat_history_len = -500
+            else:
+                chat_history_len = -50
+        except ObjectDoesNotExist:
+            chat_history_len = -50
+
+
+        if api_id:
+            connection = models.Chatbot.objects.get(api_id=api_id)
+            prompt = json.loads(connection.configs).get("task","")
+            # connection.connector = connection.connection.connector
+        else:
+            connection = models.Connections.objects.get(pk=pk)
+
+
+        
+        if message:
+            vortex_query = VortexQuery(connection,prompt,str(api_user if api_user else request.user))
+            answer = vortex_query.ask_question(message)
+            return JsonResponse({'response':answer})
+        else:
+            
+            chat_history = json.loads(connection.chat_history) if connection.chat_history else []
+            connection = {"chat_history":json.dumps([ entry for entry in chat_history if entry.get('user') == str(api_user if api_user else request.user)  ][chat_history_len:] )}
+            result = json.dumps(connection, sort_keys=True,
+                                    indent=1, cls=DjangoJSONEncoder)
+            return JsonResponse({'response':result})
+    except Exception as e:
+        return JsonResponse({'error':str(e)})
+
+
 
 @login_required(login_url='login')
 def connector_history_view(request): 
 
     # customer = models.Customer.objects.get(user_id=request.user.id)
     query = request.GET.get('q',"") 
-    connectors = models.Connector.objects.filter(created_by=request.user).order_by('-date_created')
+    per_page = request.GET.get('per_page',10) 
+    connectors = models.Connector.objects.filter(created_by=request.user).order_by('-date_created','-time_created')
     if query:
         connectors = connectors.filter(
             Q(name__icontains=query) |
             Q(description__icontains=query)
         )  
 
-    paginator = Paginator(connectors, 10) # Display 10 tasks per page
+    paginator = Paginator(connectors, per_page) # Display 10 tasks per page
     page = request.GET.get('page')
     connectors = paginator.get_page(page)
 
     if request.method == 'POST': 
-        print("fffffffff") 
         try:
             code_Form=forms.Connectorform(request.POST)
             if code_Form.is_valid() :
@@ -676,20 +1053,40 @@ def connector_history_view(request):
                 code_save.created_by = request.user
                 code_save.save() 
 
-        except Exception as e:
-
-            print("e",e)
-
+        except Exception as e: 
             return  render(request,'home/connector.html',{'connectors':connectors,
-                                                    'segment' : "connectors",
-                                                    "error":e})
+                                                    'segment' : "connectors", "connector_list":connector_list,
+                                                    "error":str(e),'per_page':per_page})
 
         return render(request,'home/task.html',{'connector':code_save,
                                                     'segment' : "connectors","pk":code_save.pk,
+                                                    "connector_list":connector_list,'per_page':per_page
                                                     })
 
     return render(request,'home/connector.html',{'connectors':connectors,
-                                                    'segment' : "connectors","q":query })
+                                                    'segment' : "connectors","q":query , 
+                                                    "connector_list":connector_list,'per_page':per_page})
+@login_required(login_url='login')
+def select_connector(request):  
+    exclude = request.GET.get('exclude',"")
+    connections_pk = request.GET.get('connections_pk',"")
+    query = request.GET.get('q',"")
+    new_connector_list = {}
+
+    if query:
+        for con_type in connector_list:
+            for con in connector_list[con_type]:
+                if query.lower() in con['name'].lower() or query.lower() in con_type.lower() :
+                    if new_connector_list.get(con_type):
+                        new_connector_list[con_type].append(con)
+                    else:
+                        new_connector_list[con_type] = [con]
+
+
+    exclude_list = exclude.rstrip(',').split(",") 
+    return  render(request,'home/task.html',{'segment' : "connectors", "connector_list":new_connector_list if query else connector_list ,'exclude':exclude_list,
+        'exclude_args':exclude,
+        'connections_pk':connections_pk,'q':query}) 
 
 def apply_view(request,pk):
     customer = models.Customer.objects.get(user_id=request.user.id)
@@ -755,8 +1152,8 @@ def delete_code_editor(request,pk):
 
 def code_editor(request,pk=None): 
 
-    transformers = models.Transformer.objects.filter(is_public="True").order_by('-last_modified')
-    transformers_type = transformers.values_list('transformer_type', flat=True).distinct()
+    transformers = models.Transformer.objects.filter(is_public="True").order_by('-last_modified')    
+    print(transformers_type)
 
     if request.method == 'POST':  
         try:
@@ -784,7 +1181,8 @@ def code_editor(request,pk=None):
             form = forms.CodeForm()
             return render(request,'home/code_editor.html',{'code':request.POST.get("code"),'form':form,"update":1,
                 'name':request.POST.get("name"),'description':request.POST.get("description"),"error":e,
-                'transformers_type':transformers_type,
+                'transformers_type':transformers_type,'segment' : "question-history",
+                'transformer_type': request.POST.get("transformer_type") or "Python",
 
                  }) 
     else:
@@ -792,7 +1190,7 @@ def code_editor(request,pk=None):
         if pk:
             transformer = models.Transformer.objects.get(pk=pk)
             return render(request,'home/code_editor.html',{'code':transformer.code,'form':form,"update":1,
-                'name':transformer.name,'description':transformer.description,'transformers_type':transformers_type, }) 
+                'name':transformer.name,'description':transformer.description,'transformers_type':transformers_type,'is_public':transformer.is_public }) 
         return render(request,'home/code_editor.html',{'code':
             """# This Python 3 environment comes with many helpful analytics libraries installed 
 
@@ -805,16 +1203,17 @@ def code_editor(request,pk=None):
         dt.pop()
         return dt
 
-        """,'transformers_type':transformers_type,'is_public':transformer.is_public}) 
+        """,'transformers_type':transformers_type,
+        'transformer_type':  "Python",'segment' : "question-history"}) 
 
 
 
 def question_history_view(request): 
     # customer = models.Customer.objects.get(user_id=request.user.id)
     query = request.GET.get('q',"")
+    per_page = request.GET.get('per_page',10)
     q_types = request.GET.get('q_types',"")
     transformers = models.Transformer.objects.filter().order_by('-last_modified')
-    transformers_type = transformers.values_list('transformer_type', flat=True).distinct()
     my_work = models.Transformer.objects.filter(created_by=request.user).count()  
 
     if query:
@@ -826,12 +1225,12 @@ def question_history_view(request):
     if q_types:
         transformers.filter(transformer_type=q_types)
 
-    paginator = Paginator(transformers, 10) # Display 10 transformers per page
+    paginator = Paginator(transformers, per_page) # Display 10 transformers per page
     page = request.GET.get('page')
     transformers = paginator.get_page(page)
 
     return render(request,'home/my-questions.html',{'transformers':transformers,'transformers_type':transformers_type,
-                                                    'segment' : "question-history","q":query,"my_work":my_work})
+        'transformer_type':q_types,'segment' : "question-history","q":query,"my_work":my_work,'per_page':per_page})
 
 
 def download_attendance(request):
@@ -998,3 +1397,8 @@ def process_payment(request):
         # Handle error case
         return render(request, 'home/paymenterror.html')
 
+
+
+
+def custom_404(request, exception):
+    return render(request, 'home/404.html', status=404)

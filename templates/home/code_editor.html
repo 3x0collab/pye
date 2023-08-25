@@ -11,16 +11,36 @@
         	<form id="coder_form" class="form" method="post">
 <div class="editor-header" style="display:flex; flex-direction: row; justify-content:space-between; align-items: center; " >
 
+<div style="display:flex; flex-direction: row; align-items: center; justify-content: center; " >
 {% if update %}
 <span>
- PYE Code Editor (Copied)
+ PYE Code (Copied)
 </span>
 {% else %}
 <span>
- PYE Code Editor
+ Code
 </span>
 
 {% endif %}
+
+  <select style="max-width:200px; height:35px;" class="form-select mx-3" id="transfomer_type" name="transfomer_type">
+        <option value="">Select Option </option>
+       
+        {% for transtype in transformers_type %}
+
+      {% if transformer_type == transtype.type %}
+
+          <option selected value="{{ transtype.type }}">{{ transtype.type }} </option>
+      {% else %}
+          <option value="{{ transtype.type }}">{{ transtype.type }} </option>
+          {% endif %}
+
+
+          {% endfor %}
+    </select>
+
+  </div>
+
 
 {% if update %}
 
@@ -85,11 +105,10 @@ Create Transformer
     <label for="transfomer_type" class="form-label">Type</label>
     <select class="form-select" id="transfomer_type" name="transfomer_type">
         <option value="">Select Option</option>
-        <option value="custom">Custom</option>
        
-        {% for type in transformers_type %}
-      {% if type.transformer_type %}
-          <option value="{{ type.transformer_type }}">{{ type.transformer_type }} </option>
+        {% for transtype in transformers_type %}
+      {% if transtype.type %}
+          <option value="{{ transtype.type }}">{{ transtype.type }} </option>
           {% endif %}
 
           {% endfor %}

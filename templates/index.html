@@ -1,13 +1,13 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="">
 
 <head>
     <!-- ========== Meta Tags ========== -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Anada - Data Science & Analytics Template">
+    <meta name="description" content="Personalised AI Solutions">
 
     <!-- ========== Page Title ========== -->
     <title>PYE</title>
@@ -41,7 +41,15 @@
 
 </head>
 
+</head>
+  
+ 
+
 <body>
+
+     {% include 'layouts\header.html' %}
+
+
 
     <!-- Preloader Start -->
     <div class="se-pre-con"></div>
@@ -49,253 +57,356 @@
 
     <!-- Header 
     ============================================= -->
-    <header id="home">
+   
 
-        <!-- Start Navigation -->
-        <nav class="navbar navbar-default navbar-fixed-light attr-border navbar-fixed dark no-background bootsnav">
 
-            <!-- Start Top Search -->
-            <div class="container">
-                <div class="row">
-                    <div class="top-search">
-                        <div class="input-group">
-                            <form action="#">
-                                <input type="text" name="text" class="form-control" placeholder="Search">
-                                <button type="submit">
-                                    <i class="ti-search"></i>
-                                </button>  
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- End Top Search -->
 
-            <div class="container">
-
-                <!-- Start Atribute Navigation -->
-                <div class="attr-nav">
-                    <ul>
-                        <li class="search"><a href="#"><i class="ti-search"></i></a></li>
-                        <li class="side-menu"><a href="#"><i class="ti-menu-alt"></i></a></li>
-                    </ul>
-                </div>        
-                <!-- End Atribute Navigation -->
-
-                <!-- Start Header Navigation -->
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-menu">
-                        <i class="fa fa-bars"></i>
-                    </button>
-                    <a class="navbar-brand" href="/">
-                        <img src="{% static 'assets/img/logo-light1.png' %}" class="logo default" alt="Logo">
-                        <img src="{% static 'assets/img/logo1.png' %}" class="logo logo-responsive" alt="Logo">
-                    </a>
-                </div>
-                <!-- End Header Navigation -->
-
-                <!-- Collect the nav links, forms, and other content for toggling -->
-                <div class="collapse navbar-collapse" id="navbar-menu">
-                    <ul class="nav navbar-nav navbar-right" data-in="fadeInDown" data-out="fadeOutUp">
-                        <li>
-                            <a href="">Home</a>
-                        </li>
- 
-                        <li>
-                            <a style="border-radius: 14px;" href="#" data-toggle="modal" data-target="#exampleModal">Go Pro</a>
-                        </li>
- 
-
-                        {% if '0' in auth %}
-                        <li>
-                            <a href="customer/register">Register</a>
-                        </li>
-                        <li>
-                            <a href="customer/customerclick">Login</a>
-                        </li>
-                        {% else %}
-                         <li>
-                            <a href="/customer/tasks">Jobs</a>
-                        </li>
-
-                        <li>
-                            <a href="customer/dashboard">My profile</a>
-                        </li>
-                        <li>
-                            <a href="logout">Logout</a>
-                        </li>
-                        {% endif %}
- 
-                        
-                    </ul>
- 
-                </div><!-- /.navbar-collapse -->
-<!-- /.navbar-collapse -->
-            </div>
-
-            <!-- Start Side Menu -->
-            <div class="side">
-                <a href="#" class="close-side"><i class="ti-close"></i></a>
-                <div class="widget">
-                    <h4 class="title">Contact Info</h4>
-                    <ul class="contact">
-                        <li>
-                            <div class="icon">
-                                <i class="flaticon-email"></i>
-                            </div>
-                            <div class="info">
-                                <span>Email</span> Info@gmail.com
-                            </div>
-                        </li>
-                        <li>
-                            <div class="icon">
-                                <i class="flaticon-call-1"></i>
-                            </div>
-                            <div class="info">
-                                <span>Phone</span> +123 456 7890
-                            </div>
-                        </li>
-                        <li>
-                            <div class="icon">
-                                <i class="flaticon-countdown"></i>
-                            </div>
-                            <div class="info">
-                                <span>Office Hours</span> Sat - Wed : 8:00 - 4:00
-                            </div> 
-                        </li>
-                    </ul>
-                </div>
-                <div class="widget">
-                    <h4 class="title">Additional Links</h4>
-                    <ul>
-                        <li><a href="#">About</a></li>
-                        <li><a href="#">Projects</a></li>
-                        <li><a href="#">Login</a></li>
-                        <li><a href="#">Register</a></li>
-                    </ul>
-                </div>
-                <div class="widget social">
-                    <h4 class="title">Connect With Us</h4>
-                    <ul class="link">
-                        <li class="facebook"><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-                        <li class="twitter"><a href="#"><i class="fab fa-twitter"></i></a></li>
-                        <li class="pinterest"><a href="#"><i class="fab fa-pinterest"></i></a></li>
-                        <li class="dribbble"><a href="#"><i class="fab fa-dribbble"></i></a></li>
-                    </ul>
-                </div>
-            </div>
-            <!-- End Side Menu -->
-
-        </nav>
-        <!-- End Navigation -->
-
-    </header>
     <!-- End Header -->
 
     <!-- Start Banner 
     ============================================= -->
-    <div class="banner-area text-combo top-pad-90 rectangular-shape bg-light-gradient ">
-        <div class="item">
-            <div class="box-table">
-                <div class="box-cell">
-                    <div class="container">
-                        <div class="row">
-                            <div class="double-items">
-                                <div class="col-lg-6 info ">
-                                    <h3 class="wow fadeInDown mt-4 pt-3" data-wow-duration="1s" style="font-size:30px; font-weight: bolder;" > Transform, Schedule, and Run Your Data Tasks in the Cloud!</h3>
-                                    <p class="wow fadeInLeft" data-wow-duration="1.5s">
-                                        Get started for free. Our basic plan gives you access to machines with a full Python environment already installed. You can transform, schedule, and run your data tasks directly from your browser without having to install software or manage your own server.
-                                    <p>
-                                        Need more power? Upgraded plans start at $5/month.
-                                    </p>
 
-                                    <div>
+<div  class="details-stripe" style="background-color: #04042d; margin-top: 0px;">
+    <div class="" style="  background-image: url(/static/assets/img/11.jpg); 
+    padding: 50px; 
+    height: 40em;
+    padding: 100px;">
 
-                                        <a class="btn circle btn-sm btn-success wow fadeInUp" data-wow-duration="1.8s" href="#">
-                                            Get started with ETL in the Cloud now! »</a>
-                                       <a class="btn circle btn-sm btn-gradient wow fadeInUp" data-wow-duration="1.8s" href="presentation">
-                                            Watch our one-minute video »</a>
-                                    </div>
-                                    <div>
-                                       <p data-wow-duration="1.8s" >
-                                          Not convinced?  <a href="https://www.pythonanywhere.com/about/testimonials/">Read what our users are saying!</a>
-                                       </p>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 thumb wow fadeInRight" data-wow-duration="1s">
-                                    <img src="{% static 'assets/img/illustration/2.png' %}" alt="Thumb">
-                                </div>
-                            </div>
+
+        <div class="row" style="display: flex; align-items: center;" >
+            <div class="list-item-left">
+                <img style="opacity: 0.8;" src="/static/assets/img/glyphicons_232_cloud.png">
+                <div class="list-item-content">
+                    <h1 style="color: #16c2d3 ; font-weight: bold; font-size: 60px; ">Train your AI</h1>
+                    <ul style=" color: white;">
+                        <li>Faster & more reliable</li>
+                        <li>3x faster with SSD & caching</li>
+                        <li>Customizable auto updates</li>
+                        <li>Daily backups and easy recovery</li>
+                        <li>Starting at $1/month</li>
+                    </ul>
+                    <p><a class="btn circle btn-sm btn-success wow fadeInUp" data-wow-duration="1.8s" href="#" style=" margin-top: 15px;">Get started with ETL in the Cloud now! »</a></p>
+                    <p><a class="btn circle btn-sm btn-gradient wow fadeInUp" data-wow-duration="1.8s" href="presentation">
+                            Watch our one-minute video »</a></p>
+                </div>
+            </div>
+<!-- <img style="width: 70px;height: 70px;" src="/static/assets/img/cube.gif">  -->
+
+
+            <div class="list-item-right" style=" background-color: #050554; padding: 20px; border-radius: 10px; min-width: 310px;">
+                <!-- <img style="opacity: 0.8;" src="/static/assets/img/glyphicons_232_cloud.png"> -->
+                <div class="list-item-content">
+                    <h3 style="color: #16c2d3 ;">AI in the Cloud</h3>
+                    <ul style=" color: white;">
+                        <li>Cloud IT without compromises</li>
+                        <li>Highly scalable</li>
+                        <li>Maximum performance</li>
+                        <li>Full data sovereignty</li>
+                    </ul>
+                    <p><a class="btn circle btn-sm  wow fadeInUp" data-wow-duration="1.8s" href="#" style="background-color: #16c2d3; margin-top: 70px">Learn more »</a></p>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+    
+
+    <!-- <div class="container" style="position: relative; margin-top: 100px; padding: 50px; border-radius: 30px; box-shadow: 2px -3px 20px 20px rgb(0 0 0 / 50%); background-image: url('/static/assets/img/ivancik.jpg'); background-size: 100% auto; background-repeat: no-repeat; background-position: center;">
+
+        <div class="row">
+            <div class="list-item-left">
+                <img style="opacity: 0.8;" src="/static/assets/img/glyphicons_232_cloud.png">
+                <div class="list-item-content">
+                    <h3 style="color: #16c2d3 ; font-weight: bold;">Transform, Schedule, and Run Your Data Tasks in the Cloud!</h3>
+
+                    <div style=" color: white;">
+                       <p style=" color: white;">
+                            PYE is a comprehensive data pipeline platform designed to streamline <br>
+                            the process of collecting data from various sources and seamlessly <br>
+                            transferring it to your data warehouse, you can effortlessly<br> 
+                            extract data from multiple sources, perform <br>
+                            necessary transformations for effective analytics, and deliver valuable<br> 
+                            insights to your business tools. PYE simplifies and<br>
+                             accelerates the flow of data.<br>
+                        </p>
+                        <div>
+                        <p><a class="btn circle btn-sm btn-gradient wow fadeInUp" data-wow-duration="1.8s" href="presentation">
+                            Watch our one-minute video »</a></p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-<div>
-    <p>
-        ..
-    </p>
+</h4>
+</div> -->
+</div>
+
+
 </div>
 </div>
-    <div id="id_buttons" class="details-stripe">
 
-        <div class="container">
+</div>
+<!-- 
+<div class="choseus-area default-padding-top" style=" margin-top: -70px;">
+        
+    </div> -->
+    <!-- End Why Chose Us -->
 
-            <div class="row">
+    <!-- Start Services List
+    ============================================= -->
+    <div class="services-list-area default-padding-bottom pt-5" style="    background: #eee;">
+
+        <div class="containe r" style="  margin-left: 5% !important;margin-right: 5% !important;">
+            <div class="choseus-box">
+                <div class="row">
+                    <div class="col-lg-5 info">
+                        <h2>Real solutions for real AI</h2>
+                        <h5 style="color: #139FD7;;">That’s code for Pye.</h5>
+                        <p>
+                            <!--Humoured likewise moderate. Much nor game son say feel. Fat make met can must form into gate.-->
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+    <div class="containe r" style="  margin-left: 5% !important;margin-right: 5% !important;">
+        <div class="services-list-items">
+            <div class="row align-center">
+                <div class="col-lg-5 thumb">
+                    <!-- Slideshow Container -->
+                    <div class="slideshow">
+                        <img class="slide" src="{% static 'assets/img/illustration/16.png' %}" alt="Slide 1">
+                        <img class="slide" src="{% static 'assets/img/illustration/14.png' %}" alt="Slide 2">
+                        <!-- Add more images here with the class "slide" -->
+                        <!-- For example: -->
+                        <img class="slide" src="{% static 'assets/img/illustration/15.png' %}" alt="Slide 3">
+                        
+                    </div>
+                    <!-- Slideshow Navigation Buttons -->
+                    <div class="slide-buttons">
+                        <button class="prev-btn" onclick="changeSlide(-1)">&#10094;</button>
+                        <button class="next-btn" onclick="changeSlide(1)">&#10095;</button>
+                    </div>
+                </div>
+                <div class="col-lg-7">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 single-item">
+                            <a href="#"><i class="fab fa-angular"></i> <span>Reduce employee turnover</span></a>
+                        </div>
+                        <div class="col-lg-6 col-md-6 single-item">
+                            <a href="#"><i class="fas fa-rocket"></i> <span>Reach out to more community members</span></a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 single-item">
+                            <a href="#"><i class="fas fa-trash-alt"></i> <span>Selling a more reliable product</span></a>
+                        </div>
+                        <div class="col-lg-6 col-md-6 single-item">
+                            <a href="#"><i class="fas fa-award"></i><span>Automated user provisioning</span></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style type="text/css">
+    /* Add your custom CSS styles here */
+
+/* Hide all slides except the first one */
+.slide {
+    display: none;
+}
+
+/* Show the first slide */
+.slide.active {
+    display: block;
+}
+
+/* Style for the navigation buttons */
+.slide-buttons {
+    text-align: center;
+}
+
+.prev-btn,
+.next-btn {
+    cursor: pointer;
+    padding: 8px 16px;
+    background-color: #f1f1f1;
+    border: none;
+    color: #000;
+    font-size: 18px;
+}
+
+.prev-btn:hover,
+.next-btn:hover {
+    background-color: #ddd;
+}
+
+
+</style>
+<script>
+    let slideIndex = 1;
+    showSlides(slideIndex);
+
+    function changeSlide(n) {
+        showSlides(slideIndex += n);
+    }
+
+    function showSlides(n) {
+        const slides = document.getElementsByClassName("slide");
+        if (n > slides.length) {
+            slideIndex = 1;
+        }
+        if (n < 1) {
+            slideIndex = slides.length;
+        }
+        for (let i = 0; i < slides.length; i++) {
+            slides[i].style.display = "none";
+        }
+        slides[slideIndex - 1].style.display = "block";
+    }
+</script>
+
+    <!-- End Services List -->
+
+<style>
+    #id_buttons .container {
+        display: flex;
+        flex-direction: column;
+        background-color: white;
+        padding: 50px;
+        border-radius: 30px;
+    }
+
+    .row {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .list-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .list-item img {
+        max-width: 100px;
+        margin-right: 10px;
+    }
+
+    .list-item-content h3 {
+        margin-bottom: 10px;
+    }
+
+    .list-item-content ul {
+        list-style-type: none;
+        padding-left: 0;
+    }
+
+    .list-item-content li::before {
+        content: "\2022"; /* Bullet point (•) character */
+        font-size: 15px;
+        margin-right: 10px;
+    }
+
+    .talk {
+            height: 100px;
+    overflow: hidden;
+    }
+</style>
+
+
+<!-- Ensure you have jQuery included before the following code -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        // Function to animate the text boxes
+        function animateTextBoxes() {
+            $("#animation-container .row").each(function(index) {
+                $(this)
+                    .delay(index * 200) // Delay each animation
+                    .fadeIn(1000); // Fade in the text boxes
+            });
+        }
+
+        // Function to animate the buttons
+        function animateButtons() {
+            $("#animation-container .btn").each(function(index) {
+                $(this)
+                    .delay(index * 200) // Delay each animation
+                    .fadeIn(1000); // Fade in the buttons
+            });
+        }
+
+        // Call the animation functions
+        animateTextBoxes();
+        animateButtons();
+    });
+</script>
+</div>
+
+<div class=" " style="margin-top: 50px;  margin-left: 5% !important;margin-right: 5% !important; padding-bottom: 20px;">
+
+        <div class=" " >
+
+            <div class="row ">
                 <div class="col-md-3">
                     <img style="float: left; margin: 7px 10px 0 0; opacity: 0.8;" src="/static/assets/img/glyphicons_232_cloud.png">
-                    <h3>ETL from anywhere</h3>
-                    <p>
-                       Take your data ETL with you! With our online ETL program, you only need a browser and an internet connection to get started.
+                    <h4>ETL from anywhere</h3>
+                    <p class="talk" >
+                       Take your data ETL with you! With our ETL connector, you only need a browser and internet connection to get started.
                     </p>
-                     <p><a class="btn circle btn-sm btn-success wow fadeInUp" data-wow-duration="1.8s" href="#">Learn more »</a></p>
+                     <p><a class="btn circle btn-sm btn-success wow fadeInUp" data-wow-duration="1.8s" href="#" style="background-color: #04042d;">Learn more »</a></p>
                 </div>
 
                 <div class="col-md-3">
                     <img style="float: left; margin: 7px 10px 0 0; opacity: 0.8;" src="/static/assets/img/glyphicons_138_computer_proces.png">
-                    <h3>Expert support</h3>
-                    <p>
+                    <h4>Expert support</h3>
+                   <p class="talk" >
                         Need help with your ETL program? Our development team is always available to assist you with any questions or issues.
                     </p>
-                     <p><a class="btn circle btn-sm btn-success wow fadeInUp" data-wow-duration="1.8s" href="#">Learn more »</a></p>
+                     <p><a class="btn circle btn-sm btn-success wow fadeInUp" data-wow-duration="1.8s" href="#" style="background-color: #04042d;">Learn more »</a></p>
                 </div>
 
                 <div class="col-md-3">
                     <img style="float: left; margin: 7px 10px 0 0; opacity: 0.8;" src="/static/assets/img/glyphicons_064_lightbulb.png">
-                    <h3>Teach and learn</h3>
-                    <p>
-                        Our ETL program is perfect for students and teachers alike. With no installation required, you can focus on teaching and learning.
+                    <h4>Teach and learn</h3>
+             <p class="talk" >
+                        Our platform is perfect for students and teachers alike. With no installation required.
                     </p>
-                    <p><a class="btn circle btn-sm btn-success wow fadeInUp" data-wow-duration="1.8s" href="#">Learn more »</a></p>
+                    <p><a class="btn circle btn-sm btn-success wow fadeInUp" data-wow-duration="1.8s" href="#" style="background-color: #04042d;">Learn more »</a></p>
                 </div>
 
 
                 <div class="col-md-3">
                     <img style="float: left; margin: 7px 10px 0 0; opacity: 0.8;" src="/static/assets/img/glyphicons_043_group.png">
-                    <h3>Amazing support</h3>
-                    <p>
+                    <h4>Amazing support</h4>
+                 <p class="talk" >
                         Need help? If you get in touch,
                         you can talk directly with the development team.  Help
                         for developers, from developers.
                     </p>
-                    <p><a class="btn circle btn-sm btn-success wow fadeInUp" data-wow-duration="1.8s" href="#">Learn more »</a></p>
+                    <p><a class="btn circle btn-sm btn-success wow fadeInUp" data-wow-duration="1.8s" href="#" style="background-color: #04042d;">Learn more »</a></p>
                 </div>
 
             </div>
         </div>
     </div>
-</div>
-    <!-- Start Our About
+
+
+        <!-- Start Our About
     ============================================= -->
     <!-- End Our About -->
-<p>
-.
-.
-.
-<p>
-<div id="id_hosting_details" class="details-stripe">
-
+<div id="id_hosting_details" class="details-stripe" style="  background: linear-gradient(135deg, #08084e 50%, #2c2c53 50%);
+    box-shadow:-1px -20px 20px 20px rgb(126 108 246 / 20%);">
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
@@ -356,7 +467,9 @@
     ============================================= -->
     <div class="fun-factor-area bg-gray default-padding">
         <!-- Fixed BG -->
-        <div class="fixed-bg" style="background-image: url(assets/img/map.svg);"></div>
+        <div class="fixed-bg" style="background-image: url(assets/img/map.svg); background-image: url('assets/img/map.svg');
+    background-color: #ffffff; /* Set the desired background color */
+    box-shadow: 0px -1px 20px 20px rgb(3 48 107 / 20%)" ></div>
         <!-- Fixed BG -->
         <div class="container">
             <div class="client-items text-center">
@@ -397,7 +510,7 @@
 
         <!-- Shape Fixed Rotation -->
         <div class="shape-fixed animation-rotation">
-            <img src="{% static 'assets/img/round-shappe.png' %}" alt="Thumb">
+            <img src="{% static 'assets/img/round-shappe1-removebg-preview.png' %}" alt="Thumb">
         </div>
         <!-- Dhape Fixed Rotation -->
 
@@ -409,8 +522,8 @@
                             We offer a wide range of services and provide realtime data Solutions
                         </h2>
                     </div>
-                    <div class="col-lg-6 offset-lg-1">
-                        <p>
+                    <div class="col-lg-6">
+                        <p style="font-weight: bold; font-size: 18px;">
                             Everything melancholy uncommonly but solicitude inhabiting projection off. Connection stimulated estimating excellence an to impression. 
                         </p>
                         <a class="btn circle btn-md btn-gradient wow fadeInUp" href="#">View All <i class="fas fa-plus"></i></a>
@@ -420,7 +533,7 @@
             <div class="services-items">
                 <div class="row">
                     <!-- Single Item -->
-                    <div class="single-item col-lg-4 col-md-6">
+                   <!--  <div class="single-item col-lg-4 col-md-6">
                         <div class="item">
                             <img src="{% static 'assets/img/icon/1.png' %}" alt="Thumb">
                             <h4>Big Data</h4>
@@ -431,10 +544,10 @@
                                 <a class="btn-standard" href="#"><i class="fas fa-angle-right"></i> Read More</a>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <!-- Single Item -->
                     <!-- Single Item -->
-                    <div class="single-item col-lg-4 col-md-6">
+                    <!-- <div class="single-item col-lg-4 col-md-6">
                         <div class="item">
                             <img src="{% static 'assets/img/icon/2.png' %}" alt="Thumb">
                             <h4>Data Analytics</h4>
@@ -445,10 +558,10 @@
                                 <a class="btn-standard" href="#"><i class="fas fa-angle-right"></i> Read More</a>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <!-- Single Item -->
                     <!-- Single Item -->
-                    <div class="single-item col-lg-4 col-md-6">
+                   <!--  <div class="single-item col-lg-4 col-md-6">
                         <div class="item">
                             <img src="{% static 'assets/img/icon/3.png' %}" alt="Thumb">
                             <h4>Business Intelligence</h4>
@@ -459,7 +572,7 @@
                                 <a class="btn-standard" href="#"><i class="fas fa-angle-right"></i> Read More</a>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <!-- Single Item -->
                     
                 </div>
@@ -475,37 +588,38 @@
 
     <!-- Star Footer
     ============================================= -->
-    <footer>
-        <div class="container">
+    <footer style="background-color: #04042d; color: white;" >
+        <div class="container" >
             <div class="f-items default-padding">
                 <div class="row">
                     <div class="equal-height col-lg-4 col-md-6 item">
                         <div class="f-item about">
-                            <img src="{% static 'assets/img/logo1.png' %}" alt="Logo">
-                            <p>
+                             <a href="/?linkId=hd.log.home" data-linkid="hd.log.home" id="button-hd-log-home" aria-label="Return to home page" class="logo">
+            <span style="font-size: 40px; font-weight: bold!important; color:white ;">☫</span> PYE</a>
+                            <p style="color: #139FD7;">
                                 Required honoured trifling eat pleasure man relation. Assurance yet bed was improving furniture man. Distrusts delighted
                             </p>
                         </div>
                     </div>
 
-                    <div class="equal-height col-lg-2 col-md-6 item">
+                    <div class="equal-height col-lg-2 col-md-6 item" style="">
                         <div class="f-item link">
-                            <h4 class="widget-title">Usefull Links</h4>
+                            <h4 style="color: white!important; font-weight: bold;">Usefull Links</h4>
                             <ul>
                                 <li>
-                                    <a href="#">Classic Business</a>
+                                    <a href="#"  style="color: white!important;">Classic Business</a>
                                 </li>
                                 <li>
-                                    <a href="#">Blog</a>
+                                    <a href="#" style="color: white!important;">Blog</a>
                                 </li>
                                 <li>
-                                    <a href="#">Project</a>
+                                    <a href="#"style="color: white!important;">Project</a>
                                 </li>
                                 <li>
-                                    <a href="#">About Us</a>
+                                    <a href="#"style="color: white!important;">About Us</a>
                                 </li>
                                 <li>
-                                    <a href="#">Contact</a>
+                                    <a href="#"style="color: white!important;">Contact</a>
                                 </li>
                             </ul>
                         </div>
@@ -513,22 +627,22 @@
 
                     <div class="equal-height col-lg-2 col-md-6 item">
                         <div class="f-item link">
-                            <h4 class="widget-title">Services</h4>
-                            <ul>
+                            <h4 style="color: white!important; font-weight: bold;">Services</h4>
+                            <ul style="color: white;">
                                 <li>
-                                    <a href="#">Marketing & Sales</a>
+                                    <a href="#" style="color: white!important;">Marketing & Sales</a>
                                 </li>
                                 <li>
-                                    <a href="#">Manufacturing</a>
+                                    <a href="#"style="color: white!important;">Manufacturing</a>
                                 </li>
                                 <li>
-                                    <a href="#">Supply Chain</a>
+                                    <a href="#"style="color: white!important;">Supply Chain</a>
                                 </li>
                                 <li>
-                                    <a href="#">Data Visualization</a>
+                                    <a href="#"style="color: white!important;">Data Visualization</a>
                                 </li>
                                 <li>
-                                    <a href="#">Big Data</a>
+                                    <a href="#"style="color: white!important;">Big Data</a>
                                 </li>
                             </ul>
                         </div>
@@ -536,8 +650,8 @@
 
                     <div class="equal-height col-lg-4 col-md-6 item">
                         <div class="f-item contact">
-                            <h4 class="widget-title">Contact Info</h4>
-                            <p>
+                            <h4 style="color: white!important; font-weight: bold;">Contact Info</h4>
+                            <p style="color: white!important;">
                                  Possible offering at contempt mr distance stronger an. Attachment excellence announcing
                             </p>
                             <div class="address">
@@ -571,7 +685,7 @@
             <div class="footer-bottom">
                 <div class="row">
                     <div class="col-lg-6">
-                        <p>&copy; Copyright 2019. All Rights Reserved by <a href="#">validthemes</a></p>
+                        <p style="color: white!important;">&copy; Copyright 2023. All Rights Reserved by 3x0 <a href="#">3x0themes</a></p>
                     </div>
                     <div class="col-lg-6 text-right link">
                         <ul>
@@ -621,7 +735,7 @@
   h1,h2,h3,h4,h5{font-weight:300}a,.btn-link{color:#139FD7}a:hover,.btn-link:hover{color:#118ec0}.page-header{margin-top:10px}.page-header h1{display:flex;flex-flow:row wrap;align-items:center;justify-content:space-between}.page-header h1 span{width:100%;margin-right:10px}.page-header h1 small{display:inline-block;flex-shrink:0;font-size:16px;margin-top:10px;font-weight:300}.page-header h1 small a{text-decoration:underline}@media all and (min-width:768px){.page-header h1{flex-flow:row nowrap}.page-header h1 small{font-size:24px;margin-top:5px}}.btn{border-radius:1.5em}.btn.btn-default{color:#139FD7;border-color:#139FD7}.btn.btn-default:hover{background:#F8F8F8}.btn.btn-primary{background:#139FD7;border-color:#139FD7;color:#fff}.btn.btn-primary:hover{background:#118ec0;border-color:#118ec0}.navbar{border-radius:0}.top-nav{margin-bottom:0;min-height:auto;background:#139FD7;font-size:12px}.top-nav .navbar-right{margin-right:0}.top-nav li a,.top-nav li button.btn-link{color:#fff;padding-top:2.5px;padding-right:0;padding-bottom:2.5px;padding-left:10px}.top-nav li a:hover,.top-nav li button.btn-link:hover{text-decoration:underline;background:none}.top-nav button:focus,.top-nav a:focus,.top-nav li a:focus{background-color:#139FD7;outline:none;text-decoration:none}.primary-navbar{padding:10px 0;margin-bottom:0}.primary-navbar .active a{color:black;font-weight:bold;background-color:white}.primary-navbar li a:hover,.primary-navbar .btn-link:hover{color:inherit;background:none;text-decoration:underline}.primary-navbar li button.btn-link{padding-top:10px;padding-right:5px;padding-bottom:10px;padding-left:15px;margin:0;border:0}@media all and (min-width:768px){.primary-navbar{font-size:18px}.primary-navbar li a{padding-right:0}}.fullscreen-main-navbar{border:none;display:flex;flex-direction:row;align-items:center;flex-wrap:wrap;width:100%;background-color:white;justify-content:space-between}@media all and (min-width:768px){.fullscreen-main-navbar .navbar-header{order:1}.fullscreen-main-navbar .extra-nav-content{order:2}.fullscreen-main-navbar .fullscreen-mini-nav{order:3}}@media all and (max-width:767px){.fullscreen-main-navbar .navbar-header{order:1}.fullscreen-main-navbar .extra-nav-content{order:3}.fullscreen-main-navbar .fullscreen-mini-nav{order:2}}.fullscreen-main-navbar div,.fullscreen-main-navbar .form-inline{display:flex;align-items:baseline}.fullscreen-main-navbar .fullscreen-mini-nav .help-links{display:flex;align-items:baseline}.fullscreen-main-navbar .fullscreen-mini-nav .help-links li a.btn-link{color:#139FD7}.fullscreen-main-navbar #id_editor_toolbar,.fullscreen-main-navbar #id_console_controls,.fullscreen-main-navbar .ng-scope{flex:1;justify-content:space-between}.fullscreen-main-navbar div#id_console_name_wrapper{display:block}.fullscreen-main-navbar li a,.fullscreen-main-navbar li button.btn-link{padding-top:2.5px;padding-right:0;padding-bottom:2.5px;padding-left:10px;border:0;color:#333}.fullscreen-main-navbar button.btn-link{width:100%;text-align:left}.fullscreen-main-navbar button.btn-link:hover{text-decoration:none;background-color:#f5f5f5}.fullscreen-main-navbar button:focus,.fullscreen-main-navbar a:focus,.fullscreen-main-navbar li a:focus{outline:none;text-decoration:none}.fullscreen-main-navbar .navbar-header{margin:0}.fullscreen-main-navbar .extra-nav-content{justify-content:flex-end}.fullscreen-main-navbar .navbar-brand{padding:10px 4px 10px 4px}.help-navbar{align-items:baseline}.fullscreen-hamburger button.navbar-toggle{display:block}.navbar-header{margin-left:1em}.navbar-toggle .icon-bar{background:black}.teacher-navbar{margin-bottom:0;min-height:auto;background:#333;color:#bbb;font-size:12px;padding-top:0.75ex;padding-bottom:0.75ex;text-align:center}.teacher-navbar .navbar-right{margin-right:0}.teacher-navbar a,.teacher-navbar button.btn-link{color:#fff;text-decoration:underline}.admin-nav{margin-bottom:0;min-height:auto;background:#B33;color:#fff;font-size:12px;padding-top:0.75ex;padding-bottom:0.75ex;text-align:center}.admin-nav .navbar-right{margin-right:0}.admin-nav a,.admin-nav button.btn-link{color:#fff;text-decoration:underline}.extra-nav-content{flex:1;flex-wrap:wrap}body{font-family:"Roboto",Arial,sans-serif;margin:0}.icon{width:1em;height:1em;fill:currentColor;vertical-align:middle}.footer-spacer{min-height:3em}.footer{margin-top:1.5em}
 
 
-  .youtube-video-alternative{display:none}@media (max-width:480px){.jumbotron{padding:20px}.jumbotron h1{font-size:40px}}@media (max-width:767px){.jumbotron{padding:40px}.bumf-left{margin-left:0;width:100%;float:left}}@media (max-width:979px){.jumbotron{padding:40px}.bumf-left{margin-left:0;width:100%;float:left}}@media (min-width:1200px){.bumf-left{margin-left:0;margin-right:20px;width:40.4255%;float:left}}.jumbotron h1{font-size:50px;margin-top:12px;padding-bottom:25px;font-weight:bold}.bumf-left{margin-right:30px}#id_main_screenshot{margin-top:10px;box-shadow:12px 12px 29px #555}.carousel{height:250px}.details-stripe{padding:20px}.details-stripe p{font-size:16px!important;line-height:150%}#id_buttons{padding-top:20px;padding-bottom:20px}#id_hosting_details{background-color:#5D707F;color:#EEEEEE;margin-top:50px}#id_hosting_details h1{color:#EEEEEE}#id_hosting_details h2{color:#EEEEEE}#id_hosting_details a{color:#BAE0FF!important}#id_hosting_details a.btn{color:#FFFFFF!important}#id_develop_anywhere_details{background-color:white}#id_education_details{background-color:#5D707F;color:#EEEEEE;margin-top:50px}#id_education_details h1{color:#EEEEEE}#id_education_details h2{color:#EEEEEE}#id_education_details h3{color:#EEEEEE}#id_education_details a{color:#BAE0FF!important}#id_education_details a.btn{color:#FFFFFF!important}#id_support_details{background-color:#6DBEFF}#id_support_details table{border-collapse:separate;border-spacing:10px}#id_support_details a{color:#FFFFFF!important}.jumbotron{-webkit-border-radius:0;-moz-border-radius:0;border-radius:0;padding:30px;margin-top:12px}h3{margin-top:0}#id_company_info_strip{color:#888888;padding-top:15px;padding-bottom:15px;margin-left:0;margin-top:30px;margin-bottom:30px;border-radius:6px}
+  .youtube-video-alternative{display:none}@media (max-width:480px){.jumbotron{padding:20px}.jumbotron h1{font-size:40px}}@media (max-width:767px){.jumbotron{padding:40px}.bumf-left{margin-left:0;width:100%;float:left}}@media (max-width:979px){.jumbotron{padding:40px}.bumf-left{margin-left:0;width:100%;float:left}}@media (min-width:1200px){.bumf-left{margin-left:0;margin-right:20px;width:40.4255%;float:left}}.jumbotron h1{font-size:50px;margin-top:12px;padding-bottom:25px;font-weight:bold}.bumf-left{margin-right:30px}#id_main_screenshot{margin-top:10px;box-shadow:12px 12px 29px #555}.carousel{height:250px} .details-stripe p{font-size:16px!important;line-height:150%}#id_buttons{padding-top:20px;padding-bottom:20px}#id_hosting_details{background-color:#5D707F;color:#EEEEEE;margin-top:50px}#id_hosting_details h1{color:#EEEEEE}#id_hosting_details h2{color:#EEEEEE}#id_hosting_details a{color:#BAE0FF!important}#id_hosting_details a.btn{color:#FFFFFF!important}#id_develop_anywhere_details{background-color:white}#id_education_details{background-color:#5D707F;color:#EEEEEE;margin-top:50px}#id_education_details h1{color:#EEEEEE}#id_education_details h2{color:#EEEEEE}#id_education_details h3{color:#EEEEEE}#id_education_details a{color:#BAE0FF!important}#id_education_details a.btn{color:#FFFFFF!important}#id_support_details{background-color:#6DBEFF}#id_support_details table{border-collapse:separate;border-spacing:10px}#id_support_details a{color:#FFFFFF!important}.jumbotron{-webkit-border-radius:0;-moz-border-radius:0;border-radius:0;padding:30px;margin-top:12px}h3{margin-top:0}#id_company_info_strip{color:#888888;padding-top:15px;padding-bottom:15px;margin-left:0;margin-top:30px;margin-bottom:30px;border-radius:6px}
 </style>
 </body>
 <style>

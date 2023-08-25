@@ -27,7 +27,7 @@ SECRET_KEY = 'ls@!_(edqp*xy76kvbsst$07at(v^li*2&ew!^$8o(@wa6@a+$'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
     'widget_tweaks',
     'paypal.standard.ipn', 
     'backoffice',
@@ -137,6 +138,11 @@ STATIC_DIR,
 #     '/var/www/static/',
 # ]
 
+# settings.py
+MEDIA_URL = '/statics/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads')
+
+
 LOGIN_REDIRECT_URL='/afterlogin'
 
 #for contact us give your gmail id and password
@@ -166,3 +172,6 @@ PAYPAL_TEST = True
 REMITA_MERCHANT_ID = 'your_merchant_id'
 REMITA_API_KEY = 'your_api_key'
 REMITA_API_BASE_URL = 'https://api.remita.net'
+
+X_FRAME_OPTIONS = 'SAMEORIGIN'
+

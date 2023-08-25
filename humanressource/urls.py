@@ -1,4 +1,9 @@
 
+
+
+from customer.views import custom_404
+handler404 = custom_404
+
 from django.contrib import admin
 from rest_framework import routers
 from django.urls import path
@@ -36,7 +41,8 @@ urlpatterns = [
     path('aboutus', views.aboutus_view),
     path('contactus', views.contactus_view),
     path('afterlogin', views.afterlogin_view,name='afterlogin'),
-    path('', views.landing_view,name=''),
+    # path('', views.landing_view,name=''),
+     path('', LoginView.as_view(template_name='home/sign-in.html'),name='login'),
     path('presentation', views.presentation_view,name='presentation'),
     
     #path('adminlogin', LoginView.as_view(template_name='backoffice/adminlogin.html'),name='adminlogin'),
@@ -108,4 +114,6 @@ urlpatterns = [
     path('tchart/payment-method/<int:year>/', views.tpayment_method_chart, name='tchart-payment-method'),
     path('statistics2/', views.statistics_view2, name='shop-statistics2'),
 
-]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+

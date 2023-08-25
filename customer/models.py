@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
-
+import json
 
 class Customer(models.Model):
     user=models.OneToOneField(User,on_delete=models.CASCADE)
@@ -19,6 +19,7 @@ class Customer(models.Model):
     fb = models.CharField(max_length=100,null=False,default='')
     ig = models.CharField(max_length=100,null=False,default='')
     twitter = models.CharField(max_length=100,null=False,default='')
+    product_version = models.CharField(max_length=100,null=False,default='free')
    
     @property
     def get_name(self):
@@ -30,20 +31,31 @@ class Customer(models.Model):
         return self.user.first_name
 
 
+class BotFileUploads(models.Model):
+    chatbot = models.CharField(max_length=200, null=True, blank=True)
+    file = models.FileField(upload_to='uploads/')
+    uploaded_at = models.DateTimeField(auto_now_add=True)
 
-class FilesModel(models.Model):
-    connector_id = models.CharField(max_length=200,primary_key=True)
+    def __str__(self):
+        return self.file.name + " : "+ self.chatbot
+
+
+class FileModels(models.Model): 
+    connector_id = models.CharField(max_length=200, null=True, blank=True)
     filetype = models.CharField(max_length=50, null=True, blank=True)
     file = models.FileField(upload_to='uploads/')
+    ingest = models.CharField(max_length=10,default=False)
 
 
 class Connector(models.Model):
-    name = models.CharField(max_length=200,null=False,default='')
+    name = models.CharField(max_length=200,null=False,default='01')
     description = models.TextField(null=True,blank=True)
     connector_type = models.CharField(max_length=150,null=True,blank=True)
+    can_source = models.CharField(max_length=20,null=True,blank=True)
+    can_target = models.CharField(max_length=20,null=True,blank=True)
+    type_name = models.CharField(max_length=150,null=True,blank=True)
     parameters = models.TextField(null=True,blank=True)
     created_by=models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
-    files = models.ManyToManyField(FilesModel)
     date_created = models.DateField(default=timezone.now)
     time_created = models.TimeField(default=timezone.now)
 
@@ -51,12 +63,11 @@ class Connector(models.Model):
     def __str__(self):
         return self.name + " : "+ str(self.connector_type)
 
-
-
+    
  
 class Transformer(models.Model):
     name = models.CharField(max_length=200,null=False,default='')
-    transformer_type = models.CharField(max_length=200,null=True,blank=True)
+    transformer_type = models.CharField(max_length=200,null=True,blank=True,default="Python")
     description = models.TextField(null=True,blank=True)
     created_by=models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     last_modified = models.DateTimeField(default=timezone.now)
@@ -65,12 +76,13 @@ class Transformer(models.Model):
     code = models.TextField(null=True,blank=True,default='')
 
     def __str__(self):
-        return   self.name
+        return   self.name+"-"+self.description
 
     def save(self, *args, **kwargs):
         self.views = self.views + 1
         super().save(*args, **kwargs)
  
+
 
 
 
@@ -116,18 +128,100 @@ class Task(models.Model):
         return ','.join(day for day in ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'] if getattr(self, day))
 
     def get_transformers(self):
-        return ', '.join( [x.description or x.name for x in self.transformers.all()])
+        return ', '.join( [x.name for x in self.transformers.all()])
 
     def get_targets(self):
-        return ', '.join([ x.description or x.name for x in self.targets.all()])
+        return ', '.join([ x.name + ' ('+x.type_name+')' for x in self.targets.all()])
 
     def get_sources(self):
-        return ', '.join([x.description or x.name for x in self.source.all()])
+        return ', '.join([ x.name + ' ('+x.type_name+')' for x in self.source.all()])
 
     weekly_day = property(weekly_day)
     get_transformers = property(get_transformers)
     get_targets = property(get_targets)
     get_sources = property(get_sources)
+
+
+
+
+class Connections(models.Model):
+    name = models.CharField(max_length=200,null=False,default='')
+    description = models.TextField(null=True,blank=True) 
+    chat_history = models.TextField(null=True,blank=True) 
+    connector =  models.ForeignKey(Connector, on_delete=models.CASCADE, null=True, blank=True)
+    pipelines =  models.ManyToManyField(Task,  null=True, blank=True,related_name="pipelines_task")
+    last_date_update = models.DateField(default=timezone.now)
+    last_time_update = models.TimeField(default=timezone.now )
+
+    def __str__(self):
+        return   self.name+"-"+self.connector.name+"-"+str(self.pk)
+
+    def save(self, *args, **kwargs):
+        self.last_date_update = timezone.now().date()
+        self.last_time_update = timezone.now().time()
+        super().save(*args, **kwargs)
+
+    def get_prompts(self):
+        prompt_len =  Chatbot.objects.filter(connection=self).count()
+        return prompt_len
+
+    get_prompts = property(get_prompts)
+
+def merge_key(config={}):
+    new_config = {}
+    for key in config.keys():
+        new_config[str(key).replace("-","_")] = config[key]
+    return new_config
+
+class Chatbot(models.Model):
+    name = models.CharField(max_length=200,null=False,default='')
+    api_id = models.CharField(max_length=200,null=False,default='')
+    share_count = models.IntegerField(max_length=200,null=False,default=0)
+    configs = models.TextField(null=True,blank=True) 
+    connection =  models.ForeignKey(Connections, on_delete=models.CASCADE, null=True, blank=True) 
+    created_by=models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    chat_history = models.TextField(null=True,blank=True) 
+    last_update = models.DateTimeField(default=timezone.now)
+
+
+    def __str__(self):
+        return self.name  + " - "+self.api_id
+
+    def save(self, *args, **kwargs):
+        self.last_update = timezone.now() 
+        super().save(*args, **kwargs)
+
+    def get_image(self):
+        file_upload = BotFileUploads.objects.get(chatbot=self.pk)
+        return file_upload.file.url 
+
+
+    def get_chat_users(self):
+        chat_history = json.loads(self.chat_history) if self.chat_history else []
+        users = {}
+        for entry in chat_history:
+            if not users.get(entry.get('user')):
+                users[entry.get('user')] = True
+
+        return len(list(users.keys()))
+
+    get_chat_users = property(get_chat_users)
+
+
+    def get_chat_history(self):
+        chat_history = json.loads(self.chat_history) if self.chat_history else []
+        chat_history  = [ entry for entry in chat_history if entry.get('type') == 'HumanMessage'    ]
+        return len(chat_history)
+
+    get_chat_history = property(get_chat_history)
+
+
+    def get_configs(self):
+        configs = merge_key(json.loads(self.configs)  )
+        return configs
+
+    get_configs = property(get_configs)
+
 
 
 class Logs(models.Model):
@@ -149,4 +243,15 @@ class Running_Jobs(models.Model):
 
  
 
+
+
+
+class TaskConnectorData(models.Model):
+    task_id = models.CharField(max_length=200,primary_key=True)
+    data = models.TextField(null=True,blank=True) 
+    date_created = models.DateField(default=timezone.now)
+    time_created = models.TimeField(default=timezone.now)  
+
+    def __str__(self):
+        return self.task_id + " : "+ self.date_created
 

@@ -12,35 +12,38 @@
                 <div class="box-cell">
                     <div class="containedr mx-4 " style="display: flex; align-items: center; flex-direction: column; width:100%;" >
                         <div class="  px-5" style="width:100%" >
-                                <div class=" "  >
-                                    <h3 class="wow fadeInDown mt-4 pt-3" data-wow-duration="1s" style="font-size:30px; font-weight: bolder; " >
+                                <div class="text-center "  >
+                                  <img style="width: 55px;" src="https://pbs.twimg.com/media/FyQlRbxWIAEfJ9J?format=png&name=small"/>
+                                    <h3 class="wow fadeInDown text-center mt-2 mb-2" data-wow-duration="1s" style="font-size:30px; font-weight: bolder; " >
                      
-                     {% if task.pk %}                   
+                     {% if task.pk %}                
 
-Edit Job
+Edit Pipeline
 {% else %}
-New Job
+Create Pipeline
   
   {% endif %}
                                     </h3>
-                                    <hr />
+                                    <p class="mt-0 mb-3 text-secondary " > Configure and Automate the Scheduling of Your Data Pipeline</p>
                                 </div>
 
 
                            </div>
 
 
-<form class="card w-70  my-1 py-4 px-5"    method="POST" action="" > 
+<form class="card w-70  my-2 py-4 px-5"    method="POST" action="" style="background-color:#ffffff; 
+border: 1px solid #e3e1e1; border-radius: 16px; box-shadow: none;  
+" > 
 
    {% csrf_token %}
 
 
 <ul class="nav nav-tabs" id="myTab" role="tablist">
   <li class="nav-item" role="presentation">
-    <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Job Details</button>
+    <button class="nav-link active " id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Details</button>
   </li>
   <li class="nav-item" role="presentation">
-    <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Job Scheduler</button>
+    <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Scheduler</button>
   </li>
  
 </ul>
@@ -50,7 +53,7 @@ New Job
 
 
      <div class="my-3">
-      <label for="name" class="form-label">Job Name</label>
+      <label for="name" class="form-label">Name</label>
                      {% if task.pk %}                   
       <input type="text" class="form-control" id="name" value='{{task.name}}' name="name" readonly required>
 {% else %}
@@ -63,28 +66,38 @@ New Job
       <textarea class="form-control" id="description" name="description"  value='{{task.description}}' rows="3" ></textarea>
     </div>  
     <div class="mb-3">
-      <label for="source" class="form-label">Source Connector</label>
+      <label for="source" class="form-label">Source Connectors</label>
 
         <select id="choices-multiple-remove-button" name='source'  value='{{task.source}}' placeholder="Select up to 5 connectors" multiple required style="border-radius:5px;" >
         <option disabled>-- Select source connectors --</option>
         {% for connector in connectors %}
-          <option value="{{ connector.pk }}">{{ connector.name }} ({{connector.description}})</option>
+
+{% if connector.can_source == 'True' %}
+          <option value="{{ connector.pk }}">{{ connector.name }} {% if connector.description %} ({{connector.description}})
+{% endif %}
+          </option>
+        {% endif %}
+
         {% endfor %}
       </select>
  
     </div>
     <div class="mb-3">
-      <label for="target" class="form-label">Target Connector</label>
+      <label for="target" class="form-label">Target Connectors</label>
      <select id="choices-multiple-remove-button" name='targets'  value='{{task.targets}}' placeholder="Select up to 5 connectors" multiple required style="border-radius:5px;" >
         <option disabled>-- Select target connectors --</option>
         {% for connector in connectors %}
-          <option value="{{ connector.pk }}">{{ connector.name }} ({{connector.description}})</option>
+        {% if connector.can_target == 'True' %}
+          <option value="{{ connector.pk }}">{{ connector.name }} {% if connector.description %} ({{connector.description}})
+{% endif %}</option>
+        {% endif %}
+
         {% endfor %}
       </select>
     </div>
     <div class="mb-3">
       <label for="transformers" class="form-label">Transformers</label>
-     <select id="choices-multiple-remove-button" name='transformers'  value='{{task.transformers}}' placeholder="Select up to 5 transformers" multiple required style="border-radius:5px;" >
+     <select id="choices-multiple-remove-button" name='transformers'  value='{{task.transformers}}' placeholder="Select up to 5 transformers" multiple style="border-radius:5px;" >
         <option disabled>-- Select transformers --</option>
 
       {% for transformer in transformers %}
@@ -195,7 +208,7 @@ New Job
 
 
 
- <input type="submit" value="Create Job" class="btn  btn-primary btn-lg active my-3" role="button" aria-pressed="true" />
+ <input type="submit" value="Create Pipeline" class="btn  btn-primary btn-lg active my-3" role="button" aria-pressed="true" />
 
 
 </form>
@@ -230,7 +243,7 @@ New Job
 
 }
 
-
+ 
 
 /* Bootstrap 4 text input with search icon */
 
@@ -265,8 +278,8 @@ label {
 white-space: pre-wrap;
 }
 .nav-tabs .nav-link.active{
-    color:#03a9f4; /*color you want*/
-    font-weight: bold;
+  color: #cb0c9f !important;
+  font-weight: bold !important ;
 }
  
 </style>

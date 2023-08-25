@@ -1,0 +1,1 @@
+Connector Shadrach Clone method run succesfully, with 1 records.

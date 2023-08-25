@@ -34,6 +34,36 @@
   <link href="/static/assets/css/nucleo-svg.css" rel="stylesheet" />
   <link id="pagestyle" href="/static/assets/css/soft-ui-dashboard.css?v=1.0.0" rel="stylesheet" />
 
+<style type="text/css">
+  
+/* For WebKit based browsers (Chrome, Safari) */
+::-webkit-scrollbar {
+  width: 12px; /* Adjust the width as needed */
+}
+
+::-webkit-scrollbar-track {
+  background-color: #cb0c9f; /* Background color of the track */
+  border-radius: 6px; /* Rounded corners of the track */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #888; /* Color of the scrollbar thumb */
+  border-radius: 6px; /* Rounded corners of the thumb */
+}
+
+/* For Firefox */
+/* Note: Firefox supports scrollbar customization from version 64 onwards */
+/* You may need to add vendor prefixes for earlier versions */
+/* See: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Scrollbars */
+
+/* Example styles for Firefox scrollbar */
+* {
+  scrollbar-width: thin; /* or auto */
+  scrollbar-color: #cb0c9f #f1f1f1; /* Color of the scrollbar thumb and track */
+}
+  
+</style>
+
   <!-- Specific CSS goes HERE -->
   {% block stylesheets %}{% endblock stylesheets %}
 
