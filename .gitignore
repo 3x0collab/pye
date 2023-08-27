@@ -1,6 +1,74 @@
-# Django #
+# Python-related
+__pycache__/
+*.py[cod]
+
+# Virtual environment
+venv/
+env/
+*.env
+
+# Dependencies
+*.sqlite3
+*.pyc
+*.pyo
+*.db
+*.sqlite
+
+# IDE settings
+.vscode/
+.idea/
+
+# Compiled Python files
+*.pyc
+*.pyo
+__pycache__/
+
+# Logs
+*.log
+logs/
+
+# Secret keys and sensitive information
+*.env
+
+# Temporary files
+*.bak
+*.swp
+*.tmp
+
+# Django generated files
+*.pyc
+*.pyo
+__pycache__/
 *.log
 *.pot
+*.mo
+*.pot
+*.db
+
+# Static files (CSS, JS, images)
+/static/
+
+# Media files (user-uploaded content)
+/media/
+
+# Compiled translations
+*.mo
 *.pyc
-__pycache__
-db.sqlite3
+
+# Database dump
+dump.sql
+
+# Environment configuration
+.env
+*.env
+
+# User-specific files
+.vscode/
+.idea/
+*.suo
+*.user
+*.sln.docstates
+*.suo
+*.user
+*.userprefs
+*.sln.docstates
