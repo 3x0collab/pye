@@ -24,7 +24,7 @@
 
  <div class="form-group">
           <label for="header">Greeting Message:</label>
-          <input type="text" class="form-control" id="header"   name='greeting' value="Hi, how can I help you today?">
+          <input type="text" class="form-control" id="greeting"   name='greeting' value="Hi, how can I help you today?">
         </div>
 
 
@@ -158,10 +158,11 @@ $(document).ready(function() {
 
     // Get the form data
     const formData = new FormData($("#chatbotForm")[0]);
+    formData.append('status',localStorage.getItem("bot-status"))
 
     // Perform the AJAX request
     $.ajax({
-      url: "", // Replace with your Django view URL
+      url: '/customer/ai_models/'+localStorage.getItem("selectedConn"), // Replace with your Django view URL
       type: "POST",
       data: formData,
       processData: false,
@@ -172,18 +173,16 @@ $(document).ready(function() {
       success: function(response) {
         // Handle the success response here (if needed)
         // console.log('res',response)
-        $("#submitBtn").html("Create ChatBot")
+        $("#submitBtn").html("Save Bot Prompt")
       $("#submitBtn").attr('style','background: #82d616')
         if (response.message){
-          alert("ChatBot created successfully!")
-          window.location.href = '/customer/ai_models/'+ localStorage.getItem("selectedConn")
-        } else {
-        alert( response.error);
-
+          // alert(response.message)
+          location.reload();
+          // window.location.href = '/customer/ai_models/'+ localStorage.getItem("selectedConn")
         }
       },
       error: function(error) {
- $("#submitBtn").html("Create New ChatBot")
+ $("#submitBtn").html("Save Bot Prompt")
            $("#submitBtn").attr('style','background: #82d616')
 
         // Handle the error response here (if needed)
@@ -196,3 +195,42 @@ $(document).ready(function() {
 
 
     </script>
+
+
+    <script>
+function populateForm(chatbotId) {
+    $.ajax({
+        url: '/customer/get_chatbot_data/',  // Replace with the URL of your Django view
+        data: {
+            chatbot_id: chatbotId,
+        },
+        dataType: 'json',
+        success: function(data) {
+    $('#bot-name').val(data.name);
+    $('#connections_pk').val(data.connections_pk);
+    $('#header').val(data.header_title);
+    $('#greeting').val(data.greeting);
+    $('#task').val(data.task);
+    $('#font').val(data.font);
+    $('#font-size').val(data.font_size);
+    $('#border-color').val(data.border_color);
+    $('#border-size').val(data.border_size);
+    $('#header-color').val(data.header_color);
+    $('#header-bg-color').val(data.header_bg_color);
+    $('#user-msg-color').val(data.user_msg_color);
+    $('#user-msg-bg-color').val(data.user_msg_bg_color);
+    $('#bot-msg-color').val(data.bot_msg_color);
+    $('#bot-msg-bg-color').val(data.bot_msg_bg_color);
+    $('#send-bg-color').val(data.send_bg_color);
+    $('#send-color').val(data.send_color);
+    $('#bot-image').attr('src', data.bot_image_url);
+},
+        error: function() {
+            alert('Failed to fetch chatbot data.');
+        }
+    });
+}
+
+// Call the function with the chatbot ID
+// populateForm(123);  // Replace with the actual chatbot ID
+</script>

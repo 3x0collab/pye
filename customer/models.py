@@ -255,3 +255,14 @@ class TaskConnectorData(models.Model):
     def __str__(self):
         return self.task_id + " : "+ self.date_created
 
+
+
+
+class Subscriber(models.Model):
+    email = models.EmailField(unique=True)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    user=models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+
+
+    def __str__(self):
+        return self.email

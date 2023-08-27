@@ -274,7 +274,7 @@ pre {
 
 
                           <div style="display:flex; justify-content:space-between; align-items:center; " >
-                            <h4 class="mb-4 text-dark" > AI Models ({{connections|length}}) <svg width="34px" height="34px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M8 10L12 14L16 10" stroke="#200E32" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg> </h4>
+                            <h4 class="my-2 text-dark" > Models - PMs ({{connections|length}}) <svg width="34px" height="34px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M8 10L12 14L16 10" stroke="#200E32" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg> </h4>
 
 <div class='menu-icon'  style="display: flex; justify-content:space-between;align-items: center; flex-direction: row;">
  
@@ -332,7 +332,7 @@ pre {
 
 
 
-   <a class="btn circle btn-md btn-dark wow fadeInUp" style="  height: 40px" id='next' href="/customer/source-credential?source-val=pye&type_name=ai model&redirect=ai_models" role="button" aria-pressed="true">   <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16"> <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/> </svg> Create AI Model »</a>
+   <a class="btn circle btn-md btn-dark wow fadeInUp" style="  height: 40px" id='next' href="/customer/source-credential?source-val=pye&type_name=ai model&redirect=ai_models" role="button" aria-pressed="true">   <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16"> <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/> </svg> Create AI Model (PM) »</a>
 
 
 
@@ -369,127 +369,8 @@ pre {
 </div>
                 <hr style="margin-top: 0px;" />               
 
-
-<div class="  mt-4" style="padding-left:0px !important;
-padding-right:0px !important; margin-top: 10px;">
-
- {% if connections|length is 0 %}
- <div style="display: flex;justify-content: center;align-items: center; flex-direction:column;" > 
-   <svg fill="#867979" width="64px" height="64px" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" stroke="#867979"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M520.741 163.801a10.234 10.234 0 00-3.406-3.406c-4.827-2.946-11.129-1.421-14.075 3.406L80.258 856.874a10.236 10.236 0 00-1.499 5.335c0 5.655 4.585 10.24 10.24 10.24h846.004c1.882 0 3.728-.519 5.335-1.499 4.827-2.946 6.352-9.248 3.406-14.075L520.742 163.802zm43.703-26.674L987.446 830.2c17.678 28.964 8.528 66.774-20.436 84.452a61.445 61.445 0 01-32.008 8.996H88.998c-33.932 0-61.44-27.508-61.44-61.44a61.445 61.445 0 018.996-32.008l423.002-693.073c17.678-28.964 55.488-38.113 84.452-20.436a61.438 61.438 0 0120.436 20.436zM512 778.24c22.622 0 40.96-18.338 40.96-40.96s-18.338-40.96-40.96-40.96-40.96 18.338-40.96 40.96 18.338 40.96 40.96 40.96zm0-440.32c-22.622 0-40.96 18.338-40.96 40.96v225.28c0 22.622 18.338 40.96 40.96 40.96s40.96-18.338 40.96-40.96V378.88c0-22.622-18.338-40.96-40.96-40.96z"></path></g></svg>
-   <p> Empty Models !! </p>
-   </div>
-{% endif %}
-
-
-  <div class="row">
-  			  {% for connection in connections %}
-    <div class="custom-col mb-3 mx-2 " id='connection' style="background:#fbfbfb; 
-    padding: 0px; border: 1px solid #dfdbdb;" pk="{{connection.pk}}" >
-      
-      <div class="m-2" style="display: flex;flex-direction: row; align-items:center;" >
-      {% if connection.status == 'error'    %}
-      <svg style="margin-left: 5px;" width="64px" height="64px" viewBox="0 0 1024 1024" class="icon" xmlns="http://www.w3.org/2000/svg" fill="#12116f"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path fill="red" d="M512 64a448 448 0 110 896 448 448 0 010-896zm-55.808 536.384l-99.52-99.584a38.4 38.4 0 10-54.336 54.336l126.72 126.72a38.272 38.272 0 0054.336 0l262.4-262.464a38.4 38.4 0 10-54.272-54.336L456.192 600.384z"></path></g></svg>
-
-      {% else %}
-        <svg style="margin-left: 5px;" width="64px" height="64px" viewBox="0 0 1024 1024" class="icon" xmlns="http://www.w3.org/2000/svg" fill="#12116f"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path fill="#0ea427" d="M512 64a448 448 0 110 896 448 448 0 010-896zm-55.808 536.384l-99.52-99.584a38.4 38.4 0 10-54.336 54.336l126.72 126.72a38.272 38.272 0 0054.336 0l262.4-262.464a38.4 38.4 0 10-54.272-54.336L456.192 600.384z"></path></g></svg>
-      {% endif %}
-
-<span style="font-size: 13px; margin-left: 5px;" > Prompts: ({{connection.get_prompts}})  </span> <svg style="margin-right: 3px;margin-left: 5px;" preserveAspectRatio="xMidYMin" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="css-492dz9" style="--size: 16px; --rotate: 0deg;"><path fill-rule="evenodd" clip-rule="evenodd" d="M20.7146 11.1371C20.5388 6.22883 15.7439 2.35414 11.1244 2.78226L11.1045 2.78411L11.0846 2.78489C6.38998 2.96884 2.86359 7.16608 3.28439 11.029L3.28675 11.0507L3.28785 11.0724C3.48669 15.0118 7.36507 18.0207 10.9734 17.6246L10.9936 17.6224L11.0139 17.6213C14.6969 17.4182 17.3174 14.097 16.9356 11.2085L16.9327 11.1868L16.9311 11.1648C16.7141 8.19198 13.7503 6.05168 11.1574 6.40837L11.1372 6.41115L11.1168 6.41283C8.44417 6.63315 6.72879 9.06894 7.06267 10.9812L7.0666 11.0038L7.06915 11.0265C7.29464 13.033 9.33949 14.3087 10.9126 14.0039L10.9331 14L10.9538 13.9971C12.6215 13.7697 13.4239 12.2374 13.1704 11.3075L13.1642 11.2846L13.1594 11.2614C13.0552 10.755 12.7404 10.382 12.3562 10.1626C11.9536 9.93277 11.552 9.9118 11.314 9.99929C10.9253 10.1422 10.4942 9.94297 10.3513 9.55421C10.2083 9.16544 10.4076 8.7344 10.7964 8.59145C11.5396 8.31815 12.4048 8.46307 13.1 8.86004C13.808 9.26433 14.418 9.9712 14.6238 10.9361C15.1278 12.8483 13.595 15.139 11.1771 15.4805C8.78103 15.931 5.91872 14.0977 5.58113 11.2166C5.09659 8.35143 7.54114 5.21406 10.9733 4.91961C14.3744 4.46456 18.1307 7.17864 18.4255 11.0338C18.9166 14.8604 15.5658 18.861 11.1167 19.1178C6.70736 19.5893 2.04791 15.9967 1.79088 11.1698C1.28302 6.37529 5.54313 1.51228 11.0059 1.28684C16.4202 0.797246 21.9914 5.2602 22.2129 11.0615C22.7433 16.8283 17.5595 22.5672 11.0763 22.7497C10.6622 22.7614 10.3171 22.4351 10.3055 22.0211C10.2938 21.607 10.62 21.2619 11.0341 21.2503C16.738 21.0898 21.1741 16.0142 20.7175 11.1808L20.7154 11.159L20.7146 11.1371Z"></path></svg> <span style="font-size: 13px;" > {{connection.last_date_update}} : {{connection.last_time_update}} </span>
-
-</div>
-      <div class="box" style="      
-      display: flex;
-    flex-direction: column;
-        align-items: center;
-        height: 170px;
-        justify-content: space-between;
-        padding-top:5px ;"
-     >
  
-
-{% if connection.status == 'running' %}
-<svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.0" width="107px" height="5px" viewBox="0 0 128 6" xml:space="preserve"><rect x="0" y="0" width="100%" height="100%" fill="#FFFFFF"/><path fill="#c5e8d9" d="M3.034,0.054H8.081A2.973,2.973,0,1,1,8.081,6H3.034A2.973,2.973,0,1,1,3.034.054Zm14.6,0h5.047a2.973,2.973,0,1,1,0,5.946H17.638A2.973,2.973,0,1,1,17.638.054Zm14.6,0h5.047a2.973,2.973,0,1,1,0,5.946H32.242A2.973,2.973,0,1,1,32.242.054Zm14.6,0h5.047a2.973,2.973,0,1,1,0,5.946H46.846A2.973,2.973,0,1,1,46.846.054Zm14.6,0H66.5A2.973,2.973,0,1,1,66.5,6H61.45A2.973,2.973,0,1,1,61.45.054Zm14.6,0H81.1A2.973,2.973,0,1,1,81.1,6H76.054A2.973,2.973,0,1,1,76.054.054Zm14.6,0H95.7A2.973,2.973,0,1,1,95.7,6H90.658A2.973,2.973,0,1,1,90.658.054Zm14.6,0h5.047a2.973,2.973,0,1,1,0,5.946h-5.047A2.973,2.973,0,1,1,105.262.054Zm14.6,0h5.047a2.973,2.973,0,1,1,0,5.946h-5.047A2.973,2.973,0,1,1,119.866.054Z"/><g><path fill="#13a165" d="M-26.993,0H-7.235A3,3,0,0,1-4.228,3,3,3,0,0,1-7.235,6H-26.993A3,3,0,0,1-30,3,3,3,0,0,1-26.993,0Z"/><animateTransform attributeName="transform" type="translate" values="16 0;30 0;44.5 0;59 0;74 0;88.5 0;103 0;117.5 0;132 0;147 0;160.5 0" calcMode="discrete" dur="990ms" repeatCount="indefinite"/></g></svg>
-
-{% endif %}
-
-<div class="w-100 px-3" >
-<div style="display: flex;flex-direction: column;" >
-<h4 class="chatbot_model font-weight-bold " style="font-size: 16px; height:22px; overflow:hidden; " pk="{{connection.pk}}" >{{connection.name}}</h4>
-
-{% if connection.description %}
-<p  style="font-size: 13px; height:22px; overflow:hidden;" pk="{{connection.pk}}" class="chatbot_model   " >{{connection.description}}  </p>
-{% else %}
-<p class="chatbot_model   " style="font-size: 13px;color:#fbfbfb; " pk="{{connection.pk}}" > description </p>
-
-{% endif %}
-
-
-
-</div>
-
-<div style="display:flex;flex-direction: row; justify-content:space-between; align-items: center;" >
-<div   style="font-size:13px;color:silver;" >
-
-<span style="    padding-left: 5px;
-    padding-right: 5px;
-    padding-top: 3px;
-    padding-bottom: 4px;"   class="user_img   bg-secondary rounded-pill w-20"> {{ connection.connector.created_by|safe|slice:":2"}}</span> 
-    <span class="mx-2 font-weight-bold text-success  " style="font-size:15px;text-transform: capitalize;" > {{connection.connector.created_by}} </span> &#x2022; <span class="mx-2" > {{ connection.connector.date_created|timesince  }}  </span> 
-
-
-</div>
-
-
-
-<div class="dropdown">
-  <button style="background-color: none;" class="dropbtn"><svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill-rule="evenodd" clip-rule="evenodd" d="M12 4C11.4477 4 11 4.44772 11 5C11 5.55228 11.4477 6 12 6C12.5523 6 13 5.55228 13 5C13 4.44772 12.5523 4 12 4ZM15 5C15 6.65685 13.6569 8 12 8C10.3431 8 9 6.65685 9 5C9 3.34315 10.3431 2 12 2C13.6569 2 15 3.34315 15 5ZM12 11C11.4477 11 11 11.4477 11 12C11 12.5523 11.4477 13 12 13C12.5523 13 13 12.5523 13 12C13 11.4477 12.5523 11 12 11ZM15 12C15 13.6569 13.6569 15 12 15C10.3431 15 9 13.6569 9 12C9 10.3431 10.3431 9 12 9C13.6569 9 15 10.3431 15 12ZM11 19C11 18.4477 11.4477 18 12 18C12.5523 18 13 18.4477 13 19C13 19.5523 12.5523 20 12 20C11.4477 20 11 19.5523 11 19ZM12 22C13.6569 22 15 20.6569 15 19C15 17.3431 13.6569 16 12 16C10.3431 16 9 17.3431 9 19C9 20.6569 10.3431 22 12 22Z" fill="#12116f"></path> </g></svg></button>
-  <div class="dropdown-content" style="font-size: 14px; background-color: white; opacity:1">
-
-
-    <a href="#" data-bs-toggle="modal" data-bs-target="#chatModal"  class="chat-btn   " chat-name="{{connection.name}}"  pk="{{connection.pk}}" > <svg style="margin-right:5px; margin-top:-2px;" width="24px" height="24px"  viewBox="0 -19.5 164 164" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M19.2329 89.0831C17.3341 89.4211 15.7432 89.7559 14.1371 89.9817C7.06966 90.976 1.51901 86.5687 0.48068 79.5288C-1.0289 69.307 6.73229 58.1139 14.141 55.0389C16.6482 53.9986 19.5794 53.9795 23.0364 53.3665C32.2494 32.1615 49.7618 21.7934 73.5423 20.3488C73.8921 16.4462 74.238 12.5935 74.6022 8.54059C73.5751 8.11988 72.3431 7.95977 71.6796 7.26077C70.7134 6.24344 69.5996 4.84016 69.5957 3.59771C69.5918 2.53116 70.9221 0.709891 71.8974 0.535306C74.597 0.0535535 77.542 -0.276629 80.1608 0.325233C83.5048 1.0938 83.9852 3.75262 81.8548 6.48561C81.4171 6.9389 81.1341 7.51899 81.0462 8.14288C81.224 11.6156 81.5273 15.081 81.7616 18.179C88.0211 18.7375 94.0055 19.0381 99.9211 19.8421C119.273 22.472 132.088 33.3508 139.077 51.3896C139.194 51.6909 139.333 51.9849 139.478 52.2744C139.549 52.3747 139.633 52.4656 139.727 52.5448C142.943 52.5448 146.247 52.1103 149.393 52.6347C156.138 53.7583 161.178 57.4004 162.853 64.3477C164.528 71.2951 161.862 77.0616 156.759 81.6435C151.742 86.1493 145.621 87.389 138.993 86.5404C138.746 86.7453 138.532 86.987 138.359 87.2571C130.949 104.691 117.203 114.915 99.7662 120.658C84.6227 125.684 68.3154 126.026 52.9746 121.639C36.0424 116.958 23.8017 107.182 19.2329 89.0831ZM74.3653 116.033C77.9548 115.728 81.5686 115.59 85.1292 115.09C99.4118 113.083 112.05 107.628 121.744 96.6153C138.759 77.2881 134.524 42.1123 104.846 32.3558C93.8566 28.746 82.3857 26.5243 70.7233 27.2725C57.6687 28.1106 46.2832 33.0968 37.8617 43.4256C30.0513 53.0022 26.6062 64.3694 26.3233 76.5471C25.9125 94.2223 34.5276 106.232 51.1808 112.095C58.6448 114.649 66.4731 115.979 74.362 116.032L74.3653 116.033ZM20.0205 60.3756C19.7421 60.3376 19.4597 60.3412 19.1824 60.3861C12.7641 62.2757 6.45466 73.2929 8.09026 79.6823C8.58579 81.6199 9.81316 82.7712 11.7592 82.8092C13.8765 82.8512 16.0005 82.5894 17.5501 82.4949C18.4092 74.7881 19.2099 67.6156 20.0185 60.3742L20.0205 60.3756ZM141.736 77.21C145.278 77.15 148.678 75.8064 151.305 73.4289C154.874 70.1905 155.296 65.2817 152.224 62.4522C149.242 59.7061 145.667 58.9152 141.736 59.7146V77.21Z" fill="#000000"></path> <path d="M84.8075 82.0252C86.4018 82.3193 88.1725 82.2825 89.5331 83.0097C90.1516 83.3495 90.6946 83.8115 91.129 84.3676C91.5634 84.9238 91.8802 85.5624 92.06 86.2448C92.3344 88.1095 90.7172 89.0671 88.9411 89.2994C88.0814 89.4143 87.2076 89.3635 86.367 89.1498C84.8505 88.6937 83.2428 88.6309 81.6954 88.9674C80.148 89.304 78.7116 90.0287 77.5215 91.0734C76.1714 92.182 74.5896 93.0209 73.233 91.3781C72.0319 89.9236 72.5832 88.2348 73.7817 86.9346C75.1549 85.3673 76.8518 84.1166 78.7554 83.269C80.659 82.4214 82.7239 81.9971 84.8075 82.0252Z" fill="#000000"></path> <path d="M57.7186 52.5112C61.4295 52.6392 63.7503 55.2876 63.5495 59.1645C63.3893 62.2533 60.9084 64.7434 58.1203 64.6154C54.9698 64.4703 52.4724 61.3206 52.607 57.6582C52.7442 53.9453 54.2853 52.3924 57.7186 52.5112Z" fill="#000000"></path> <path d="M93.575 57.3327C93.5684 54.2361 94.7564 52.8328 97.4244 52.7856C100.873 52.7245 103.039 54.689 102.96 57.8066C102.891 60.4916 100.78 62.7678 98.3 62.8282C95.4672 62.8971 93.5822 60.7024 93.575 57.3327Z" fill="#000000"></path> </g></svg>  Preview Model</a>
-    
-
-
-     <a href="/customer/select_connector?exclude=ai model,&connections_pk={{connection.pk}}"  pk="{{connection.pk}}" chat-name="{{connection.name}}" 
-    > <svg style="margin-right:5px; margin-top:-2px;" width="21px" height="21px"   viewBox="0 0 1024 1024" fill="#12116f"  version="1.1" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M512 0C250.733601 0 46.039591 111.952387 46.039591 254.906974v514.053564c0 142.954587 204.69401 254.906974 465.960409 254.906974s465.960409-111.952387 465.960409-254.906974v-514.053564C977.827921 111.952387 773.266399 0 512 0zM125.53241 508.224091c0-20.535645 9.009186-41.07129 26.762583-61.209471 5.696985-6.359426 8.74421-14.176219 9.671626-21.993013 84.792341 52.465261 209.066115 85.057317 350.033381 85.057317 139.642386 0 263.121232-32.062104 347.781084-83.599949 1.589856 6.491914 4.504593 12.586363 9.274162 17.885885 19.475741 21.065597 29.279855 42.528658 29.279856 63.991719 0 82.937508-158.720662 175.414154-386.46759 175.414155S125.53241 591.161599 125.53241 508.224091zM512 79.492819c227.746927 0 386.46759 92.476646 386.46759 175.414155S739.746927 430.453616 512 430.453616 125.53241 337.97697 125.53241 254.906974 284.253073 79.492819 512 79.492819z m0 865.014362C284.253073 944.507181 125.53241 852.030534 125.53241 768.960538c0-20.535645 9.009186-41.07129 26.762583-61.209471 7.41933-8.479234 10.599043-19.210765 9.804114-29.544831 84.792341 52.332773 209.066115 84.924829 349.900893 84.924829 139.112434 0 262.061327-31.797128 346.72118-82.937508 0.529952 8.876698 3.842153 17.753396 10.334066 24.775262 19.475741 21.065597 29.279855 42.528658 29.279856 63.991719 0 83.069996-158.588174 175.546643-386.335102 175.546643z"></path></g></svg> Add Connector</a>
-
-
-
-    <a href="#"  data-bs-toggle="modal" data-bs-target="#exampleModal" pk="{{connection.pk}}" chat-name="{{connection.name}}" 
-    class='create-bot' > <svg style="margin-right:5px; margin-top:-2px;" width="22px" height="22px" 
-  viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <circle cx="12" cy="12" r="10" stroke="#1c7bc7" stroke-width="1.5"></circle> <path d="M15 12L12 12M12 12L9 12M12 12L12 9M12 12L12 15" stroke="#1c7bc7" stroke-width="1.5" stroke-linecap="round"></path> </g></svg> Create New Bot</a>
-
-   
-
-    <a href="#"  data-bs-toggle="modal" data-bs-target="#deleteModal" pk="{{connection.pk}}" chat-name="{{connection.name}}" 
-    class='delete-bot' > <svg style="margin-right:5px; margin-top:-2px;" width="22px" height="22px" viewBox="0 -5 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>delete</title> <desc>Created with Sketch Beta.</desc> <defs> </defs> <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage"> <g id="Icon-Set-Filled" sketch:type="MSLayerGroup" transform="translate(-518.000000, -1146.000000)" fill="#ca0707"> <path d="M540.647,1159.24 C541.039,1159.63 541.039,1160.27 540.647,1160.66 C540.257,1161.05 539.623,1161.05 539.232,1160.66 L536.993,1158.42 L534.725,1160.69 C534.331,1161.08 533.692,1161.08 533.298,1160.69 C532.904,1160.29 532.904,1159.65 533.298,1159.26 L535.566,1156.99 L533.327,1154.76 C532.936,1154.37 532.936,1153.73 533.327,1153.34 C533.718,1152.95 534.352,1152.95 534.742,1153.34 L536.981,1155.58 L539.281,1153.28 C539.676,1152.89 540.314,1152.89 540.708,1153.28 C541.103,1153.68 541.103,1154.31 540.708,1154.71 L538.408,1157.01 L540.647,1159.24 L540.647,1159.24 Z M545.996,1146 L528.051,1146 C527.771,1145.98 527.485,1146.07 527.271,1146.28 L518.285,1156.22 C518.074,1156.43 517.983,1156.71 517.998,1156.98 C517.983,1157.26 518.074,1157.54 518.285,1157.75 L527.271,1167.69 C527.467,1167.88 527.723,1167.98 527.979,1167.98 L527.979,1168 L545.996,1168 C548.207,1168 550,1166.21 550,1164 L550,1150 C550,1147.79 548.207,1146 545.996,1146 L545.996,1146 Z" id="delete" sketch:type="MSShapeGroup"> </path> </g> </g> </g></svg> Delete</a>
-
-
-
-      <a href="#" style="color: silver;"   pk="{{connection.pk}}" chat-name="{{connection.name}}" 
-    > <svg style="margin-right:5px; margin-top:-2px;" width="22px" height="22px"   viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path opacity="0.5" d="M3 15C3 17.8284 3 19.2426 3.87868 20.1213C4.75736 21 6.17157 21 9 21H15C17.8284 21 19.2426 21 20.1213 20.1213C21 19.2426 21 17.8284 21 15" stroke="#1C274C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M12 3V16M12 16L16 11.625M12 16L8 11.625" stroke="#1C274C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg> Download</a>
-
- 
-  </div>
-</div>
-</div>
-
-
-       <button   target="_blank" 
-             pk="{{connection.pk}}" class="chatbot_model  btn text-white btn-sm w-100 mt-2 " style="background:#0053a6; text-transform: capitalize;"> 
-             Task Prompt  <svg preserveAspectRatio="xMidYMin" width="16" height="16"  style="font-size:16px;rotate:0deg;margin-left:3px;margin-top:-3px"  viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="css-492dz9" style="--size: 16px; --rotate: 0deg;"><path fill-rule="evenodd" clip-rule="evenodd" d="M14.25 3C14.25 2.58579 14.5858 2.25 15 2.25H21C21.4142 2.25 21.75 2.58579 21.75 3V9C21.75 9.41421 21.4142 9.75 21 9.75C20.5858 9.75 20.25 9.41421 20.25 9V4.81066L10.5303 14.5303C10.2374 14.8232 9.76256 14.8232 9.46967 14.5303C9.17678 14.2374 9.17678 13.7626 9.46967 13.4697L19.1893 3.75H15C14.5858 3.75 14.25 3.41421 14.25 3ZM5 6.75C4.66848 6.75 4.35054 6.8817 4.11612 7.11612C3.8817 7.35054 3.75 7.66848 3.75 8V19C3.75 19.3315 3.8817 19.6495 4.11612 19.8839C4.35054 20.1183 4.66848 20.25 5 20.25H16C16.3315 20.25 16.6495 20.1183 16.8839 19.8839C17.1183 19.6495 17.25 19.3315 17.25 19V13C17.25 12.5858 17.5858 12.25 18 12.25C18.4142 12.25 18.75 12.5858 18.75 13V19C18.75 19.7293 18.4603 20.4288 17.9445 20.9445C17.4288 21.4603 16.7293 21.75 16 21.75H5C4.27065 21.75 3.57118 21.4603 3.05546 20.9445C2.53973 20.4288 2.25 19.7293 2.25 19V8C2.25 7.27065 2.53973 6.57118 3.05546 6.05546C3.57118 5.53973 4.27065 5.25 5 5.25H11C11.4142 5.25 11.75 5.58579 11.75 6C11.75 6.41421 11.4142 6.75 11 6.75H5Z"></path></svg>  </button>
-
-
-
- </div>
-
-</div>
-    </div>
-   
-    		  {% endfor %}
-  </div>
-</div>
-
+{% include 'home/connections.html' %}
 
 
 
@@ -625,7 +506,7 @@ padding-right:0px !important; margin-top: 10px;">
       <div class="modal-body px-2 ">
 {% include 'home/chatbot_form.html' %}
 <div class="modal-footer"  >
-        <button type="button" id="submitBtn" class="btn circle btn-md btn-success wow fadeInUp" style="    height: 40px"    role="button" aria-pressed="true">Create ChatBot »</button>
+        <button type="button" id="submitBtn" class="btn circle btn-md btn-success wow fadeInUp" style="    height: 40px"    role="button" aria-pressed="true">Save Bot Prompt »</button>
       </div>
 </div>
       

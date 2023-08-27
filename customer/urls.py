@@ -54,7 +54,8 @@ urlpatterns = [
     path('code_editor/<int:pk>', views.code_editor,name='edit_code_editor'),
     path('delete_code_editor/<int:pk>', views.delete_code_editor,name='delete_code_editor'),
     path('history', views.history_view, name='history'), 
-
+path('subscribe/', views.subscribe, name='subscribe'),
+path('get_chatbot_data/', views.get_chatbot_data, name='get_chatbot_data'),
     path(route='course', view=views.movie_recommendation_view, name='recommendations'),
 
 ]

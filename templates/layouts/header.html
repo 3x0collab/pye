@@ -116,14 +116,8 @@
             </a>
 
 
+ 
 
-        <!-- Navbar links -->
-        <!-- <nav class="col navbar-links">
-          <a href="#">AI Models</a>
-          <a href="https://cloud.ionos.com">Connectors</a>
-        </nav> -->
-
-        <!-- Phone number and support button -->
         <div class="col-auto d-none d-md-flex d-lg-flex align-items-center support">
            
             <a rel="noopener noreferrer" href="tel:1-484-254-5555" class="px-3 py-2" type="hotline" tel="1-484-254-5555" title="1-484-254-5555"></a>
@@ -134,14 +128,14 @@
 
 
         </div>
-   <form method="get" class="form-group mb-0 has-search mx-2   " style="display:flex; flex-direction: row; align-items: center; justify-content:flex-start; " >
+   <form   class="form-group mb-0 has-search mx-2   " style="display:flex; flex-direction: row; align-items: center; justify-content:flex-start; " >
     <div style=" margin-right:15px ;    height: 40px; " >
     <span style="    margin-top: 1px;" class="fa fa-search form-control-feedback"></span>
     <input style="       border-radius: 12px;
     background-color: #2196f314;
     min-height: 40px !important;
     padding-left: 40px; width: 350px;
-    " type="text" class="form-control" placeholder="Type to search" name="q"   value="{{q}}" >
+    " type="text" class="form-control" placeholder="Type to search" name="q"   value="{{q}}" id="modalInput" readonly data-toggle="modal" data-target="#myModal">
     </div>
    
      
@@ -153,3 +147,27 @@
 
   </header>
 
+
+
+
+<!-- Create Chat Bot Modal -->
+<div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-md">
+    <div class="modal-content  ">
+   
+
+
+
+    </div>
+  </div>
+</div> 
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content" style="height:340px" >
+   <iframe id="iframe" src="http://127.0.0.1:8000/customer/chatbot/iframe/PYISWARCBIA3?user_id=adroit" width="100%" height="100%" frameborder="0"></iframe>
+    </div>
+  </div>
+</div>

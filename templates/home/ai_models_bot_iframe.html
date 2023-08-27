@@ -335,6 +335,7 @@ function sendMessage(message) {
       message: message,
       pk:"{{pk}}",
       api_id:"{{api_id}}",
+      user_id:"{{user_id}}"
     },
     success: function(res) {
       // Handle the response from the server
@@ -374,7 +375,9 @@ function getMessage(pk) {
     type: 'GET',
     data: {
       pk,
-      api_id:"{{api_id}}"
+      api_id:"{{api_id}}",
+      user_id:"{{user_id}}"
+      
     },
     success: function(res) {
       // Handle the response from the server

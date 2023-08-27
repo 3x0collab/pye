@@ -1,0 +1,1 @@
+Connector GET method run succesfully, with 29 records.

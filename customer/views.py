@@ -388,17 +388,18 @@ def customer_dashboard_view(request):
 
     dict={
         'customer':models.Customer.objects.get(user_id=request.user.id),
-        'available_policy':CMODEL.Vocation.objects.all().count(),
-        'applied_policy':CMODEL.LeaveRecord.objects.all().filter(customer=models.Customer.objects.get(user_id=request.user.id)).count(),
-        'total_category':CMODEL.Category.objects.all().count(),
-        'total_question':CMODEL.Question.objects.all().filter(customer=models.Customer.objects.get(user_id=request.user.id)).count(),
+        'chatbots':models.Chatbot.objects.filter(created_by=request.user).order_by('-pk')[0:12],
+        'connections':models.Connections.objects.filter(connector__created_by=request.user).order_by('-connector__date_created','-connector__time_created')[0:3],
+        # 'available_policy':CMODEL.Vocation.objects.all().count(),
+        # 'applied_policy':CMODEL.LeaveRecord.objects.all().filter(customer=models.Customer.objects.get(user_id=request.user.id)).count(),
+        # 'total_category':CMODEL.Category.objects.all().count(),
+        # 'total_question':CMODEL.Question.objects.all().filter(customer=models.Customer.objects.get(user_id=request.user.id)).count(),
         "segment":"customer-dashboard", 
-        'user':str(request.user)
+        'user':str(request.user),
+        'hide_preview':True
 
 
     }
-
-
     return render(request,'home/index.html',context=dict)
 
 def customer_gopro_view(request):
@@ -785,7 +786,7 @@ def ai_models(request):
     if request.method == 'POST': 
         bot_name = request.POST.get('name')
         connections_pk = request.POST.get('connections_pk')
-        edit = request.POST.get('edit')
+        status = request.POST.get('status',"create")
 
         if not bot_name:
             return JsonResponse({ "error" :f"Name is required!"})        
@@ -793,21 +794,20 @@ def ai_models(request):
         try:
 
             try: 
-                print('dfddffd')
                 connection = models.Connections.objects.get(pk=connections_pk)
                 chatbot = models.Chatbot.objects.get(name=bot_name,created_by=request.user,connection=connection)
                 chatbot.api_id = replace_with_char(f"{bot_name}-{request.user.id}-{chatbot.pk}")
                 
-                if edit:
+                if status.lower()== 'edit':
                     for key, value in request.POST.items():
                         if value:
                             setattr(chatbot, key, value)
-                        chatbot.save()
+                    chatbot.save()
 
-                    return JsonResponse({ "error" :f"Chatbot {bot_name} update successfully!"})
+                    return JsonResponse({ "error" :f"Bot Prompt: {bot_name} update successfully!"})
                 
                 else:
-                    return JsonResponse({ "error" :f"Chatbot {bot_name} already created by you!"})
+                    return JsonResponse({ "error" :f"Bot Prompt:  {bot_name} already created by you!"})
 
             except ObjectDoesNotExist:
 
@@ -825,7 +825,7 @@ def ai_models(request):
                     file_upload.save()
 
 
-                return JsonResponse({ 'message':'Bot created successfully'})
+                return JsonResponse({ 'message':'Bot Prompt created successfully'})
 
         except Exception as e:
             print(e)
@@ -867,7 +867,7 @@ def ai_models_bot(request,pk):
     if request.method == 'POST': 
         bot_name = request.POST.get('name')
         connections_pk = request.POST.get('connections_pk')
-        edit = request.POST.get('edit')
+        status = request.POST.get('status',"create")
 
         if not bot_name:
             return JsonResponse({ "error" :f"Name is required!"})        
@@ -878,16 +878,14 @@ def ai_models_bot(request,pk):
                 connection = models.Connections.objects.get(pk=connections_pk)
                 chatbot = models.Chatbot.objects.get(name=bot_name,created_by=request.user,connection=connection)
                 
-                if edit:
-                    for key, value in request.POST.items():
-                        if value:
-                            setattr(chatbot, key, value)
-                        chatbot.save()
+                if status.lower()== 'edit':
+                    chatbot.configs=json.dumps(request.POST)
+                    chatbot.save()
 
-                    return JsonResponse({ "error" :f"Chatbot {bot_name} update successfully!"})
+                    return JsonResponse({ "message" :f"Bot Prompts: {bot_name} update successfully!"})
                 
                 else:
-                    return JsonResponse({ "error" :f"Chatbot {bot_name} already created by you!"})
+                    return JsonResponse({ "message" :f"Bot Prompts: {bot_name} already created by you!"})
 
             except ObjectDoesNotExist:
 
@@ -903,7 +901,7 @@ def ai_models_bot(request,pk):
                     file_upload.save()
 
 
-                return JsonResponse({ 'message':'Bot created successfully'})
+                return JsonResponse({ 'message':'Bot Prompts created successfully'})
 
         except Exception as e:
             print(e)
@@ -939,9 +937,9 @@ def merge_key(config={}):
     return new_config
 
 
-@login_required(login_url='login')
 def ai_models_bot_iframe(request,api_id): 
     height = request.GET.get('height',"100%") 
+    user_id = request.GET.get('user_id') 
 
     try:
         chatbot = models.Chatbot.objects.get(api_id=api_id)
@@ -954,7 +952,7 @@ def ai_models_bot_iframe(request,api_id):
         print(e) 
 
     return render(request,'home/ai_models_bot_iframe.html',{'chatbot':chatbot,
-        'connection':connection,'api_id':api_id,'height':height,"configs":configs})
+        'connection':connection,'api_id':api_id,'height':height,"configs":configs,'user_id':user_id})
 
 @login_required(login_url='login')
 def chatbot_delete(request): 
@@ -1402,3 +1400,29 @@ def process_payment(request):
 
 def custom_404(request, exception):
     return render(request, 'home/404.html', status=404)
+
+
+
+def subscribe(request):
+    if request.method == 'POST':
+        print(request.POST)
+        email = request.POST.get('email')
+        if email:
+            models.Subscriber.objects.create(email=email,user=request.user)
+            return JsonResponse({'message': 'Subscribed successfully!'})
+        else:
+            return JsonResponse({'error': 'Invalid email.'})
+    return JsonResponse({'error': 'Invalid request.'})
+
+
+def get_chatbot_data(request):
+    chatbot_id = request.GET.get('chatbot_id')  # Assuming you pass the chatbot ID as a parameter
+    chatbot = models.Chatbot.objects.get(pk=chatbot_id)
+    chatbot_data = merge_key(json.loads(chatbot.configs)) 
+    try:
+        file_upload = models.BotFileUploads.objects.get(chatbot=chatbot.pk)
+        chatbot_data['bot_image_url'] = file_upload.file.url
+    except Exception as e:
+        pass
+    print(chatbot_data)
+    return JsonResponse(chatbot_data)
