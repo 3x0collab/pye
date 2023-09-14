@@ -55,17 +55,24 @@ def deserialize_chat_history(serialized_chat_history,user):
 
 
 class VortexQuery:
-	def __init__(self,collection,prompt="Am a Personal AI assistant",user=None):
+	def __init__(self,collection,prompt="Am a Personal AI assistant",user=None,save_history=True):
 		load_dotenv()
 		self.collection = collection
 		self.connector = self.collection.connector if hasattr(self.collection,'connector') else self.collection.connection.connector
-		self.chat_history =  deserialize_chat_history(self.collection.chat_history or '[]',user)
+		if save_history:
+			self.chat_history =  deserialize_chat_history(self.collection.chat_history or '[]',user)
+		else:
+			self.chat_history =  []
 		self.collection_name = self.clean_str(f"{self.connector.name}_{str(self.connector.created_by)}" )
 		self.persist_directory = "./data/chroma"
 		self.prompt = prompt
 		self.chain = self.make_chain()
 		self.user = user
+		self.save_history = save_history
 		print('dhhresd')
+
+
+
 
 
 
@@ -127,17 +134,23 @@ class VortexQuery:
 	def ask_question(self, question=""):
 		if question:
 			if self.prompt:
-				question_pr = f"{question} \n Note: {self.prompt}"
+				question_pr = f"""
+Question: {question}.
+
+You are provided with text delimited by four quotes as your task:  ````{self.prompt}.````
+				"""
 			else:
 				question_pr = question
 			response = self.chain({"question": question_pr, "chat_history": self.chat_history})
 
 			answer = response["answer"]
 			source = "" #response["source_documents"]
-			self.chat_history.append(HumanMessage(content=question))
-			self.chat_history.append(AIMessage(content=answer))
 
-			self.collection.chat_history = serialize_chat_history(self.chat_history,self.user)
-			self.collection.save()
+			if self.save_history:
+				self.chat_history.append(HumanMessage(content=question))
+				self.chat_history.append(AIMessage(content=answer))
+
+				self.collection.chat_history = serialize_chat_history(self.chat_history,self.user)
+				self.collection.save() 
 
 			return answer

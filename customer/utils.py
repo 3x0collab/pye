@@ -1,9 +1,11 @@
 from django.core.serializers.json import DjangoJSONEncoder
 from utils.connectors import pick_connector
+from customer.models import Running_Jobs
 import sys
 import os
 import random
 import string
+import datetime as dt
 from datetime import datetime, time
 from apscheduler.schedulers.background import BackgroundScheduler
 import io
@@ -14,6 +16,7 @@ from sqlalchemy import create_engine
 import logging
 import traceback
 import threading
+
 logging.basicConfig(filename='etl.log', level=logging.DEBUG, format='%(asctime)s %(levelname)s: %(message)s')
 
  
@@ -31,48 +34,43 @@ class PyeScheduler():
 
 	# define a function to pause a job
 	def pause_job(self,task):
-		query = f"UPDATE apscheduler_jobs SET next_run_time = NULL WHERE id = '{task.job_id}'"
-		with engine.connect() as conn:
-			result = conn.execute(query)
+		# query = f"UPDATE apscheduler_jobs SET next_run_time = NULL WHERE id = '{task.job_id}'"
+		# with engine.connect() as conn:
+		# 	result = conn.execute(query)
 		logging.info(f"Job with ID {task.job_id} paused")
 		task.status = "paused"
 		task.save()
 		return
-
 		logging.exception(f"Nos job found with ID {task.job_id}")	 # define a function to pause a job
 
 	# define a function to remove a job
 	def remove_job(self,task):
-		query = f"DELETE FROM apscheduler_jobs WHERE id ='{task.job_id}'"
-		with engine.connect() as conn:
-			result = conn.execute(query)
+		# query = f"DELETE FROM apscheduler_jobs WHERE id ='{task.job_id}'"
+		# with engine.connect() as conn:
+		# 	result = conn.execute(query)
 		logging.info(f"Job with ID {task.job_id} removed")
 		task.status = "stopped"
 		task.save()
 		return
-
 		logging.exception(f"Nos job found with ID {task.job_id}") 
 
 	# define a function to resume a job
 	def resume_job(self,task):
 
-		query = f"UPDATE apscheduler_jobs SET next_run_time = 'next_run_time', job_state = 'running' WHERE id = '{task.job_id}'"
-		with engine.connect() as conn:
-			result = conn.execute(query)
-
+		# query = f"UPDATE apscheduler_jobs SET next_run_time = 'next_run_time', job_state = 'running' WHERE id = '{task.job_id}'"
+		# with engine.connect() as conn:
+		# 	result = conn.execute(query)
 		logging.info(f"Job with ID {task.job_id} resumed")
 		task.status = "running"
 		task.save()
 		return
-
 		logging.exception(f"No job found with ID {task.job_id}")  
 
 	# define a function to stop a job
 	def stop_job(self,task):
-		query = f"UPDATE apscheduler_jobs SET next_run_time = NULL, job_state = 'stopped' WHERE id = '{task.job_id}'"
-		with engine.connect() as conn:
-			result = conn.execute(query)
-
+		# query = f"UPDATE apscheduler_jobs SET next_run_time = NULL, job_state = 'stopped' WHERE id = '{task.job_id}'"
+		# with engine.connect() as conn:
+		# 	result = conn.execute(query)
 		logging.info(f"Job with ID {task.job_id} stopped")
 		task.status = "stopped"
 		task.save()
@@ -83,38 +81,42 @@ class PyeScheduler():
 
 	# define the job scheduling function
 	def schedule_job(self,task):	
-		print(task.last_run_date,task.last_run_time)
-		if task.schedule_time == 'hourly':
-			new_job = self.scheduler.add_job(transformer_function, 'interval', minutes=int(task.minute_time), args=[task], jobstore='default')
-		elif task.schedule_time == 'daily':
-			new_job = self.scheduler.add_job(transformer_function, 'cron', hour=task.daily_time.hour, minute=task.daily_time.minute, args=[task], jobstore='default')
-		elif task.schedule_time == 'weekly':
-			new_job = self.scheduler.add_job(
-				transformer_function,
-				'cron',
-				hour=task.weekly_time.hour,
-				minute=task.weekly_time.minute,
-				day_of_week=task.weekly_day,
-				day="*", args=[task], jobstore='default'
-			)
-		else:
-			logging.info(f"Instant Job Created, Running...")
-			task.status = "running"
-			task.save()
-			thread = threading.Thread(target=transformer_function, args=(task,))
-			thread.start()
+		print(task)
+		try:
+			get_run = Running_Jobs.objects.get(task=task)
+		except ObjectDoesNotExist:
+			create_run = Running_Jobs.objects.create(task)
+		task.status='running'
+		task.save()
 
+		# if task.schedule_time == 'hourly':
+		# 	new_job = self.scheduler.add_job(transformer_function, 'interval', minutes=int(task.minute_time), args=[task], jobstore='default')
+		# elif task.schedule_time == 'daily':
+		# 	new_job = self.scheduler.add_job(transformer_function, 'cron', hour=task.daily_time.hour, minute=task.daily_time.minute, args=[task], jobstore='default')
+		# elif task.schedule_time == 'weekly':
+		# 	new_job = self.scheduler.add_job(
+		# 		transformer_function,
+		# 		'cron',
+		# 		hour=task.weekly_time.hour,
+		# 		minute=task.weekly_time.minute,
+		# 		day_of_week=task.weekly_day,
+		# 		day="*", args=[task], jobstore='default'
+		# 	)
+		# else:
+		# 	logging.info(f"Instant Job Created, Running...")
+		# 	task.status = "running"
+		# 	task.save()
+		# 	thread = threading.Thread(target=transformer_function, args=(task,))
+		# 	thread.start()
 
-		if task.schedule_time in ["hourly",'daily','weekly']:
-			logging.info(f"Job with ID: {new_job.id} scheduled")
-			task.job_id = new_job.id
-			task.status = "running"
-			task.save()
-			jobs = self.scheduler.get_jobs(jobstore='default')
-			self.scheduler.start()
-			print('Press Ctrl+{0} to exit'.format('Break' if os.name == 'nt' else 'C'))
-
-
+		# if task.schedule_time in ["hourly",'daily','weekly']:
+		# 	logging.info(f"Job with ID: {new_job.id} scheduled")
+		# 	task.job_id = new_job.id
+		# 	task.status = "running"
+		# 	task.save()
+		# 	jobs = self.scheduler.get_jobs(jobstore='default')
+		# 	self.scheduler.start()
+		# 	print('Press Ctrl+{0} to exit'.format('Break' if os.name == 'nt' else 'C'))
 
 		# try:
 		#	 # This is here to simulate application activity (which keeps the main thread alive).

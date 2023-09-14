@@ -204,7 +204,7 @@ border: 1px solid #eee;
          <li class="css-avkm3u"><a href="/customer/ai_models" class="css-xhvgwz"><span style="font-size:inherit;line-height:inherit;font-weight:bold" class="css-10z1dta text-dark">Finetune</span><span style="font-size:13px;line-height:inherit" class="css-scxoy8 text-secondary"><svg preserveAspectRatio="xMidYMin" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="width:16px;--rotate:0deg" aria-hidden="true" class="css-1afyr3i"><path fill-rule="evenodd" clip-rule="evenodd" d="M19.5303 11.4697C19.8232 11.7626 19.8232 12.2374 19.5303 12.5303L12.5303 19.5303C12.2374 19.8232 11.7626 19.8232 11.4697 19.5303C11.1768 19.2374 11.1768 18.7626 11.4697 18.4697L17.1893 12.75L5 12.75C4.58579 12.75 4.25 12.4142 4.25 12C4.25 11.5858 4.58579 11.25 5 11.25L17.1893 11.25L11.4697 5.53033C11.1768 5.23744 11.1768 4.76256 11.4697 4.46967C11.7626 4.17678 12.2374 4.17678 12.5303 4.46967L19.5303 11.4697Z"></path></svg>Train your model</span><div class="css-36v8q4"></div></a></li>
 
 
-             <li class="css-avkm3u"><a href="/customer/ai_models" class="css-xhvgwz"><span style="font-size:inherit;line-height:inherit;font-weight:bold" class="css-10z1dta text-dark">Prompt & Share</span><span style="font-size:13px;line-height:inherit" class="css-scxoy8 text-secondary"><svg preserveAspectRatio="xMidYMin" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="width:16px;--rotate:0deg" aria-hidden="true" class="css-1afyr3i"><path fill-rule="evenodd" clip-rule="evenodd" d="M19.5303 11.4697C19.8232 11.7626 19.8232 12.2374 19.5303 12.5303L12.5303 19.5303C12.2374 19.8232 11.7626 19.8232 11.4697 19.5303C11.1768 19.2374 11.1768 18.7626 11.4697 18.4697L17.1893 12.75L5 12.75C4.58579 12.75 4.25 12.4142 4.25 12C4.25 11.5858 4.58579 11.25 5 11.25L17.1893 11.25L11.4697 5.53033C11.1768 5.23744 11.1768 4.76256 11.4697 4.46967C11.7626 4.17678 12.2374 4.17678 12.5303 4.46967L19.5303 11.4697Z"></path></svg>Prompt your PM and share</span><div class="css-36v8q4"> </div></a></li>
+             <li class="css-avkm3u"><a href="/customer/prompt_writer" class="css-xhvgwz"><span style="font-size:inherit;line-height:inherit;font-weight:bold" class="css-10z1dta text-dark">Prompt & Share</span><span style="font-size:13px;line-height:inherit" class="css-scxoy8 text-secondary"><svg preserveAspectRatio="xMidYMin" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="width:16px;--rotate:0deg" aria-hidden="true" class="css-1afyr3i"><path fill-rule="evenodd" clip-rule="evenodd" d="M19.5303 11.4697C19.8232 11.7626 19.8232 12.2374 19.5303 12.5303L12.5303 19.5303C12.2374 19.8232 11.7626 19.8232 11.4697 19.5303C11.1768 19.2374 11.1768 18.7626 11.4697 18.4697L17.1893 12.75L5 12.75C4.58579 12.75 4.25 12.4142 4.25 12C4.25 11.5858 4.58579 11.25 5 11.25L17.1893 11.25L11.4697 5.53033C11.1768 5.23744 11.1768 4.76256 11.4697 4.46967C11.7626 4.17678 12.2374 4.17678 12.5303 4.46967L19.5303 11.4697Z"></path></svg>Prompt your PM and share</span><div class="css-36v8q4"> </div></a></li>
 
 
     </ul>
@@ -287,6 +287,15 @@ border: 1px solid #eee;
 <h2 style="font-size:20px;font-weight:bold" class="css-scxoy8 mb-3 mx-1 mt-4">Recent PMs</h2>
 {% include 'home/connections.html' %}
 </div>
+
+
+<div class=" mx-3">
+<h2 style="font-size:20px;font-weight:bold" class="css-scxoy8 mb-3 mt-4">Your Prompts</h2>
+
+{% include 'home/prompt_list.html' %}
+
+</div>
+
 
 
 

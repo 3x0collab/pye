@@ -389,7 +389,8 @@ def customer_dashboard_view(request):
     dict={
         'customer':models.Customer.objects.get(user_id=request.user.id),
         'chatbots':models.Chatbot.objects.filter(created_by=request.user).order_by('-pk')[0:12],
-        'connections':models.Connections.objects.filter(connector__created_by=request.user).order_by('-connector__date_created','-connector__time_created')[0:3],
+        'prompts':models.Prompts.objects.filter(created_by=request.user).order_by('-pk')[0:6],
+        'connections':models.Connections.objects.filter(connector__created_by=request.user).order_by('-connector__date_created','-connector__time_created')[0:5],
         # 'available_policy':CMODEL.Vocation.objects.all().count(),
         # 'applied_policy':CMODEL.LeaveRecord.objects.all().filter(customer=models.Customer.objects.get(user_id=request.user.id)).count(),
         # 'total_category':CMODEL.Category.objects.all().count(),
@@ -859,6 +860,8 @@ def ai_models(request):
         print(connections)
 
         return render(request,'home/ai_models.html',{'connections':connections,'segment' : "ai_models","q":query,'per_page':per_page})
+ 
+
 
 @login_required(login_url='login')
 def ai_models_bot(request,pk): 
@@ -882,6 +885,18 @@ def ai_models_bot(request,pk):
                     chatbot.configs=json.dumps(request.POST)
                     chatbot.save()
 
+                    try:
+                        # Save the send_icon_color to another table (e.g., FileUploads) and get its URL
+                        bot_image = request.FILES.get('bot-image')
+                        print('image upload bot_image: ',bot_image)
+                        if bot_image:
+                            models.BotFileUploads.objects.filter(chatbot=chatbot.pk).delete()
+                            file_upload = models.BotFileUploads.objects.create(chatbot=chatbot.pk, file=bot_image)
+                            file_upload.save()
+                    except Exception as e:
+                        print('image upload err: ',e)
+
+
                     return JsonResponse({ "message" :f"Bot Prompts: {bot_name} update successfully!"})
                 
                 else:
@@ -894,12 +909,16 @@ def ai_models_bot(request,pk):
                 chatbot.api_id = replace_with_char(f"{bot_name}-{request.user.id}-{chatbot.pk}")
                 chatbot.save()
 
-                # Save the send_icon_color to another table (e.g., FileUploads) and get its URL
-                bot_image = request.FILES.get('bot-image')
-                if bot_image:
-                    file_upload = models.BotFileUploads.objects.create(chatbot=chatbot.pk, file=bot_image)
-                    file_upload.save()
-
+                try:
+                    # Save the send_icon_color to another table (e.g., FileUploads) and get its URL
+                    bot_image = request.FILES.get('bot-image')
+                    print('image upload bot_image: ',bot_image)
+                    if bot_image:
+                        models.BotFileUploads.objects.filter(chatbot=chatbot.pk).delete()
+                        file_upload = models.BotFileUploads.objects.create(chatbot=chatbot.pk, file=bot_image)
+                        file_upload.save()
+                except Exception as e:
+                    print('image upload err: ',e)
 
                 return JsonResponse({ 'message':'Bot Prompts created successfully'})
 
@@ -947,9 +966,9 @@ def ai_models_bot_iframe(request,api_id):
         configs = merge_key(json.loads(chatbot.configs)) 
         file_upload = models.BotFileUploads.objects.get(chatbot=chatbot.pk)
         configs['bot_image'] = file_upload.file.url
-        print(configs)
+        # print(configs)
     except Exception as e:
-        print(e) 
+        print('image upload err: ',e) 
 
     return render(request,'home/ai_models_bot_iframe.html',{'chatbot':chatbot,
         'connection':connection,'api_id':api_id,'height':height,"configs":configs,'user_id':user_id})
@@ -978,6 +997,15 @@ def ai_models_delete(request):
     url = reverse('ai_models')
     return redirect(url)
 
+@login_required(login_url='login')
+def prompt_delete(request): 
+    pk = request.GET.get('pk') 
+    prompt = models.Prompts.objects.get(pk=pk)
+    prompt.delete()
+
+    url = reverse('prompt')
+    return redirect(url)
+
 # @login_required(login_url='login')
 def process_message(request): 
     form_data = request.GET
@@ -986,6 +1014,7 @@ def process_message(request):
     api_user = form_data.get('user_id')
     prompt = ""
     pk = form_data.get('pk') 
+    show_chat_history = True
 
     try:
 
@@ -1003,7 +1032,9 @@ def process_message(request):
 
         if api_id:
             connection = models.Chatbot.objects.get(api_id=api_id)
-            prompt = json.loads(connection.configs).get("task","")
+            configs = json.loads(connection.configs)
+            prompt = configs.get("task","") 
+            show_chat_history = True if configs.get("show-chat-history") == "on" else False
             # connection.connector = connection.connection.connector
         else:
             connection = models.Connections.objects.get(pk=pk)
@@ -1017,7 +1048,11 @@ def process_message(request):
         else:
             
             chat_history = json.loads(connection.chat_history) if connection.chat_history else []
-            connection = {"chat_history":json.dumps([ entry for entry in chat_history if entry.get('user') == str(api_user if api_user else request.user)  ][chat_history_len:] )}
+            if show_chat_history:
+                connection = {"chat_history":json.dumps([ entry for entry in chat_history if entry.get('user') == str(api_user if api_user else request.user)  ][chat_history_len:] )}
+            else:
+                connection = {"chat_history":json.dumps([])} 
+
             result = json.dumps(connection, sort_keys=True,
                                     indent=1, cls=DjangoJSONEncoder)
             return JsonResponse({'response':result})
@@ -1151,7 +1186,6 @@ def delete_code_editor(request,pk):
 def code_editor(request,pk=None): 
 
     transformers = models.Transformer.objects.filter(is_public="True").order_by('-last_modified')    
-    print(transformers_type)
 
     if request.method == 'POST':  
         try:
@@ -1423,6 +1457,226 @@ def get_chatbot_data(request):
         file_upload = models.BotFileUploads.objects.get(chatbot=chatbot.pk)
         chatbot_data['bot_image_url'] = file_upload.file.url
     except Exception as e:
-        pass
-    print(chatbot_data)
+        print("imagr err: ",e)
+    # print(chatbot_data)
     return JsonResponse(chatbot_data)
+
+
+
+@login_required(login_url='login')
+def prompt(request): 
+    # customer = models.Customer.objects.get(user_id=request.user.id)
+
+    if request.method == 'POST': 
+        prompt_name = request.POST.get('name')
+        connections_pk = request.POST.get('connections_pk')
+        status = request.POST.get('status',"create")
+
+        if not prompt_name:
+            return JsonResponse({ "error" :f"Name is required!"})        
+
+        try:
+
+            try: 
+                connection = models.Connections.objects.get(pk=connections_pk)
+                prompt = models.Prompts.objects.get(name=prompt_name,created_by=request.user,connection=connection)
+                
+                if status.lower()== 'edit':
+                    prompt.configs=json.dumps(request.POST)
+                    prompt.save() 
+
+                    return JsonResponse({ "message" :f"Prompt: {prompt_name} update successfully!"})
+                
+                else:
+                    return JsonResponse({ "message" :f"Prompt: {prompt_name} already created by you!"})
+
+            except ObjectDoesNotExist:
+
+                prompt = models.Prompts.objects.create(name=prompt_name,configs=json.dumps(request.POST),created_by=request.user)
+                prompt.connection = connection
+                prompt.api_id = replace_with_char(f"{prompt_name}-{request.user.id}-{prompt.pk}")
+                prompt.save() 
+
+                return JsonResponse({ 'message':'Prompts created successfully'})
+
+        except Exception as e:
+            print(e)
+            return JsonResponse({ "error" :str(e)})
+
+        
+
+    else:
+        query = request.GET.get('q',"") 
+        per_page = request.GET.get('per_page',10) 
+
+        prompts = models.Prompts.objects.filter(created_by=request.user).order_by('-pk')
+        # print('pk',pk,prompts)
+        if query:
+            prompts = prompts.filter(
+                Q(name__icontains=query) |
+                Q(configs__icontains=query)
+            )  
+
+        paginator = Paginator(prompts, per_page) # Display 10 tasks per page
+        page = request.GET.get('page')
+        prompts = paginator.get_page(page)
+
+        return render(request,'home/prompts_landing.html',{'prompts':prompts, 
+        'segment' : "prompt","q":query,'per_page':per_page})
+
+
+
+
+
+
+
+
+@login_required(login_url='login')
+def prompt_writer(request): 
+    # customer = models.Customer.objects.get(user_id=request.user.id)
+
+    if request.method == 'POST': 
+        prompt_name = request.POST.get('name')
+        description = request.POST.get('description')
+        status = request.POST.get('status',"create")
+        content = request.POST.get('content',"")
+        is_public = request.POST.get('is_public',"")
+
+        if not prompt_name:
+            return JsonResponse({ "error" :f"Name is required!"})        
+
+        try: 
+            prompt = models.Prompts.objects.get(name=prompt_name,description=description,created_by=request.user
+                )
+            
+            if status.lower()== 'edit':
+                prompt.content=content
+                prompt.is_public=is_public
+                prompt.save() 
+
+                return JsonResponse({ "message" :f"Prompt: {prompt_name} update successfully!"})
+            
+            else:
+                return JsonResponse({ "message" :f"Prompt: {prompt_name} already created by you!"})
+
+        except ObjectDoesNotExist:
+
+            prompt = models.Prompts.objects.create(name=prompt_name,content=content,created_by=request.user)
+            prompt.description = description
+            prompt.is_public = is_public
+            prompt.api_id = replace_with_char(f"{prompt_name}-{request.user.id}-{prompt.pk}")
+            prompt.save() 
+
+            return JsonResponse({ 'message':'Prompts created successfully'})
+
+
+    else:
+        status = request.GET.get('status',"create")
+        pk = request.GET.get('pk')
+        if pk:
+            prompt = models.Prompts.objects.get(pk=pk)
+            prompt =  prompt.content
+        else:
+            prompt="""
+
+Now you are Pye Gpt: A Documentation Search Engine, designed to assist users in finding information within our extensive documentation. Your goal is to help users discover relevant topics and solutions based on their search queries.
+
+Instructions:
+1. Users will enter search queries, which can be questions, keywords, or topics related to PYE.
+2. Your responses should provide accurate and concise information from our documentation.
+3. Prioritize offering solutions, code examples, and step-by-step guides where applicable.
+4. If a query has multiple relevant results, you can provide a brief summary and offer to provide more detailed information upon request.
+5. If a query has no relevant results, say I don't know and tell them which links to go, if available.
+6. Your objective is to enhance the user experience by promptly connecting them with the information they need.
+
+Example Queries:
+1. How do I install PYE?
+2. What features are available in PYE?
+3. Provide an example of sentiment analysis using PYE.
+4. How can I integrate PYE with my web application?
+5. Troubleshoot common errors when using PYE.
+
+Your responses should be informative, helpful, and presented in a language understandable to users.
+            
+            """
+
+        return render(request,'home/prompt_editor.html',{'prompt':prompt, 
+        'segment' : "prompt","status":status})
+
+
+
+
+def prompt_writer_search(request): 
+
+    query = request.GET.get('q',"") 
+
+    connections = models.Connections.objects.filter(
+        Q(name__icontains=query) |
+        Q(description__icontains=query)
+    ).order_by('-connector__date_created','-connector__time_created').values('pk','name','description','last_date_update',
+    'last_time_update','connector__date_created','connector__type_name','connector__created_by__username')     
+
+    connections = connections[0:8]
+    for x in connections:
+        x['get_prompts'] = models.Chatbot.objects.filter(connection__pk=x.get('pk')).count()
+
+    res = {'results':list(connections)}
+
+    return JsonResponse(res)
+
+
+def prompt_search(request): 
+
+    query = request.GET.get('q',"") 
+
+    connections = models.Prompts.objects.filter(
+        Q(name__icontains=query) |
+        Q(description__icontains=query) |
+        Q(content__icontains=query)
+    ).order_by('-last_update').values('pk','name','description','api_id','last_update', 'created_by__username','content')     
+
+    connections = connections[0:8]
+    for x in connections:
+        x['get_prompts'] = models.Chatbot.objects.filter(connection__pk=x.get('pk')).count()
+
+    res = {'results':list(connections)}
+
+    return JsonResponse(res)
+
+
+
+
+
+def prompt_like(request): 
+
+    pk = request.GET.get('pk',"") 
+
+    prompt = models.Prompts.objects.get(pk=pk)
+    prompt.like = prompt.like + 1
+    prompt.save() 
+    res = {'message':f"{prompt.name} Liked"}
+
+    return JsonResponse(res)
+
+
+
+
+
+@login_required(login_url='login')
+def run_prompt(request): 
+    if request.method == 'POST': 
+        pk = request.POST.get('pk')
+        prompt = request.POST.get('prompt')
+        message = request.POST.get('message')
+        try:
+            connection = models.Connections.objects.get(pk=pk)
+
+            if message:
+                vortex_query = VortexQuery(connection,prompt,str(request.user),save_history=False)
+                answer = vortex_query.ask_question(message)
+                # print(answer)
+                return JsonResponse({'response':answer})
+
+
+        except Exception as e:
+            return JsonResponse({ 'message':"Error: "+e}) 

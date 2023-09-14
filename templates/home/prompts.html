@@ -273,7 +273,7 @@ padding-right:0px !important; margin-top: 10px;">
  {% if chatbots|length is 0 %}
  <div style="display: flex;justify-content: center;align-items: center; flex-direction:column;" > 
    <svg fill="#867979" width="64px" height="64px" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" stroke="#867979"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M520.741 163.801a10.234 10.234 0 00-3.406-3.406c-4.827-2.946-11.129-1.421-14.075 3.406L80.258 856.874a10.236 10.236 0 00-1.499 5.335c0 5.655 4.585 10.24 10.24 10.24h846.004c1.882 0 3.728-.519 5.335-1.499 4.827-2.946 6.352-9.248 3.406-14.075L520.742 163.802zm43.703-26.674L987.446 830.2c17.678 28.964 8.528 66.774-20.436 84.452a61.445 61.445 0 01-32.008 8.996H88.998c-33.932 0-61.44-27.508-61.44-61.44a61.445 61.445 0 018.996-32.008l423.002-693.073c17.678-28.964 55.488-38.113 84.452-20.436a61.438 61.438 0 0120.436 20.436zM512 778.24c22.622 0 40.96-18.338 40.96-40.96s-18.338-40.96-40.96-40.96-40.96 18.338-40.96 40.96 18.338 40.96 40.96 40.96zm0-440.32c-22.622 0-40.96 18.338-40.96 40.96v225.28c0 22.622 18.338 40.96 40.96 40.96s40.96-18.338 40.96-40.96V378.88c0-22.622-18.338-40.96-40.96-40.96z"></path></g></svg>
-   <p class="text-secondary" > Empty Prompts !! </p>
+   <p class="text-secondary" > Empty Task Prompts !! </p>
 
    <a href='/customer/ai_models'   class="  btn text-white btn-sm w-25 mt-2 " style="background:#0053a6; text-transform: capitalize;"> 
              Create Task Prompt  <svg preserveAspectRatio="xMidYMin" width="16" height="16" style="font-size:16px;rotate:0deg;margin-left:3px;margin-top:-3px" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="css-492dz9"><path fill-rule="evenodd" clip-rule="evenodd" d="M14.25 3C14.25 2.58579 14.5858 2.25 15 2.25H21C21.4142 2.25 21.75 2.58579 21.75 3V9C21.75 9.41421 21.4142 9.75 21 9.75C20.5858 9.75 20.25 9.41421 20.25 9V4.81066L10.5303 14.5303C10.2374 14.8232 9.76256 14.8232 9.46967 14.5303C9.17678 14.2374 9.17678 13.7626 9.46967 13.4697L19.1893 3.75H15C14.5858 3.75 14.25 3.41421 14.25 3ZM5 6.75C4.66848 6.75 4.35054 6.8817 4.11612 7.11612C3.8817 7.35054 3.75 7.66848 3.75 8V19C3.75 19.3315 3.8817 19.6495 4.11612 19.8839C4.35054 20.1183 4.66848 20.25 5 20.25H16C16.3315 20.25 16.6495 20.1183 16.8839 19.8839C17.1183 19.6495 17.25 19.3315 17.25 19V13C17.25 12.5858 17.5858 12.25 18 12.25C18.4142 12.25 18.75 12.5858 18.75 13V19C18.75 19.7293 18.4603 20.4288 17.9445 20.9445C17.4288 21.4603 16.7293 21.75 16 21.75H5C4.27065 21.75 3.57118 21.4603 3.05546 20.9445C2.53973 20.4288 2.25 19.7293 2.25 19V8C2.25 7.27065 2.53973 6.57118 3.05546 6.05546C3.57118 5.53973 4.27065 5.25 5 5.25H11C11.4142 5.25 11.75 5.58579 11.75 6C11.75 6.41421 11.4142 6.75 11 6.75H5Z"></path></svg>  </a>
@@ -313,7 +313,7 @@ width: 75px;border: 1px solid silver;
 
 
 <div class="mx-3" style="width:70%"   >
-<h4 class="  font-weight-bold " style="font-size: 16px; height:22px; overflow:hidden; text-transform:capitalize; " pk="{{chatbot.pk}}" >{{chatbot.get_configs.header_title}}</h4>
+<h4 class="  font-weight-bold " style="font-size: 16px; height:22px; overflow:hidden; text-transform:capitalize; " pk="{{chatbot.pk}}" >{% if chatbot.get_configs.header_title %}{{chatbot.get_configs.header_title}}{% else %}{{chatbot.name}}{% endif %}</h4>
 
  
 <p class="mt-0 mb-1"  style="font-size: 13px; height:22px; overflow:hidden;" pk="{{chatbot.pk}}" class="chatbot_model   " >{{chatbot.get_configs.task}}..  </p>
@@ -634,26 +634,7 @@ populateForm($(this).attr('pk'));
 
 
 
-
- let animationIcon = `     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="margin:auto;background:#fff;display:block;" width="28px" height="28px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
-<circle cx="84" cy="50" r="10" fill="#e15b64">
-    <animate attributeName="r" repeatCount="indefinite" dur="0.25s" calcMode="spline" keyTimes="0;1" values="10;0" keySplines="0 0.5 0.5 1" begin="0s"></animate>
-    <animate attributeName="fill" repeatCount="indefinite" dur="1s" calcMode="discrete" keyTimes="0;0.25;0.5;0.75;1" values="#e15b64;#abbd81;#f8b26a;#f47e60;#e15b64" begin="0s"></animate>
-</circle><circle cx="16" cy="50" r="10" fill="#e15b64">
-  <animate attributeName="r" repeatCount="indefinite" dur="1s" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" values="0;0;10;10;10" keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" begin="0s"></animate>
-  <animate attributeName="cx" repeatCount="indefinite" dur="1s" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" values="16;16;16;50;84" keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" begin="0s"></animate>
-</circle><circle cx="50" cy="50" r="10" fill="#f47e60">
-  <animate attributeName="r" repeatCount="indefinite" dur="1s" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" values="0;0;10;10;10" keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" begin="-0.25s"></animate>
-  <animate attributeName="cx" repeatCount="indefinite" dur="1s" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" values="16;16;16;50;84" keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" begin="-0.25s"></animate>
-</circle><circle cx="84" cy="50" r="10" fill="#f8b26a">
-  <animate attributeName="r" repeatCount="indefinite" dur="1s" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" values="0;0;10;10;10" keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" begin="-0.5s"></animate>
-  <animate attributeName="cx" repeatCount="indefinite" dur="1s" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" values="16;16;16;50;84" keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" begin="-0.5s"></animate>
-</circle><circle cx="16" cy="50" r="10" fill="#abbd81">
-  <animate attributeName="r" repeatCount="indefinite" dur="1s" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" values="0;0;10;10;10" keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" begin="-0.75s"></animate>
-  <animate attributeName="cx" repeatCount="indefinite" dur="1s" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" values="16;16;16;50;84" keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" begin="-0.75s"></animate>
-</circle>
-</svg>`
-
+ 
 
 
  

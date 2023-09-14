@@ -12,15 +12,16 @@ class CustomerConfig(AppConfig):
     name = 'customer'
 
     def ready(self):
-        from django.conf import settings
+        pass
+        # from django.conf import settings
 
-        # create database connection
-        engine = create_engine('sqlite:///' + str(settings.DATABASES['default']['NAME']))
-        from .models import Task
-        tasks = Task.objects.filter(status='running')
-        for task in tasks:    
-            query = f"UPDATE apscheduler_jobs SET next_run_time = 'next_run_time', job_state = 'running' WHERE id = '{task.job_id}'"
-            with engine.connect() as conn:
-                result = conn.execute(query)
+        # # create database connection
+        # engine = create_engine('sqlite:///' + str(settings.DATABASES['default']['NAME']))
+        # from .models import Task
+        # tasks = Task.objects.filter(status='running')
+        # for task in tasks:    
+        #     query = f"UPDATE apscheduler_jobs SET next_run_time = 'next_run_time', job_state = 'running' WHERE id = '{task.job_id}'"
+        #     with engine.connect() as conn:
+        #         result = conn.execute(query)
 
-            logging.info(f"Job with ID {task.job_id} resumed")
+        #     logging.info(f"Job with ID {task.job_id} resumed")

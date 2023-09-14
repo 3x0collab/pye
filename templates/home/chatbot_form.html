@@ -1,8 +1,128 @@
  
 
-   <form  action="" id="chatbotForm" method="post" enctype="multipart/form-data" class="px-4" >
-      
+<style>
+/* Style the tab */
+.tab {
+  float: left;
+/*  border: 1px solid #ccc;*/
+  background-color: #f1f1f1;
+  width: 20%;
+  min-height: 700px;
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+  display: block;
+  background-color: inherit;
+  color: black;
+  padding: 12px 8px;
+  width: 100%;
+  border: none;
+  outline: none;
+  text-align: left;
+  cursor: pointer;
+  transition: 0.3s;
+  font-size: 17px;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background-color: #ddd;
+}
+
+/* Create an active/current "tab button" class */
+.tab button.active {
+  background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+  float: left;
+  padding: 0px 12px;
+  border: 0px solid #ccc;
+  width: 80%;
+  border-left: none;
+}
+
+.modal-body {
+  margin-right: 0px !important;
+  margin-left: 0px !important;
+}
+
+.tablinks svg {
+  width: 25px !important;
+}
+
+        /* Custom styling for result items */
+        .result-item {
+            display: flex;
+            padding: 10px;
+            margin-bottom: 0px;
+            cursor: pointer;
+        }
+
+.result-item:hover {
+  background-color: #2196f33d;
+}
+    
+
+        .result-content {
+            flex-grow: 1;
+        }
+
+        .result-name {
+            font-weight: bold;
+        }
+
+        .result-description {
+            color: #666;
+        }
+
+
+ 
+
+
+</style>
+
+   <form  action="" id="chatbotForm" method="post" enctype="multipart/form-data"   >
+
       {% csrf_token %}
+
+
+
+
+<div class="tab">
+  <button class="tablinks" onclick="openCity(event, 'General')" id="defaultOpen"> <svg class='mx-2' width="25px" height="25px" viewBox="0 -19.5 164 164" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M19.2329 89.0831C17.3341 89.4211 15.7432 89.7559 14.1371 89.9817C7.06966 90.976 1.51901 86.5687 0.48068 79.5288C-1.0289 69.307 6.73229 58.1139 14.141 55.0389C16.6482 53.9986 19.5794 53.9795 23.0364 53.3665C32.2494 32.1615 49.7618 21.7934 73.5423 20.3488C73.8921 16.4462 74.238 12.5935 74.6022 8.54059C73.5751 8.11988 72.3431 7.95977 71.6796 7.26077C70.7134 6.24344 69.5996 4.84016 69.5957 3.59771C69.5918 2.53116 70.9221 0.709891 71.8974 0.535306C74.597 0.0535535 77.542 -0.276629 80.1608 0.325233C83.5048 1.0938 83.9852 3.75262 81.8548 6.48561C81.4171 6.9389 81.1341 7.51899 81.0462 8.14288C81.224 11.6156 81.5273 15.081 81.7616 18.179C88.0211 18.7375 94.0055 19.0381 99.9211 19.8421C119.273 22.472 132.088 33.3508 139.077 51.3896C139.194 51.6909 139.333 51.9849 139.478 52.2744C139.549 52.3747 139.633 52.4656 139.727 52.5448C142.943 52.5448 146.247 52.1103 149.393 52.6347C156.138 53.7583 161.178 57.4004 162.853 64.3477C164.528 71.2951 161.862 77.0616 156.759 81.6435C151.742 86.1493 145.621 87.389 138.993 86.5404C138.746 86.7453 138.532 86.987 138.359 87.2571C130.949 104.691 117.203 114.915 99.7662 120.658C84.6227 125.684 68.3154 126.026 52.9746 121.639C36.0424 116.958 23.8017 107.182 19.2329 89.0831ZM74.3653 116.033C77.9548 115.728 81.5686 115.59 85.1292 115.09C99.4118 113.083 112.05 107.628 121.744 96.6153C138.759 77.2881 134.524 42.1123 104.846 32.3558C93.8566 28.746 82.3857 26.5243 70.7233 27.2725C57.6687 28.1106 46.2832 33.0968 37.8617 43.4256C30.0513 53.0022 26.6062 64.3694 26.3233 76.5471C25.9125 94.2223 34.5276 106.232 51.1808 112.095C58.6448 114.649 66.4731 115.979 74.362 116.032L74.3653 116.033ZM20.0205 60.3756C19.7421 60.3376 19.4597 60.3412 19.1824 60.3861C12.7641 62.2757 6.45466 73.2929 8.09026 79.6823C8.58579 81.6199 9.81316 82.7712 11.7592 82.8092C13.8765 82.8512 16.0005 82.5894 17.5501 82.4949C18.4092 74.7881 19.2099 67.6156 20.0185 60.3742L20.0205 60.3756ZM141.736 77.21C145.278 77.15 148.678 75.8064 151.305 73.4289C154.874 70.1905 155.296 65.2817 152.224 62.4522C149.242 59.7061 145.667 58.9152 141.736 59.7146V77.21Z" fill="#000000"></path> <path d="M84.8075 82.0252C86.4018 82.3193 88.1725 82.2825 89.5331 83.0097C90.1516 83.3495 90.6946 83.8115 91.129 84.3676C91.5634 84.9238 91.8802 85.5624 92.06 86.2448C92.3344 88.1095 90.7172 89.0671 88.9411 89.2994C88.0814 89.4143 87.2076 89.3635 86.367 89.1498C84.8505 88.6937 83.2428 88.6309 81.6954 88.9674C80.148 89.304 78.7116 90.0287 77.5215 91.0734C76.1714 92.182 74.5896 93.0209 73.233 91.3781C72.0319 89.9236 72.5832 88.2348 73.7817 86.9346C75.1549 85.3673 76.8518 84.1166 78.7554 83.269C80.659 82.4214 82.7239 81.9971 84.8075 82.0252Z" fill="#000000"></path> <path d="M57.7186 52.5112C61.4295 52.6392 63.7503 55.2876 63.5495 59.1645C63.3893 62.2533 60.9084 64.7434 58.1203 64.6154C54.9698 64.4703 52.4724 61.3206 52.607 57.6582C52.7442 53.9453 54.2853 52.3924 57.7186 52.5112Z" fill="#000000"></path> <path d="M93.575 57.3327C93.5684 54.2361 94.7564 52.8328 97.4244 52.7856C100.873 52.7245 103.039 54.689 102.96 57.8066C102.891 60.4916 100.78 62.7678 98.3 62.8282C95.4672 62.8971 93.5822 60.7024 93.575 57.3327Z" fill="#000000"></path> </g></svg> General</button>
+
+
+  <button class="tablinks" onclick="openCity(event, 'Prompt')"> <svg class='mx-2' width="25px" height="25px" viewBox="0 -0.5 25 25" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill-rule="evenodd" clip-rule="evenodd" d="M17.5 15C18.6046 15 19.5 15.8954 19.5 17C19.5 18.1046 18.6046 19 17.5 19C16.3954 19 15.5 18.1046 15.5 17V7C15.5 5.89543 16.3954 5 17.5 5C18.6046 5 19.5 5.89543 19.5 7C19.5 8.10457 18.6046 9 17.5 9H15.5V15H17.5Z" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M9.5 9V9.75C9.91421 9.75 10.25 9.41421 10.25 9H9.5ZM9.5 8.25C9.08579 8.25 8.75 8.58579 8.75 9C8.75 9.41421 9.08579 9.75 9.5 9.75V8.25ZM15.5 9.75C15.9142 9.75 16.25 9.41421 16.25 9C16.25 8.58579 15.9142 8.25 15.5 8.25V9.75ZM10.25 9C10.25 8.58579 9.91421 8.25 9.5 8.25C9.08579 8.25 8.75 8.58579 8.75 9H10.25ZM8.75 15C8.75 15.4142 9.08579 15.75 9.5 15.75C9.91421 15.75 10.25 15.4142 10.25 15H8.75ZM9.5 15H10.25C10.25 14.5858 9.91421 14.25 9.5 14.25V15ZM9.5 14.25C9.08579 14.25 8.75 14.5858 8.75 15C8.75 15.4142 9.08579 15.75 9.5 15.75V14.25ZM15.5 15.75C15.9142 15.75 16.25 15.4142 16.25 15C16.25 14.5858 15.9142 14.25 15.5 14.25V15.75ZM9.5 8.25H7.5V9.75H9.5V8.25ZM7.5 8.25C6.80964 8.25 6.25 7.69036 6.25 7H4.75C4.75 8.51878 5.98122 9.75 7.5 9.75V8.25ZM6.25 7C6.25 6.30964 6.80964 5.75 7.5 5.75V4.25C5.98122 4.25 4.75 5.48122 4.75 7H6.25ZM7.5 5.75C8.19036 5.75 8.75 6.30964 8.75 7H10.25C10.25 5.48122 9.01878 4.25 7.5 4.25V5.75ZM8.75 7V9H10.25V7H8.75ZM9.5 9.75H15.5V8.25H9.5V9.75ZM8.75 9V15H10.25V9H8.75ZM8.75 15V17H10.25V15H8.75ZM8.75 17C8.75 17.6904 8.19036 18.25 7.5 18.25V19.75C9.01878 19.75 10.25 18.5188 10.25 17H8.75ZM7.5 18.25C6.80964 18.25 6.25 17.6904 6.25 17H4.75C4.75 18.5188 5.98122 19.75 7.5 19.75V18.25ZM6.25 17C6.25 16.3096 6.80964 15.75 7.5 15.75V14.25C5.98122 14.25 4.75 15.4812 4.75 17H6.25ZM7.5 15.75H9.5V14.25H7.5V15.75ZM9.5 15.75H15.5V14.25H9.5V15.75Z" fill="#000000"></path> </g></svg> Prompt</button>
+
+
+
+
+  <button class="tablinks" onclick="openCity(event, 'Header')"> <svg class='mx-2' width="16px" height="16px" fill="#000000" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <g> <g> <rect y="170.667" width="512" height="64"></rect> <path d="M490.667,0H21.333C9.536,0,0,9.557,0,21.333V128h512V21.333C512,9.557,502.464,0,490.667,0z M85.333,106.667 C73.557,106.667,64,97.109,64,85.333S73.557,64,85.333,64s21.333,9.557,21.333,21.333S97.109,106.667,85.333,106.667z M149.333,106.667c-11.776,0-21.333-9.557-21.333-21.333S137.557,64,149.333,64s21.333,9.557,21.333,21.333 S161.109,106.667,149.333,106.667z M213.333,106.667c-11.776,0-21.333-9.557-21.333-21.333S201.557,64,213.333,64 s21.333,9.557,21.333,21.333S225.109,106.667,213.333,106.667z"></path> <path d="M0,490.667C0,502.443,9.536,512,21.333,512h469.333c11.797,0,21.333-9.557,21.333-21.333V277.333H0V490.667z"></path> </g> </g> </g> </g></svg> Header</button>
+ 
+
+    <button class="tablinks" onclick="openCity(event, 'Body')"> <svg class='mx-2' width="23px" height="23px"   fill="#000000" viewBox="0 0 32 32" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;" version="1.1" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:serif="http://www.serif.com/" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M28.011,6.989c-0,-1.657 -1.344,-3 -3,-3l-18.023,-0c-1.657,-0 -3,1.343 -3,3l0,18.022c0,1.657 1.343,3 3,3l18.023,0c1.656,0 3,-1.343 3,-3l-0,-18.022Zm-2,-0l-0,18.022c-0,0.552 -0.448,1 -1,1l-18.023,0c-0.552,0 -1,-0.448 -1,-1l0,-18.022c0,-0.552 0.448,-1 1,-1l18.023,-0c0.552,-0 0.999,0.447 1,1Z"></path><path d="M22.999,16.992c0.553,0 1,-0.448 1,-1c0,-4.418 -3.581,-8 -8,-8c-4.418,0 -8,3.582 -8,8c0,0.552 0.448,1 1,1l14,0Zm-4.567,-2l3.484,0l0,0c-0.476,-2.838 -2.944,-5 -5.917,-5c-2.973,0 -5.441,2.163 -5.917,5l5.521,0l1.803,-1.802c0.39,-0.39 1.024,-0.39 1.414,-0c0.39,0.39 0.39,1.024 -0,1.414l-0.388,0.388Z"></path></g></svg> Body</button>
+
+
+
+
+
+    <button class="tablinks" onclick="openCity(event, 'Footer')"> <svg class='mx-2' width="20px" height="20px" fill="#000000" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>bottom-vertical</title> <path d="M0 26.016v-20q0-2.496 1.76-4.256t4.256-1.76h20q2.464 0 4.224 1.76t1.76 4.256v20q0 2.496-1.76 4.224t-4.224 1.76h-20q-2.496 0-4.256-1.76t-1.76-4.224zM4 26.016q0 0.832 0.576 1.408t1.44 0.576h20q0.8 0 1.408-0.576t0.576-1.408v-20q0-0.832-0.576-1.408t-1.408-0.608h-20q-0.832 0-1.44 0.608t-0.576 1.408v20zM8 22.016v-12q0-0.832 0.576-1.408t1.44-0.608h1.984q0.832 0 1.408 0.608t0.608 1.408v12q0 0.832-0.608 1.408t-1.408 0.576h-1.984q-0.832 0-1.44-0.576t-0.576-1.408zM10.016 22.016h1.984v-12h-1.984v12zM18.016 22.016v-4q0-0.832 0.576-1.408t1.408-0.608h2.016q0.8 0 1.408 0.608t0.576 1.408v4q0 0.832-0.576 1.408t-1.408 0.576h-2.016q-0.832 0-1.408-0.576t-0.576-1.408zM20 22.016h2.016v-4h-2.016v4z"></path> </g></svg> Footer</button>
+
+
+ 
+</div>
+
+
+
+
+
+<div id="General" class="tabcontent px-4 py-2">
+
+
+
       <div class="form-group mt-3">  
             <label for="bot-name ">Name: <span class="text-danger" >*</span> </label>
             <input type="text" class="form-control" id="bot-name" name="name" placeholder="Enter the name of your chatbot" required autofocus  >
@@ -16,10 +136,6 @@
           </div>
 
 
-        <div class="form-group">
-          <label for="header">Header Title:  </label>
-          <input type="text" class="form-control" id="header" name="header-title" placeholder="Enter bot tile" >
-        </div>
 
 
  <div class="form-group">
@@ -28,20 +144,138 @@
         </div>
 
 
+      <div class="form-check form-switch my-4 ">
+
+          <label for="show-greeting" class="form-check-label">Show Greeeting Msg:</label>
+
+            <input type="checkbox" class="form-check-input" style="min-height:20px"  checked id="show-greeting" name="show-greeting"   >
+
+        </div>
+
+
+
+             <div class="form-check form-switch my-4">
+
+       <label for="show-chat-history" class="form-check-label">Show Chat History:</label>
+
+            <input type="checkbox" class="form-check-input" style="min-height:20px"  checked id="show-chat-history" name="show-chat-history"   >
+        </div>
+
+
+
+</div>
+
+
+<div id="Prompt" class="tabcontent px-4 py-3"> 
+        
+        <label class="my-2" for="task">Bot Task (Prompts): <span class="text-danger" >*</span></label>
+
+
+ <div class="containere px-0 ">
+        <div class="input-group mb-3 ">
+               <div class="input-group-prepend" style="padding-top: 6px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border: 1px solid #cbcbcb;
+    background: white;
+    border-top-left-radius: 7px;
+    border-bottom-left-radius: 7px;">
+                    <i class="fa fa-search form-control-feedback"></i>
+            </div>
+
+            <input type="text" id="search-input-form" class="form-control" placeholder="Search Prompt(s) ...">
+            <div class="input-group-append" style="padding: 4px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border: 1px solid #cbcbcb;
+    background: white;
+    border-top-right-radius: 7px;
+    border-bottom-right-radius: 7px;">
+                    <i class="fa fa-caret-down"></i> <!-- Font Awesome icon -->
+            </div>
+
+
+        </div>
+            <span id="result-count" class="mt-0 " ></span> <!-- Display the number of results -->
+        <div class="custom-list-group">
+            <div id="search-results" class="mt-2"></div> <!-- Results as a list -->
+        </div>
+    </div>
+
+
 
         <div class="form-group">
-        <label for="task">Bot Task (Prompts): <span class="text-danger" >*</span></label>
-        <textarea rows="6" required class="form-control" id="task"  name="task" placeholder="Enter prompt task for your bot">You are a friendly airline support agent. Use only the following facts to answer questions. If you don’t know the answer, you will say “Sorry, I don’t know. Let me contact a human to help.” and nothing else.</textarea>
+        <textarea rows="26" required class="form-control" id="task"  name="task" placeholder="Enter prompt task for your bot" style="background:#f1f1f138" >Search Documentation Prompt:
+You are the PYE.AI Documentation Search Engine, designed to assist users in finding information within our extensive documentation. Your goal is to help users discover relevant topics and solutions based on their search queries.
+
+Instructions:
+1. Users will enter search queries, which can be questions, keywords, or topics related to PYE.AI.
+2. Your responses should provide accurate and concise information from our documentation.
+3. Prioritize offering solutions, code examples, and step-by-step guides where applicable.
+4. If a query has multiple relevant results, you can provide a brief summary and offer to provide more detailed information upon request.
+5. If a query has no relevant results, suggest alternative search terms or offer to redirect users to the appropriate section of the documentation.
+6. Your objective is to enhance the user experience by promptly connecting them with the information they need.
+
+Example Queries:
+1. How do I install PYE.AI?
+2. What features are available in PYE.AI?
+3. Provide an example of sentiment analysis using PYE.AI.
+4. How can I integrate PYE.AI with my web application?
+5. Troubleshoot common errors when using PYE.AI.
+
+Your responses should be informative, helpful, and presented in a language understandable to users.
+Responses should be returned in a nicely formatted HTML format with appealing styling.
+
+</textarea>
       </div>
+
+
+
+</div>
+
+
+<div id="Header" class="tabcontent px-4 py-3 ">
+
+   <div class="form-group form-switch mt-3">
+            <input type="checkbox" class="form-check-input" style="min-height:20px"  checked id="show-header" name="show-header"   >
+          <label for="show-header" class=" form-check-label">Show Header:</label>
+
+        </div>
+
+
+  <div class="form-group">
+          <label for="header">Header Title:  </label>
+          <input type="text" class="form-control" id="header" name="header-title" placeholder="Enter bot tile"  >
+        </div>
+        
+
+      <div style="display: flex; justify-content:space-between" >
+
+ <div class="form-group" style="width:48%;" >
+          <label for="header-color">Header Color:</label>
+          <input type="color" class="form-control" id="header-color"  name="header-color" value="#FFFFFF" >
+        </div>
+        <div class="form-group" style="width:48%;" >
+          <label for="header-bg-color">Header Bg Color:</label>
+          <input type="color" class="form-control" id="header-bg-color"   name="header-bg-color" value="#051837" >
+        </div>
+        </div>
+</div>
+
+
+
+<div id="Body" class="tabcontent px-4 py-3">
+
+
 
 <div style="display: flex; justify-content:space-between" >
 
  <div class="form-group" style="width:48%;" >
           <label for="font">Font:</label>
           <select class="form-control" id="font"  name="font">
-            <option>Arial</option>
-            <option>Helvetica</option>
-            <option>Times New Roman</option>
+            <option value="Arial">Arial</option>
+            <option value="Helvetica">Helvetica</option>
+            <option value="Times New Roman">Times New Roman</option>
             <!-- Add more font options here -->
           </select>
         </div>
@@ -49,7 +283,7 @@
 
 <div class="form-group" style="width:48%;">
           <label for="font-size">Font Size:</label>
-          <input type="number" class="form-control" id="font-size"  name="font-size" placeholder="Enter the font size" value="14" >
+          <input type="number" class="form-control" id="font-size"  name="font-size" placeholder="Select font size" value="14" >
         </div>
        
        </div>
@@ -63,7 +297,7 @@
 
     <div class="form-group" style="width:48%;">
           <label for="border-color">Border Size:</label>
-                 <input type="number" class="form-control" id="border-size"  name="border-size" placeholder="Enter border size" value="0" >
+                 <input type="number" class="form-control" id="border-size"  name="border-size" placeholder="Size in px" value="0" >
 
         </div>
 
@@ -72,24 +306,14 @@
       
 
 
-      <div style="display: flex; justify-content:space-between" >
 
- <div class="form-group" style="width:48%;" >
-          <label for="header-color">Header Color:</label>
-          <input type="color" class="form-control" id="header-color"  name="header-color" value='#FFFFFF' >
-        </div>
-        <div class="form-group" style="width:48%;" >
-          <label for="header-bg-color">Header Bg Color:</label>
-          <input type="color" class="form-control" id="header-bg-color"   name="header-bg-color" value="#051837" >
-        </div>
-        </div>
         
     
          <div style="display: flex; justify-content:space-between" >
 
  <div class="form-group" style="width:48%;" > 
           <label for="user-msg-color">User Message Color:</label>
-          <input type="color" class="form-control" id="user-msg-color"  name="user-msg-color" value='#67748e'>
+          <input type="color" class="form-control" id="user-msg-color"  name="user-msg-color" value="#67748e">
         </div>
         <div class="form-group" style="width:48%;" >
           <label for="user-msg-bg-color">User Message Bg Color:</label>
@@ -102,7 +326,7 @@
 
  <div class="form-group" style="width:48%;" >
           <label for="bot-msg-color">Bot Message Color:</label>
-          <input type="color" class="form-control" id="bot-msg-color"  name="bot-msg-color" value='#333' >
+          <input type="color" class="form-control" id="bot-msg-color"  name="bot-msg-color" value="#6d6a6a" >
         </div>
         <div class="form-group" style="width:48%;" >
           <label for="bot-msg-bg-color">Bot Message Bg Color:</label>
@@ -110,11 +334,27 @@
         </div>
         </div>
 
+
+
+         <div class="form-check form-switch ">
+
+          <label for="show-user-icon" class="form-check-label">Show User Icon:</label>
+
+            <input type="checkbox" class="form-check-input" style="min-height:20px"  checked id="show-user-icon" name="show-user-icon"   >
+
+        </div>
+
+</div>
+
+
+
+<div id="Footer" class="tabcontent px-4 py-3">
+   
         <div style="display: flex; justify-content:space-between" >
  
 
           <div class="form-group" style="width:48%;">
-          <label for="send-color">Send Bg Color:</label>
+          <label for="send-bg-color">Send Bg Color:</label>
           <input type="color" class="form-control" id="send-bg-color" name="send-bg-color"  value="#051837" >
         </div>
 
@@ -128,7 +368,141 @@
 
         </div>
 
-      </div>
+
+
+<div style="display: flex; justify-content:space-between" >
+
+ <div class="form-group" style="width:48%;" >
+          <label for="input-position">Input Position:</label>
+          <select class="form-control" id="input-position"  name="input-position">
+            <option value="bottom">Bottom</option>
+            <option value="top" >Top</option>
+            <!-- Add more input-position options here -->
+          </select>
+        </div>
+
+
+ 
+ <div class="form-group" style="width:48%;" >
+       <label for="input-placeholder">Placeholder:</label>
+          <input type="text" class="form-control" id="input-placeholder"  name="input-placeholder" value="Send a message..."   >
+        </div>
+       
+       
+       </div>
+
+
+
+
+
+
+<div style="display: flex; justify-content:space-between" >
+ 
+
+
+ <div class="form-group" style="width:48%;" >
+       <label for="input-width">Input Width:</label>
+          <input type="number" class="form-control" id="input-width"  name="input-width" placeholder="Enter width in %" value="70" >
+        </div>
+       
+
+              <div class="form-group" style="width:48%;" >
+       <label for="input-height">Input Height:</label>
+          <input type="number" class="form-control" id="input-height"  name="input-height" placeholder="Enter height in px" value="40" >
+        </div>
+
+
+       </div>
+
+       
+
+
+   <div style="display: flex; justify-content:space-between" >
+ 
+
+          <div class="form-group" style="width:48%;">
+          <label for="input-background">Input Background:</label>
+          <input type="color" class="form-control" id="input-background" name="input-background"  value="#fffefe" >
+        </div>
+
+
+          <div class="form-group" style="width:48%;">
+          <label for="input-color">Input Color:</label>
+          
+          
+
+          <input type="color" class="form-control" id="input-color" name="input-color"  value="#6d6a6a" >
+        </div>
+
+
+
+        </div>
+
+   <div style="display: flex; justify-content:space-between" >
+ 
+
+          <div class="form-group" style="width:48%;">
+          <label for="input-border-color">Input Border Color:</label>
+          <input type="color" class="form-control" id="input-border-color" name="input-border-color"  value="#F5F5F5" >
+        </div>
+
+
+          <div class="form-group" style="width:48%;">
+          <label for="input-border-size">Input Border Size:</label>
+          <input type="text" class="form-control" id="input-border-size" name="input-border-size" placeholder="Size in px"  value="0" >
+        </div>
+
+
+
+        </div>
+
+        
+
+
+           <div style="display: flex; justify-content:space-between" >
+ 
+
+      
+
+          <div class="form-group" style="width:48%;">
+          <label for="border-radius">Border Radius:</label>
+          <input type="text" class="form-control" id="border-radius" name="border-radius"  value="13" >
+        </div>
+
+                           <div class="form-group" style="width:48%;">
+ 
+
+        </div>
+        </div>
+
+
+     <div class="form-check form-switch my-2 ">
+   <label for="border-shadow" class="form-check-label">Input Shadow:</label>
+
+            <input type="checkbox" class="form-check-input" style="min-height:20px"  checked id="border-shadow" name="border-shadow"   >
+
+        </div>
+
+
+
+
+</div>
+</div>
+
+
+
+
+
+  
+
+
+
+
+      
+
+
+
+
 
       
 
@@ -136,6 +510,162 @@
     </form>
 
 
+
+
+<script>
+function openCity(evt, cityName) {
+  evt.preventDefault()
+  var i, tabcontent, tablinks;
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+  document.getElementById(cityName).style.display = "block";
+  evt.currentTarget.className += " active";
+}
+
+// Get the element with id="defaultOpen" and click on it
+document.getElementById("defaultOpen").click();
+</script>
+   
+
+
+
+    <script>
+
+
+
+    $('#search-input-form').on('input', function () {
+        const query = $(this).val();
+
+        if (!query){
+          $('#search-results').text("")
+                $('#result-count').empty();
+
+        } else {
+
+        // Send an Ajax request to the Django view
+        $.ajax({
+            type: 'GET',
+            url: '/customer/prompt/search',  // Replace with your Django view URL
+            data: { 'q': query },
+            success: function (data) {
+                // Clear previous results
+                $('#search-results').empty();
+                $('#result-count').text(data.results.length + " results found.");
+
+                // Display the results
+  if (data.results.length > 0) {
+                    const resultsList = $('<ul style="padding-left:0px;" >');
+                    $.each(data.results, function (index, item) {
+                    let last_update = String(item.last_update).split("T")
+                        // Create a list item with Bootstrap classes
+                        const listItem = $('<li>').click(function () {
+    selectModel(item);
+}).addClass('list-group-item result-item');
+                        
+                        // Create the result content container
+                        const resultContent = $('<div>').addClass('result-content');
+                        
+                        // Create and append the image element
+                        const resultInfo = $('<div>').addClass('result-info').html(`<div class="mt-1" style="display: flex;flex-direction: row; align-items:center; justify-content:space-between; ">
+      
+      <div>
+        <svg style="margin-left: -1px;" width="64px" height="64px" viewBox="0 0 1024 1024" class="icon" xmlns="http://www.w3.org/2000/svg" fill="#12116f"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path fill="#0ea427" d="M512 64a448 448 0 110 896 448 448 0 010-896zm-55.808 536.384l-99.52-99.584a38.4 38.4 0 10-54.336 54.336l126.72 126.72a38.272 38.272 0 0054.336 0l262.4-262.464a38.4 38.4 0 10-54.272-54.336L456.192 600.384z"></path></g></svg>
+      
+
+<span style="font-size: 13px; margin-left: 5px;"> Created: (${item.created_by__username})  </span> <svg style="margin-right: 3px;margin-left: 5px;" preserveAspectRatio="xMidYMin" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="css-492dz9"><path fill-rule="evenodd" clip-rule="evenodd" d="M20.7146 11.1371C20.5388 6.22883 15.7439 2.35414 11.1244 2.78226L11.1045 2.78411L11.0846 2.78489C6.38998 2.96884 2.86359 7.16608 3.28439 11.029L3.28675 11.0507L3.28785 11.0724C3.48669 15.0118 7.36507 18.0207 10.9734 17.6246L10.9936 17.6224L11.0139 17.6213C14.6969 17.4182 17.3174 14.097 16.9356 11.2085L16.9327 11.1868L16.9311 11.1648C16.7141 8.19198 13.7503 6.05168 11.1574 6.40837L11.1372 6.41115L11.1168 6.41283C8.44417 6.63315 6.72879 9.06894 7.06267 10.9812L7.0666 11.0038L7.06915 11.0265C7.29464 13.033 9.33949 14.3087 10.9126 14.0039L10.9331 14L10.9538 13.9971C12.6215 13.7697 13.4239 12.2374 13.1704 11.3075L13.1642 11.2846L13.1594 11.2614C13.0552 10.755 12.7404 10.382 12.3562 10.1626C11.9536 9.93277 11.552 9.9118 11.314 9.99929C10.9253 10.1422 10.4942 9.94297 10.3513 9.55421C10.2083 9.16544 10.4076 8.7344 10.7964 8.59145C11.5396 8.31815 12.4048 8.46307 13.1 8.86004C13.808 9.26433 14.418 9.9712 14.6238 10.9361C15.1278 12.8483 13.595 15.139 11.1771 15.4805C8.78103 15.931 5.91872 14.0977 5.58113 11.2166C5.09659 8.35143 7.54114 5.21406 10.9733 4.91961C14.3744 4.46456 18.1307 7.17864 18.4255 11.0338C18.9166 14.8604 15.5658 18.861 11.1167 19.1178C6.70736 19.5893 2.04791 15.9967 1.79088 11.1698C1.28302 6.37529 5.54313 1.51228 11.0059 1.28684C16.4202 0.797246 21.9914 5.2602 22.2129 11.0615C22.7433 16.8283 17.5595 22.5672 11.0763 22.7497C10.6622 22.7614 10.3171 22.4351 10.3055 22.0211C10.2938 21.607 10.62 21.2619 11.0341 21.2503C16.738 21.0898 21.1741 16.0142 20.7175 11.1808L20.7154 11.159L20.7146 11.1371Z"></path></svg> <span style="font-size: 13px;"> ${formatDate(last_update[0])} : ${formatTime(last_update[1])} </span>
+
+</div>
+
+<span style="font_size:14px" > ${item.api_id} </span>
+
+</div>`);
+                        resultContent.append(resultInfo);
+                        
+                        // Create and append the name element
+                        const resultName = $('<div>').addClass('result-name').text(item.name );
+                        resultContent.append(resultName);
+
+                        // Create and append the description element
+                        const resultDescription = $('<div>').addClass('result-description').text(item.description.slice(0,30));
+                        resultContent.append(resultDescription);
+                        resultContent.append(resultInfo);
+
+
+                        // Append the result content container to the list item
+                        listItem.append(resultContent);
+
+                        // Append the list item to the results list
+                        resultsList.append(listItem);
+                    });
+                    // Append the results list to the search-results div
+                    $('#search-results').attr('style','max-height: 30vh; overflow-y: scroll;margin-bottom:10px;')
+                    $('#search-results').append(resultsList);
+                } else {
+                    // No results found
+                $('#result-count').empty();
+                    $('#search-results').text('No results found.');
+                }
+            }
+        });
+
+}
+
+
+    });
+
+
+
+function formatDate(inputDate) {
+    const options = { year: 'numeric', month: 'short', day: 'numeric' };
+    const date = new Date(inputDate);
+    return date.toLocaleDateString('en-US', options);
+}
+
+
+
+
+
+function selectModel(item) {
+
+  localStorage.setItem('writer_used_model',JSON.stringify(item))
+
+ 
+          $('#search-results').text("")
+          $('#search-input-form').val("")
+                $('#result-count').empty();
+
+          $('#task').html(item.content)
+ 
+
+
+
+
+}
+
+
+function formatTime(inputTime) {
+    const options = { hour: 'numeric', minute: '2-digit', hour12: true };
+    const timeParts = inputTime.split(':');
+    const hours = parseInt(timeParts[0]);
+    const minutes = parseInt(timeParts[1]);
+    const seconds = parseFloat(timeParts[2]);
+
+    const date = new Date();
+    date.setHours(hours);
+    date.setMinutes(minutes);
+    date.setSeconds(seconds);
+
+    return date.toLocaleTimeString('en-US', options);
+}
+
+
+</script>
     <script>
 
  
@@ -224,6 +754,48 @@ function populateForm(chatbotId) {
     $('#send-bg-color').val(data.send_bg_color);
     $('#send-color').val(data.send_color);
     $('#bot-image').attr('src', data.bot_image_url);
+    $('#input-position').val(data.input_position);
+    $('#input-placeholder').val( data.input_placeholder);
+    $('#input-width').val(data.input_width);
+    $('#input-height').val(data.input_height);
+    $('#input-background').val( data.input_background);
+    $('#input-color').val(data.input_color);
+    $('#border-radius').val( data.border_radius);
+
+    $('#input-border-color').val(data.input_border_color);
+    $('#input-border-size').val(data.input_border_size);
+
+
+    if (data.show_greeting === 'on'){
+    $('#show-greeting').attr('checked', 'checked');
+    } else {
+    $('#show-greeting').removeAttr('checked');
+    }
+
+  
+    if (data.show_chat_history === 'on'){
+    $('#show-chat-history').attr('checked', 'checked');
+    } else {
+    $('#show-chat-history').removeAttr('checked');
+    } 
+    if (data.show_header === 'on'){
+    $('#show-header').attr('checked', 'checked');
+    } else {
+    $('#show-header').removeAttr('checked');
+    }
+  if (data.show_user_icon === 'on'){
+    $('#show-user-icon').attr('checked', 'checked');
+    } else {
+    $('#show-user-icon').removeAttr('checked');
+    }
+  if (data.border_shadow === 'on'){
+    $('#border-shadow').attr('checked', 'checked');
+    } else {
+    $('#border-shadow').removeAttr('checked');
+    }
+
+
+
 },
         error: function() {
             alert('Failed to fetch chatbot data.');

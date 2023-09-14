@@ -167,6 +167,7 @@ class Connections(models.Model):
 
     get_prompts = property(get_prompts)
 
+
 def merge_key(config={}):
     new_config = {}
     for key in config.keys():
@@ -192,8 +193,11 @@ class Chatbot(models.Model):
         super().save(*args, **kwargs)
 
     def get_image(self):
-        file_upload = BotFileUploads.objects.get(chatbot=self.pk)
-        return file_upload.file.url 
+        try:
+            file_upload = BotFileUploads.objects.filter(chatbot=self.pk).last()
+            return file_upload.file.url 
+        except Exception as e:
+            return None
 
 
     def get_chat_users(self):
@@ -224,6 +228,32 @@ class Chatbot(models.Model):
 
 
 
+
+class Prompts(models.Model):
+    name = models.CharField(max_length=200,null=False,default='')
+    description = models.TextField(null=True,blank=True) 
+    api_id = models.CharField(max_length=200,null=False,default='')
+    share_count = models.IntegerField(max_length=200,null=False,default=0)
+    like = models.IntegerField(max_length=200,null=False,default=0)
+    content = models.TextField(null=True,blank=True) 
+    connection =  models.ForeignKey(Connections, on_delete=models.CASCADE, null=True, blank=True) 
+    created_by=models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    last_update = models.DateTimeField(default=timezone.now)
+    is_public = models.CharField(max_length=20,null=True,blank=True,default='False')
+
+
+    def __str__(self):
+        return self.name  + " - "+self.api_id
+
+    def save(self, *args, **kwargs):
+        self.last_update = timezone.now() 
+        super().save(*args, **kwargs)
+
+ 
+
+
+
+
 class Logs(models.Model):
     name = models.CharField(max_length=200,null=False,default='') 
     task = models.CharField(max_length=200,null=False,default='')
@@ -233,10 +263,12 @@ class Logs(models.Model):
         return self.task + " : "+ self.name
 
 class Running_Jobs(models.Model):
-    id = models.CharField(max_length=80,primary_key=True) 
     job = models.TextField(null=False,default='') 
+    task = models.ForeignKey(Task, on_delete=models.CASCADE, null=True, blank=True)
     last_run_date = models.DateField(default=timezone.now)
     last_run_time = models.TimeField(default=timezone.now)
+    next_run_date = models.DateField(default=timezone.now)
+    next_run_time = models.TimeField(default=timezone.now )
 
     def __str__(self):
         return self.id + " : "+ self.last_run_date
