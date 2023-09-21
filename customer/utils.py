@@ -81,50 +81,50 @@ class PyeScheduler():
 
 	# define the job scheduling function
 	def schedule_job(self,task):	
-		print(task)
-		try:
-			get_run = Running_Jobs.objects.get(task=task)
-		except ObjectDoesNotExist:
-			create_run = Running_Jobs.objects.create(task)
+		# print(task)
+		# try:
+		# 	get_run = Running_Jobs.objects.get(task=task)
+		# except ObjectDoesNotExist:
+		# 	create_run = Running_Jobs.objects.create(task)
 		task.status='running'
 		task.save()
 
-		# if task.schedule_time == 'hourly':
-		# 	new_job = self.scheduler.add_job(transformer_function, 'interval', minutes=int(task.minute_time), args=[task], jobstore='default')
-		# elif task.schedule_time == 'daily':
-		# 	new_job = self.scheduler.add_job(transformer_function, 'cron', hour=task.daily_time.hour, minute=task.daily_time.minute, args=[task], jobstore='default')
-		# elif task.schedule_time == 'weekly':
-		# 	new_job = self.scheduler.add_job(
-		# 		transformer_function,
-		# 		'cron',
-		# 		hour=task.weekly_time.hour,
-		# 		minute=task.weekly_time.minute,
-		# 		day_of_week=task.weekly_day,
-		# 		day="*", args=[task], jobstore='default'
-		# 	)
-		# else:
-		# 	logging.info(f"Instant Job Created, Running...")
-		# 	task.status = "running"
-		# 	task.save()
-		# 	thread = threading.Thread(target=transformer_function, args=(task,))
-		# 	thread.start()
+		if task.schedule_time == 'hourly':
+			new_job = self.scheduler.add_job(transformer_function, 'interval', minutes=int(task.minute_time), args=[task], jobstore='default')
+		elif task.schedule_time == 'daily':
+			new_job = self.scheduler.add_job(transformer_function, 'cron', hour=task.daily_time.hour, minute=task.daily_time.minute, args=[task], jobstore='default')
+		elif task.schedule_time == 'weekly':
+			new_job = self.scheduler.add_job(
+				transformer_function,
+				'cron',
+				hour=task.weekly_time.hour,
+				minute=task.weekly_time.minute,
+				day_of_week=task.weekly_day,
+				day="*", args=[task], jobstore='default'
+			)
+		else:
+			logging.info(f"Instant Job Created, Running...")
+			task.status = "running"
+			task.save()
+			thread = threading.Thread(target=transformer_function, args=(task,))
+			thread.start()
 
-		# if task.schedule_time in ["hourly",'daily','weekly']:
-		# 	logging.info(f"Job with ID: {new_job.id} scheduled")
-		# 	task.job_id = new_job.id
-		# 	task.status = "running"
-		# 	task.save()
-		# 	jobs = self.scheduler.get_jobs(jobstore='default')
-		# 	self.scheduler.start()
-		# 	print('Press Ctrl+{0} to exit'.format('Break' if os.name == 'nt' else 'C'))
+		if task.schedule_time in ["hourly",'daily','weekly']:
+			logging.info(f"Job with ID: {new_job.id} scheduled")
+			task.job_id = new_job.id
+			task.status = "running"
+			task.save()
+			jobs = self.scheduler.get_jobs(jobstore='default')
+			self.scheduler.start()
+			print('Press Ctrl+{0} to exit'.format('Break' if os.name == 'nt' else 'C'))
 
-		# try:
-		#	 # This is here to simulate application activity (which keeps the main thread alive).
-		#	 while True:
-		#		 time.sleep(2)
-		# except (KeyboardInterrupt, SystemExit):
-		#	 # Not strictly necessary if daemonic mode is enabled but should be done if possible
-		#	 self.scheduler.shutdown()
+		try:
+			 # This is here to simulate application activity (which keeps the main thread alive).
+			 while True:
+				 time.sleep(2)
+		except (KeyboardInterrupt, SystemExit):
+			 # Not strictly necessary if daemonic mode is enabled but should be done if possible
+			 self.scheduler.shutdown()
 
 
 
