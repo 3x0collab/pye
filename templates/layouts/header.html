@@ -1,3 +1,4 @@
+{% load static %}
 <style>
     .header {
       background-color: #04042d;
@@ -98,7 +99,10 @@
         <!-- Logo -->
         <div class="col-lg-auto text-center text-lg-left focus-container mr-lg-40 mr-md-16 col-6" style="" >
           <a style="display: flex; flex-direction: row;" href="/?linkId=hd.log.home" data-linkid="hd.log.home" id="button-hd-log-home" aria-label="Return to home page" class="logo">
-            <span style="font-size: 40px; font-weight: bold!important; color:white ;">☫</span> <div class="mx-2" > PYE </div>
+           
+
+   <img   src="{% static 'assets/img/pyechart.png' %}" style="width:72px; " >
+             <div class="mx-2" > PYE </div>
         </div>
 
 

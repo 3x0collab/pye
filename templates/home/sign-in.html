@@ -48,30 +48,23 @@
     
 </head>
  
-
-
-    <!-- End Services Area -->
-
-    <!-- Start Work Process Area
-    ============================================= -->
-   
-    <!-- End Blog Area -->
+ 
 
 <style>
-    section {
-      height: 100%;
+       section {
       margin: 0;
       padding: 0;
       font-family: Arial, sans-serif;
-      width: 50%;
+      margin-left: 5rem;
     }
 
     .signin-container {
+      background-color: #eee !important;
       height: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background-color: #f7f7f7;
+       justify-content: center;
+    }
+    .body {
+      background-color: silver !important;
     }
 
     .card {
@@ -110,14 +103,10 @@
       width: 100%;
     }
     
-    /* Center the card within the container */
-    .signin-container .card {
-      position: relative;
-      left: 50%;
-      transform: translateX(-50%);
-    }
+  
     input {
-        min-height: 45px !important;
+        height: 41px !important;
+        font-size: 13px !important;
     }
 
     @import url('https://fonts.googleapis.com/css2?family=Alfa+Slab+One&display=swap');
@@ -132,7 +121,8 @@
 .waviy {
 /*  position: relative;*/
   -webkit-box-reflect: below -20px linear-gradient(transparent, rgba(0,0,0,.2));
-  font-size: 60px;
+  font-size: 30px;
+  font-weight: bold;
 }
 .waviy span {
   font-family: 'Alfa Slab One', cursive;
@@ -162,82 +152,115 @@
 
 
 
-<div style="display: flex; height:100%" >
-    <div class="signin-container w-50" >
-    <section style="margin-top: 20%;  ">
-      <div class="page-header">
-        <div class="">
-          <div class="card-heade pb-0 text-center">
-            <h3 class="font-weight-bold text-success" style="color: #04042d!important;"><a href='/' style="  padding: 5px;   margin-left: 10px!important; font-size:60px; color: #04042d!important;  " ><svg width="75px" height="75px" viewBox="0 -19.5 164 164" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M19.2329 89.0831C17.3341 89.4211 15.7432 89.7559 14.1371 89.9817C7.06966 90.976 1.51901 86.5687 0.48068 79.5288C-1.0289 69.307 6.73229 58.1139 14.141 55.0389C16.6482 53.9986 19.5794 53.9795 23.0364 53.3665C32.2494 32.1615 49.7618 21.7934 73.5423 20.3488C73.8921 16.4462 74.238 12.5935 74.6022 8.54059C73.5751 8.11988 72.3431 7.95977 71.6796 7.26077C70.7134 6.24344 69.5996 4.84016 69.5957 3.59771C69.5918 2.53116 70.9221 0.709891 71.8974 0.535306C74.597 0.0535535 77.542 -0.276629 80.1608 0.325233C83.5048 1.0938 83.9852 3.75262 81.8548 6.48561C81.4171 6.9389 81.1341 7.51899 81.0462 8.14288C81.224 11.6156 81.5273 15.081 81.7616 18.179C88.0211 18.7375 94.0055 19.0381 99.9211 19.8421C119.273 22.472 132.088 33.3508 139.077 51.3896C139.194 51.6909 139.333 51.9849 139.478 52.2744C139.549 52.3747 139.633 52.4656 139.727 52.5448C142.943 52.5448 146.247 52.1103 149.393 52.6347C156.138 53.7583 161.178 57.4004 162.853 64.3477C164.528 71.2951 161.862 77.0616 156.759 81.6435C151.742 86.1493 145.621 87.389 138.993 86.5404C138.746 86.7453 138.532 86.987 138.359 87.2571C130.949 104.691 117.203 114.915 99.7662 120.658C84.6227 125.684 68.3154 126.026 52.9746 121.639C36.0424 116.958 23.8017 107.182 19.2329 89.0831ZM74.3653 116.033C77.9548 115.728 81.5686 115.59 85.1292 115.09C99.4118 113.083 112.05 107.628 121.744 96.6153C138.759 77.2881 134.524 42.1123 104.846 32.3558C93.8566 28.746 82.3857 26.5243 70.7233 27.2725C57.6687 28.1106 46.2832 33.0968 37.8617 43.4256C30.0513 53.0022 26.6062 64.3694 26.3233 76.5471C25.9125 94.2223 34.5276 106.232 51.1808 112.095C58.6448 114.649 66.4731 115.979 74.362 116.032L74.3653 116.033ZM20.0205 60.3756C19.7421 60.3376 19.4597 60.3412 19.1824 60.3861C12.7641 62.2757 6.45466 73.2929 8.09026 79.6823C8.58579 81.6199 9.81316 82.7712 11.7592 82.8092C13.8765 82.8512 16.0005 82.5894 17.5501 82.4949C18.4092 74.7881 19.2099 67.6156 20.0185 60.3742L20.0205 60.3756ZM141.736 77.21C145.278 77.15 148.678 75.8064 151.305 73.4289C154.874 70.1905 155.296 65.2817 152.224 62.4522C149.242 59.7061 145.667 58.9152 141.736 59.7146V77.21Z" fill="#000000"></path> <path d="M84.8075 82.0252C86.4018 82.3193 88.1725 82.2825 89.5331 83.0097C90.1516 83.3495 90.6946 83.8115 91.129 84.3676C91.5634 84.9238 91.8802 85.5624 92.06 86.2448C92.3344 88.1095 90.7172 89.0671 88.9411 89.2994C88.0814 89.4143 87.2076 89.3635 86.367 89.1498C84.8505 88.6937 83.2428 88.6309 81.6954 88.9674C80.148 89.304 78.7116 90.0287 77.5215 91.0734C76.1714 92.182 74.5896 93.0209 73.233 91.3781C72.0319 89.9236 72.5832 88.2348 73.7817 86.9346C75.1549 85.3673 76.8518 84.1166 78.7554 83.269C80.659 82.4214 82.7239 81.9971 84.8075 82.0252Z" fill="#000000"></path> <path d="M57.7186 52.5112C61.4295 52.6392 63.7503 55.2876 63.5495 59.1645C63.3893 62.2533 60.9084 64.7434 58.1203 64.6154C54.9698 64.4703 52.4724 61.3206 52.607 57.6582C52.7442 53.9453 54.2853 52.3924 57.7186 52.5112Z" fill="#000000"></path> <path d="M93.575 57.3327C93.5684 54.2361 94.7564 52.8328 97.4244 52.7856C100.873 52.7245 103.039 54.689 102.96 57.8066C102.891 60.4916 100.78 62.7678 98.3 62.8282C95.4672 62.8971 93.5822 60.7024 93.575 57.3327Z" fill="#000000"></path> </g></svg></a></h3>
-            <p style=" font-size:24px; font-weight: bold; color: black; " > Let's Get Started <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-<path d="M10.5707 21C10.5707 21 12.1667 20.8614 12.616 19.8058C13.0807 18.7136 12.2013 18.2671 12.2013 18.2671C12.2013 18.2671 13.4773 18.3065 13.9493 16.9737C14.3947 15.7176 13.3107 15.1411 13.3107 15.1411C13.3107 15.1411 14.558 14.9366 14.922 13.6138C15.228 12.5002 14.144 11.6706 14.144 11.6706H22.2827C22.922 11.6706 23.9993 11.3094 24 9.97597C24.0013 8.6432 22.894 8.33866 22.2827 8.33866H8.616C7.94933 8.33866 7.94933 7.67228 8.616 7.67228H10.3933C12.9213 7.67228 14.4887 6.31418 14.9213 5.83905C15.3547 5.36391 15.574 4.72818 15.4107 3.95984C15.134 2.65639 14.1307 2.94093 13.2793 3.31011C11.2273 4.20107 8.30333 4.81215 6.92067 4.99807C3.01533 5.52518 0.00400151 8.86911 1.50787e-06 12.9174C-0.00266516 17.3329 3.532 20.9967 7.94933 21H10.5707Z" fill="#FFC76B"/>
-</svg>
-              </p>
-          </div>
-          <div class="card-body">
-            <form method="post" role="form text-left">
+<div style="display: flex; height:100%" class="signin-container " >
+     
+     <section style="margin-top: 5%;  " >
+     
+          <div  class="bg-white    mb-3 pt-3" style="width: 530px; padding: 20px;box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;">
+
+
+            <form method="post" role="form" class="py-0" style="padding-left:15px;padding-right: 15px;" >
               {% csrf_token %} 
-              <label for="username">Username</label>
-              <div class="mb-3">
+             
+
+             <h3 class="font-weight-bolder mt-3 mb-3" > Login !!  </h3>
+
+     <div class="input-group mb-4 mt-4">
+ 
                 {% render_field form.username class="form-control" placeholder="Username" %}
-              </div>
-              <label for="password">Password</label>
-              <div class="mb-3">
-                {% render_field form.password class="form-control" placeholder="Password" %}
-              </div>
-              <div class="form-check form-switch mb-3">
-                <!-- <input class="form-check-input" type="checkbox" id="rememberMe" checked> -->
-                <label class="form-check-label" for="rememberMe" style="color:#139FD7;">Forgot your login details?</label>
-              </div>
+
+
+               <div class="input-group-append">
+    <span class="input-group-text"><svg width="22px" height="22px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M20 18L14 18M17 15V21M4 21C4 17.134 7.13401 14 11 14C11.695 14 12.3663 14.1013 13 14.2899M15 7C15 9.20914 13.2091 11 11 11C8.79086 11 7 9.20914 7 7C7 4.79086 8.79086 3 11 3C13.2091 3 15 4.79086 15 7Z" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg></span>
+  </div>
+  
+  
+</div>
+
+
+ 
+
+
+            <div class="input-group mb-2 mt-3">
+ 
+                   {% render_field form.password class="form-control" placeholder="Password" %}
+               <div class="input-group-append">
+    <span class="input-group-text"><svg width="22px" height="22px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M3 3L21 21M17 10V8C17 5.23858 14.7614 3 12 3C11.0283 3 10.1213 3.27719 9.35386 3.75681M7.08383 7.08338C7.02878 7.38053 7 7.6869 7 8V10.0288M19.5614 19.5618C19.273 20.0348 18.8583 20.4201 18.362 20.673C17.7202 21 16.8802 21 15.2 21H8.8C7.11984 21 6.27976 21 5.63803 20.673C5.07354 20.3854 4.6146 19.9265 4.32698 19.362C4 18.7202 4 17.8802 4 16.2V14.8C4 13.1198 4 12.2798 4.32698 11.638C4.6146 11.0735 5.07354 10.6146 5.63803 10.327C5.99429 10.1455 6.41168 10.0647 7 10.0288M19.9998 14.4023C19.9978 12.9831 19.9731 12.227 19.673 11.638C19.3854 11.0735 18.9265 10.6146 18.362 10.327C17.773 10.0269 17.0169 10.0022 15.5977 10.0002M10 10H8.8C8.05259 10 7.47142 10 7 10.0288" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg></span>
+  </div>
+  
+
+</div>
+
+
+
+
+
+
+
+                  <div class="form-check form-switch" >
+                    <input class="form-check-input " type="checkbox" id="rememberMe"  >
+                    <label class="form-check-label" for="rememberMe" style="margin-top: 10px;"> Remember me</label>
+                  </div>
+
+
               <div class="text-center">
-                <button type="submit" class="btn btn-success w-100 mt-4 py-3" style="background-color: #0053a6;">Sign in</button>
+                <button type="submit" class="btn btn-success w-100 mt-4 py-2 text-capitalize " style="background-color: #04042d;border-radius: 1.17647rem; ">Login</button>
               </div>
+
+               <a href="/customer/register" type="submit" class="btn btn-success w-100 text-capitalize my-3 "  style="border-radius: 1.17647rem;"   >Create an account</a>
+
+
             </form>
           </div>
-          <div class="  text-center pt-0">
-            <p class="mb-4 text-sm mt-2">
-              Don't have an account?
-              <a href="/customer/register" class=" text-success font-weight-bold"  >Create an account</a>
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-  </div>
-
-   
-
- 
 
 
 
-    <div class="signin-containeer w-50 px-4 thalf " style="display: flex; flex-direction:column; align-items: center;justify-content: flex-start;" >
-      <p  style="margin-top:15%;" >   
-       <!-- <svg width="75px" height="75px" viewBox="0 -19.5 164 164" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M19.2329 89.0831C17.3341 89.4211 15.7432 89.7559 14.1371 89.9817C7.06966 90.976 1.51901 86.5687 0.48068 79.5288C-1.0289 69.307 6.73229 58.1139 14.141 55.0389C16.6482 53.9986 19.5794 53.9795 23.0364 53.3665C32.2494 32.1615 49.7618 21.7934 73.5423 20.3488C73.8921 16.4462 74.238 12.5935 74.6022 8.54059C73.5751 8.11988 72.3431 7.95977 71.6796 7.26077C70.7134 6.24344 69.5996 4.84016 69.5957 3.59771C69.5918 2.53116 70.9221 0.709891 71.8974 0.535306C74.597 0.0535535 77.542 -0.276629 80.1608 0.325233C83.5048 1.0938 83.9852 3.75262 81.8548 6.48561C81.4171 6.9389 81.1341 7.51899 81.0462 8.14288C81.224 11.6156 81.5273 15.081 81.7616 18.179C88.0211 18.7375 94.0055 19.0381 99.9211 19.8421C119.273 22.472 132.088 33.3508 139.077 51.3896C139.194 51.6909 139.333 51.9849 139.478 52.2744C139.549 52.3747 139.633 52.4656 139.727 52.5448C142.943 52.5448 146.247 52.1103 149.393 52.6347C156.138 53.7583 161.178 57.4004 162.853 64.3477C164.528 71.2951 161.862 77.0616 156.759 81.6435C151.742 86.1493 145.621 87.389 138.993 86.5404C138.746 86.7453 138.532 86.987 138.359 87.2571C130.949 104.691 117.203 114.915 99.7662 120.658C84.6227 125.684 68.3154 126.026 52.9746 121.639C36.0424 116.958 23.8017 107.182 19.2329 89.0831ZM74.3653 116.033C77.9548 115.728 81.5686 115.59 85.1292 115.09C99.4118 113.083 112.05 107.628 121.744 96.6153C138.759 77.2881 134.524 42.1123 104.846 32.3558C93.8566 28.746 82.3857 26.5243 70.7233 27.2725C57.6687 28.1106 46.2832 33.0968 37.8617 43.4256C30.0513 53.0022 26.6062 64.3694 26.3233 76.5471C25.9125 94.2223 34.5276 106.232 51.1808 112.095C58.6448 114.649 66.4731 115.979 74.362 116.032L74.3653 116.033ZM20.0205 60.3756C19.7421 60.3376 19.4597 60.3412 19.1824 60.3861C12.7641 62.2757 6.45466 73.2929 8.09026 79.6823C8.58579 81.6199 9.81316 82.7712 11.7592 82.8092C13.8765 82.8512 16.0005 82.5894 17.5501 82.4949C18.4092 74.7881 19.2099 67.6156 20.0185 60.3742L20.0205 60.3756ZM141.736 77.21C145.278 77.15 148.678 75.8064 151.305 73.4289C154.874 70.1905 155.296 65.2817 152.224 62.4522C149.242 59.7061 145.667 58.9152 141.736 59.7146V77.21Z" fill="#000000"></path> <path d="M84.8075 82.0252C86.4018 82.3193 88.1725 82.2825 89.5331 83.0097C90.1516 83.3495 90.6946 83.8115 91.129 84.3676C91.5634 84.9238 91.8802 85.5624 92.06 86.2448C92.3344 88.1095 90.7172 89.0671 88.9411 89.2994C88.0814 89.4143 87.2076 89.3635 86.367 89.1498C84.8505 88.6937 83.2428 88.6309 81.6954 88.9674C80.148 89.304 78.7116 90.0287 77.5215 91.0734C76.1714 92.182 74.5896 93.0209 73.233 91.3781C72.0319 89.9236 72.5832 88.2348 73.7817 86.9346C75.1549 85.3673 76.8518 84.1166 78.7554 83.269C80.659 82.4214 82.7239 81.9971 84.8075 82.0252Z" fill="#000000"></path> <path d="M57.7186 52.5112C61.4295 52.6392 63.7503 55.2876 63.5495 59.1645C63.3893 62.2533 60.9084 64.7434 58.1203 64.6154C54.9698 64.4703 52.4724 61.3206 52.607 57.6582C52.7442 53.9453 54.2853 52.3924 57.7186 52.5112Z" fill="#000000"></path> <path d="M93.575 57.3327C93.5684 54.2361 94.7564 52.8328 97.4244 52.7856C100.873 52.7245 103.039 54.689 102.96 57.8066C102.891 60.4916 100.78 62.7678 98.3 62.8282C95.4672 62.8971 93.5822 60.7024 93.575 57.3327Z" fill="#000000"></path> </g></svg> -->
-  </p>
-         <div class="waviy mt-4 pt-1 " style="padding-left:10%;padding-right:10%;">
-   <span style="--i:1">W</span>
-   <span style="--i:2">E</span>
-   <span style="--i:3">L</span>
-   <span style="--i:4">C</span>
-   <span style="--i:5">O</span>
-   <span style="--i:6">M</span>
-   <span style="--i:7">E</span>
-
-  </div>
-
-                    <H3 class="text-lg mb-1 text-dark text-center  mb-3 word" style="padding-left:10%;padding-right:10%; margin-top: 5vh;" ></H3>
-                      
+          
 
 
- 
 
-
-<div style="margin-top:60vh" >
+          <div id="carouselExampleControls" class="carousel slide   mt-4 mb-1" data-ride="carousel" style="width: 530px; padding: 20px;box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;;background: #fff;" >
+  <div class="carousel-inner px-4">
+    <h5 class="font-weight-bold" > With Pye </h5>
     
-    © 2023 | Powered by <a href="">3x0.</a>
-</div>
+    <div class="carousel-item active">
+    You can privately customize AI applications (PMs) using your organization's data.
+    </div>   <div class="carousel-item">
+      Ypu can accelerate development of generative AI applications using PMs through an API, without managing infrastructure.
+
+    </div>
+    <div class="carousel-item">
+   You can choose PMs from Anthropic, ChatGPT, Llamda etc. to find the right PM for your use case.
+    </div>
   </div>
+
+    <button class="btn btn-sm btn-primary text-capitalize p-1 mb-2 mt-3 mx-4 " style="width:120px" > Learn More</button>
+  <hr class="my-2 mx-4" />
+
+<div class="text-primary text-center w-100 px-4" style="font-size:12px;margin-bottom: -15px;" >© 2023 | Powered by <a href="">3x0.</div>
+  <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev" style="     
+    padding: 5px;
+    width: 35px;" >
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next" style="     
+    padding: 5px;
+    width: 35px;" >
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+
+
+</div>
+
+
+    </section>
+
+ 
+ 
+
+ 
   </div>
 
     <!-- jQuery Frameworks
@@ -262,142 +285,7 @@
     <script src="{% static 'assets/js/main.js' %}"></script>
  
 </body>
-<style>
-    .highlight {
-        background-color: #007bff;
-        color: #fff;
-        padding: 8px 12px;
-        border-radius: 100px;
-    }    
-    .highlight1 {
-        color: #000;
-        padding: 10px 12px;
-        border-radius: 4px;
-    }
-    .highlight0 {
-        background-color: #000000e6;
-        color: #fff;
-        padding: 8px 12px;
-        border-radius: 4px;
-    }
-    .highlight2 {
-        background-color: #1289dd;
-        color: #fff;
-        padding: 8px 12px;
-        border-radius: 4px;
-    }
-        .btn-rounded {
-        border-radius: 10px;
-    }
-
-    .btn-black-white {
-        background-color: #dadee3;
-        color: #fff;
-    }
-     .blue-text {
-        color: blue;
-    }
-</style>
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <form action="/customer/connector" method="POST">
-        {% csrf_token %}
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content" style="border-radius: 20px;">
-                <div class="modal-header" style="background-color: #dadee3; color: #fff; border-radius: 10px;">
-                    <h5 class="modal-title text-uppercase" id="exampleModalLabel" style="font-weight: bold; font-family: 'Arial', sans-serif; text-transform: uppercase;">Your plan</h5>
-                    <button type="button" class="btn btn-secondary btn-advanced btn-rounded btn-black-white" data-dismiss="modal" onclick="fadeButton(this)">
-                        <span aria-hidden="true" class="blue-text icon">&times;</span>
-                        <span class="blue-text">Close</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-6">
-                                <p class="lead"><span class="highlight1">Free Plan</span></p>
-                                <p class="lead"><span class="highlight0">Your current plan.</span></p>
-                            </p>
-                            <ul class="text-start">
-                                <li>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2 text-success" viewBox="0 0 16 16">
-                                        <path d="M0 7.477l4.096 4.096L11.74 1.28 10.32 0l-6 6L1.28 4.32 0 5.736V7.48zm13.06-5.354l1.06 1.06L6 12.628.896 7.525l1.061-1.06L6 10.508l5.043-5.042z"/>
-                                    </svg>
-                                    Available when demand is low
-                                </li>
-                                <li>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2 text-success" viewBox="0 0 16 16">
-                                        <path d="M0 7.477l4.096 4.096L11.74 1.28 10.32 0l-6 6L1.28 4.32 0 5.736V7.48zm13.06-5.354l1.06 1.06L6 12.628.896 7.525l1.061-1.06L6 10.508l5.043-5.042z"/>
-                                    </svg>
-                                    Standard response speed
-                                </li>
-                                <li>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2 text-success" viewBox="0 0 16 16">
-                                        <path d="M0 7.477l4.096 4.096L11.74 1.28 10.32 0l-6 6L1.28 4.32 0 5.736V7.48zm13.06-5.354l1.06 1.06L6 12.628.896 7.525l1.061-1.06L6 10.508l5.043-5.042z"/>
-                                    </svg>
-                                    Regular Transformer updates
-                                </li>
-                                <!-- <li>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2 text-success" viewBox="0 0 16 16">
-                                        <path d="M0 7.477l4.096 4.096L11.74 1.28 10.32 0l-6 6L1.28 4.32 0 5.736V7.48zm13.06-5.354l1.06 1.06L6 12.628.896 7.525l1.061-1.06L6 10.508l5.043-5.042z"/>
-                                    </svg>
-                                     Up <span id="jobCount"></span> running jobs
-                                </li> -->
-                                <li>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2 text-success" viewBox="0 0 16 16">
-                                        <path d="M0 7.477l4.096 4.096L11.74 1.28 10.32 0l-6 6L1.28 4.32 0 5.736V7.48zm13.06-5.354l1.06 1.06L6 12.628.896 7.525l1.061-1.06L6 10.508l5.043-5.042z"/>
-                                    </svg>
-                                    Up to <span id="jobCount" class="jobCount"></span> running jobs
-                                </li>
-
-                            </ul>
-                        </div>
-                        <div class="col-md-6" style="border-left: 1px solid #999;">
-                            <!-- <h4><strong>PYE Plus</strong></h4> -->
-                            <!-- <hr style="border: none; border-top: 2px dashed #999; margin: 10px 0;"> -->
-                            <!-- <p class="lead">
-                                <span class="highlight2">PRO Plan</span>
-                            </p> -->
-                            <p class="text-primary">
-                                <span><strong>PYE Plus</strong></span> USD $20/mo
-                            </p>
-                            <p>
-                                <a class="highlight" href="customer/gopro">Upgrade</a>
-                            </p>
-                            <ul class="text-start">
-                                <li>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2 text-success" viewBox="0 0 16 16">
-                                        <path d="M0 7.477l4.096 4.096L11.74 1.28 10.32 0l-6 6L1.28 4.32 0 5.736V7.48zm13.06-5.354l1.06 1.06L6 12.628.896 7.525l1.061-1.06L6 10.508l5.043-5.042z"/>
-                                    </svg>
-                                    Available even when demand is high 
-                                </li>
-                                <li>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2 text-success" viewBox="0 0 16 16">
-                                        <path d="M0 7.477l4.096 4.096L11.74 1.28 10.32 0l-6 6L1.28 4.32 0 5.736V7.48zm13.06-5.354l1.06 1.06L6 12.628.896 7.525l1.061-1.06L6 10.508l5.043-5.042z"/>
-                                    </svg>
-                                    Faster response speed
-                                </li>
-                                <li>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2 text-success" viewBox="0 0 16 16">
-                                        <path d="M0 7.477l4.096 4.096L11.74 1.28 10.32 0l-6 6L1.28 4.32 0 5.736V7.48zm13.06-5.354l1.06 1.06L6 12.628.896 7.525l1.061-1.06L6 10.508l5.043-5.042z"/>
-                                    </svg>
-                                    Priority access to new features
-                                </li>
-                                <li>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2 text-success" viewBox="0 0 16 16">
-                                        <path d="M0 7.477l4.096 4.096L11.74 1.28 10.32 0l-6 6L1.28 4.32 0 5.736V7.48zm13.06-5.354l1.06 1.06L6 12.628.896 7.525l1.061-1.06L6 10.508l5.043-5.042z"/>
-                                    </svg>
-                                    "Unlimited running jobs
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <hr style="border-top: 1px solid #999;">
-                    <a href="billing-issue-page" style="text-decoration: underline;">I need help with a billing issue</a>
-                </div>
-            </div>
-        </div>
-    </form>
+ 
 </div>
 <style>
 @keyframes jobCountAnimation {
@@ -431,58 +319,58 @@
 
  
 
-    var words = ["Privately customize AI applications (PMs) using your organization's data.",
-     "Accelerate development of generative AI applications using PMs through an API, without managing infrastructure.",
-    "The easiest way to build and scale generative AI applications with pye models (PMs).",
-      "Choose PMs from Anthropic, ChatGPT, Llamda etc. to find the right PM for your use case.",
-    "Thanks for working with us."],
-    part,
-    i = 0,
-    offset = 0,
-    len = words.length,
-    forwards = true,
-    skip_count = 0,
-    skip_delay = 15,
-    speed = 70;
+//     var words = ["Privately customize AI applications (PMs) using your organization's data.",
+//      "Accelerate development of generative AI applications using PMs through an API, without managing infrastructure.",
+//     "The easiest way to build and scale generative AI applications with pye models (PMs).",
+//       "Choose PMs from Anthropic, ChatGPT, Llamda etc. to find the right PM for your use case.",
+//     "Thanks for working with us."],
+//     part,
+//     i = 0,
+//     offset = 0,
+//     len = words.length,
+//     forwards = true,
+//     skip_count = 0,
+//     skip_delay = 15,
+//     speed = 70;
 
 
-var wordflick = function () {
-  setInterval(function () {
-    if (forwards) {
-      if (offset >= words[i].length) {
-        ++skip_count;
-        if (skip_count == skip_delay) {
-          forwards = false;
-          skip_count = 0;
-        }
-      }
-    }
-    else {
-      if (offset == 0) {
-        forwards = true;
-        i++;
-        offset = 0;
-        if (i >= len) {
-          i = 0;
-        }
-      }
-    }
-    part = words[i].substr(0, offset);
-    if (skip_count == 0) {
-      if (forwards) {
-        offset++;
-      }
-      else {
-        offset--;
-      }
-    }
-    $('.word').text(part);
-  },speed);
-};
+// var wordflick = function () {
+//   setInterval(function () {
+//     if (forwards) {
+//       if (offset >= words[i].length) {
+//         ++skip_count;
+//         if (skip_count == skip_delay) {
+//           forwards = false;
+//           skip_count = 0;
+//         }
+//       }
+//     }
+//     else {
+//       if (offset == 0) {
+//         forwards = true;
+//         i++;
+//         offset = 0;
+//         if (i >= len) {
+//           i = 0;
+//         }
+//       }
+//     }
+//     part = words[i].substr(0, offset);
+//     if (skip_count == 0) {
+//       if (forwards) {
+//         offset++;
+//       }
+//       else {
+//         offset--;
+//       }
+//     }
+//     $('.word').text(part);
+//   },speed);
+// };
 
-$(document).ready(function () {
-  wordflick();
-});
+// $(document).ready(function () {
+//   wordflick();
+// });
 
 
 

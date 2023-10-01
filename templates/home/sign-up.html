@@ -1,8 +1,6 @@
 {% load widget_tweaks %}
 {% load static %}
 
-<!-- Specific CSS goes HERE -->
-{% block stylesheets %}{% endblock stylesheets %}
 
 {% block content %}
 
@@ -14,7 +12,7 @@
     <meta name="description" content="Personalised AI Solutions">
 
     <!-- ========== Page Title ========== -->
-    <title>PYE</title>
+    <title>PYE - Register</title>
 
     <!-- ========== Favicon Icon ========== -->
     <link rel="shortcut icon" href="{% static 'assets/img/favicon1.png' %}" type="image/x-icon">
@@ -43,37 +41,21 @@
     <!-- ========== Google Fonts ========== -->
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;600;700;800&display=swap" rel="stylesheet">
 
-</head>
-<body>
  
-</head>
-   
- 
-
-
-    <!-- End Services Area -->
-
-    <!-- Start Work Process Area
-    ============================================= -->
-   
-    <!-- End Blog Area -->
 
 <style>
     section {
-      height: 100%;
       margin: 0;
       padding: 0;
       font-family: Arial, sans-serif;
-      width: 50%;
     }
 
     .signin-container {
+      background-color: #eee !important;
       height: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background-color: #f7f7f7;
-      margin-bottom: 10px;
+    }
+    .body {
+      background-color: silver !important;
     }
 
     .card {
@@ -112,14 +94,10 @@
       width: 100%;
     }
     
-    /* Center the card within the container */
-    .signin-container .card {
-      position: relative;
-      left: 50%;
-      transform: translateX(-50%);
-    }
+  
     input {
-        min-height: 47px;
+        height: 41px !important;
+        font-size: 13px !important;
     }
 
     .waviy {
@@ -148,11 +126,15 @@
 
 </style>
 
+</head>
+ 
+   
+ 
+
      {% include 'layouts\header.html' %}
 
 
-<!-- Button trigger modal (This is hidden, just to trigger the modal) -->
-<button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#bigModal"></button>
+ 
 
 <!-- Big Modal -->
 <div class="modal fade" id="bigModal" tabindex="-1" aria-labelledby="bigModalLabel" aria-hidden="true">
@@ -221,7 +203,7 @@
     <h5>10. Changes to Terms</h5>
     <p class="px-4">We may update these Terms from time to time. It is your responsibility to review these Terms periodically for changes. Your continued use of the Platform following the posting of changes constitutes your acceptance of the revised Terms.</p>
 
-    <p class="px-4">By using the Pye platform, you acknowledge that you have read, understood, and agreed to these Terms and Conditions. If you have any questions or concerns, please contact us at <a href="mailto:contact@pye.com">contact@pye.com</a>.</p>
+    <p class="px-4">By using the Pye platform, you acknowledge that you have read, understood, and agreed to these <a  type="button" data-bs-toggle="modal" data-bs-target="#bigModal">Terms and Conditions.</a> If you have any questions or concerns, please contact us at <a href="mailto:contact@pye.com">contact@pye.com</a>.</p>
 
 
       </div>
@@ -234,99 +216,90 @@
 </div>
 
 
-<div style="display: flex; height:100%" >
+ 
+    <div class="signin-container  "  style="display: flex; height:100%; justify-content:center" > 
 
-    <div class="signin-container w-100" >
+        <section style="margin-top: 5%;  " >
+     
+          <div  class="bg-white    mb-3 pt-3" style="width: 530px; padding: 20px;box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;">
 
-        <section style="margin-top: 8%;  " >
-      <div class="page-headser w-100" style="padding-left:20%;padding-right:20%; " >
-        <div >
-          <div class="card-heade  text-center">
-   <a href='/' style="  padding: 5px;   margin-left: 10px!important; font-size:60px; color: #04042d!important; " ><svg width="75px" height="75px" viewBox="0 -19.5 164 164" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M19.2329 89.0831C17.3341 89.4211 15.7432 89.7559 14.1371 89.9817C7.06966 90.976 1.51901 86.5687 0.48068 79.5288C-1.0289 69.307 6.73229 58.1139 14.141 55.0389C16.6482 53.9986 19.5794 53.9795 23.0364 53.3665C32.2494 32.1615 49.7618 21.7934 73.5423 20.3488C73.8921 16.4462 74.238 12.5935 74.6022 8.54059C73.5751 8.11988 72.3431 7.95977 71.6796 7.26077C70.7134 6.24344 69.5996 4.84016 69.5957 3.59771C69.5918 2.53116 70.9221 0.709891 71.8974 0.535306C74.597 0.0535535 77.542 -0.276629 80.1608 0.325233C83.5048 1.0938 83.9852 3.75262 81.8548 6.48561C81.4171 6.9389 81.1341 7.51899 81.0462 8.14288C81.224 11.6156 81.5273 15.081 81.7616 18.179C88.0211 18.7375 94.0055 19.0381 99.9211 19.8421C119.273 22.472 132.088 33.3508 139.077 51.3896C139.194 51.6909 139.333 51.9849 139.478 52.2744C139.549 52.3747 139.633 52.4656 139.727 52.5448C142.943 52.5448 146.247 52.1103 149.393 52.6347C156.138 53.7583 161.178 57.4004 162.853 64.3477C164.528 71.2951 161.862 77.0616 156.759 81.6435C151.742 86.1493 145.621 87.389 138.993 86.5404C138.746 86.7453 138.532 86.987 138.359 87.2571C130.949 104.691 117.203 114.915 99.7662 120.658C84.6227 125.684 68.3154 126.026 52.9746 121.639C36.0424 116.958 23.8017 107.182 19.2329 89.0831ZM74.3653 116.033C77.9548 115.728 81.5686 115.59 85.1292 115.09C99.4118 113.083 112.05 107.628 121.744 96.6153C138.759 77.2881 134.524 42.1123 104.846 32.3558C93.8566 28.746 82.3857 26.5243 70.7233 27.2725C57.6687 28.1106 46.2832 33.0968 37.8617 43.4256C30.0513 53.0022 26.6062 64.3694 26.3233 76.5471C25.9125 94.2223 34.5276 106.232 51.1808 112.095C58.6448 114.649 66.4731 115.979 74.362 116.032L74.3653 116.033ZM20.0205 60.3756C19.7421 60.3376 19.4597 60.3412 19.1824 60.3861C12.7641 62.2757 6.45466 73.2929 8.09026 79.6823C8.58579 81.6199 9.81316 82.7712 11.7592 82.8092C13.8765 82.8512 16.0005 82.5894 17.5501 82.4949C18.4092 74.7881 19.2099 67.6156 20.0185 60.3742L20.0205 60.3756ZM141.736 77.21C145.278 77.15 148.678 75.8064 151.305 73.4289C154.874 70.1905 155.296 65.2817 152.224 62.4522C149.242 59.7061 145.667 58.9152 141.736 59.7146V77.21Z" fill="#000000"></path> <path d="M84.8075 82.0252C86.4018 82.3193 88.1725 82.2825 89.5331 83.0097C90.1516 83.3495 90.6946 83.8115 91.129 84.3676C91.5634 84.9238 91.8802 85.5624 92.06 86.2448C92.3344 88.1095 90.7172 89.0671 88.9411 89.2994C88.0814 89.4143 87.2076 89.3635 86.367 89.1498C84.8505 88.6937 83.2428 88.6309 81.6954 88.9674C80.148 89.304 78.7116 90.0287 77.5215 91.0734C76.1714 92.182 74.5896 93.0209 73.233 91.3781C72.0319 89.9236 72.5832 88.2348 73.7817 86.9346C75.1549 85.3673 76.8518 84.1166 78.7554 83.269C80.659 82.4214 82.7239 81.9971 84.8075 82.0252Z" fill="#000000"></path> <path d="M57.7186 52.5112C61.4295 52.6392 63.7503 55.2876 63.5495 59.1645C63.3893 62.2533 60.9084 64.7434 58.1203 64.6154C54.9698 64.4703 52.4724 61.3206 52.607 57.6582C52.7442 53.9453 54.2853 52.3924 57.7186 52.5112Z" fill="#000000"></path> <path d="M93.575 57.3327C93.5684 54.2361 94.7564 52.8328 97.4244 52.7856C100.873 52.7245 103.039 54.689 102.96 57.8066C102.891 60.4916 100.78 62.7678 98.3 62.8282C95.4672 62.8971 93.5822 60.7024 93.575 57.3327Z" fill="#000000"></path> </g></svg></a> 
-              <span style=" font-size:24px; font-weight: bold; color: black; " > Pye
-              </span>
-          </div>
-          <div  class="bg-white  my-3" style="width: 500px;border:1px solid #eee;padding: 30px;">
-            <form method="post" role="form text-left">
+
+            <form method="post" role="form" class="py-0" style="padding-left:15px;padding-right: 15px;" >
               {% csrf_token %} 
              
-                          <label>Username</label>
-                  <div class="mb-3">
+
+             <h3 class="font-weight-bolder mt-3 mb-3" > Join Now !!  </h3>
+
+     <div class="input-group mb-4 mt-4">
+ 
+
+                     {% render_field customerForm.email|attr:'required:true'  class="form-control" placeholder="Email Address" %}
+
+               <div class="input-group-append">
+    <span class="input-group-text"><svg width="22px" height="22px" viewBox="0 0 32 32" id="svg5" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <defs id="defs2"></defs> <g id="layer1" transform="translate(-396,-52)"> <path d="m 357,54 c -1.6447,0 -3,1.355301 -3,3 v 3 h -2 a 1,1 0 0 0 -1,1 1,1 0 0 0 1,1 h 2 v 5 h -2 a 1,1 0 0 0 -1,1 1,1 0 0 0 1,1 h 2 v 4.999997 h -2 a 1,1 0 0 0 -1,1 1,1 0 0 0 1,1 h 2 v 3 c 0,1.6447 1.3553,3 3,3 h 17 c 1.6447,0 3,-1.3553 3,-3 V 57 c 0,-1.644699 -1.3553,-3 -3,-3 z m 48,0 c -1.6447,0 -3,1.355301 -3,3 v 3 h -2 a 1,1 0 0 0 -1,1 1,1 0 0 0 1,1 h 2 v 5 h -2 a 1,1 0 0 0 -1,1 1,1 0 0 0 1,1 h 2 v 4.999997 h -2 a 1,1 0 0 0 -1,1 1,1 0 0 0 1,1 h 2 v 3 c 0,1.6447 1.3553,3 3,3 h 17 c 1.6447,0 3,-1.3553 3,-3 V 57 c 0,-1.644699 -1.3553,-3 -3,-3 z m -48,2 h 17 c 0.5713,0 1,0.428704 1,1 v 21.999997 c 0,0.5713 -0.4287,1 -1,1 h -17 c -0.5713,0 -1,-0.4287 -1,-1 v -3 h 1 a 1,1 0 0 0 1,-1 1,1 0 0 0 -1,-1 h -1 V 69 h 1 a 1,1 0 0 0 1,-1 1,1 0 0 0 -1,-1 h -1 v -5 h 1 a 1,1 0 0 0 1,-1 1,1 0 0 0 -1,-1 h -1 v -3 c 0,-0.571296 0.4287,-1 1,-1 z m 48,0 h 17 c 0.5713,0 1,0.428704 1,1 v 21.999997 c 0,0.5713 -0.4287,1 -1,1 h -17 c -0.5713,0 -1,-0.4287 -1,-1 v -3 h 1 a 1,1 0 0 0 1,-1 1,1 0 0 0 -1,-1 h -1 V 69 h 1 a 1,1 0 0 0 1,-1 1,1 0 0 0 -1,-1 h -1 v -5 h 1 a 1,1 0 0 0 1,-1 1,1 0 0 0 -1,-1 h -1 v -3 c 0,-0.571296 0.4287,-1 1,-1 z m -40,3 c -2.19729,0 -4,1.802713 -4,4 0,2.197287 1.80271,4 4,4 2.19729,0 4,-1.802713 4,-4 0,-2.197287 -1.80271,-4 -4,-4 z m 0,2 c 1.11642,0 2,0.883586 2,2 0,1.116414 -0.88358,2 -2,2 -1.11642,0 -2,-0.883586 -2,-2 0,-1.116414 0.88358,-2 2,-2 z m 49,0 c -3.85414,-10e-7 -7,3.145863 -7,7 0,3.854137 3.14586,6.999997 7,6.999997 a 0.99999499,0.99999499 0 0 0 1,-1 0.99999499,0.99999499 0 0 0 -1,-1 c -2.77327,0 -5,-2.22673 -5,-4.999997 0,-2.773265 2.22673,-5.000001 5,-5 2.77327,-10e-7 5.00002,2.226743 5,5 v 2 c 0,0.564133 -0.43587,0.999997 -1,0.999997 -0.56413,0 -1,-0.435866 -1,-0.999997 v -2 c 0,-1.645003 -1.35499,-2.999997 -3,-3 -1.64501,3e-6 -3,1.354997 -3,3 0,1.645003 1.35499,2.999997 3,2.999997 0.39113,0 0.76536,-0.0779 1.10938,-0.21679 0.34849,1.27043 1.51634,2.21679 2.89062,2.21679 1.64501,1e-5 3,-1.35499 3,-2.999997 v -2 c 2e-5,-3.854137 -3.14586,-7.000001 -7,-7 z m 0,6 c 0.56413,10e-7 1,0.435868 1,1 0,0.564132 -0.43587,0.999999 -1,1 -0.56413,-10e-7 -1,-0.435868 -1,-1 0,-0.564132 0.43587,-0.999999 1,-1 z m -51,1 c -2.1987,0 -4,1.801301 -4,3.999997 0,2.1987 1.8013,4 4,4 h 4 c 2.1987,0 4,-1.8013 4,-4 C 371,69.801301 369.1987,68 367,68 Z m 0,2 h 4 c 1.1253,0 2,0.874707 2,1.999997 0,1.1253 -0.8747,2 -2,2 h -4 c -1.1253,0 -2,-0.8747 -2,-2 C 361,70.874707 361.8747,70 363,70 Z" id="rect35136" style="color:#000000;fill:#000000;fill-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4.1;-inkscape-stroke:none"></path> </g> </g></svg></span>
+  </div>
+  
+  
+</div>
+
+
+
+                    <div class="input-group mb-4">
+ 
+
                     {% render_field userForm.username|attr:'required:true'  class="form-control" placeholder="Username" %}
-                  </div>
-                  <label>Password</label>
-                  <div class="mb-3">
-                    {% render_field userForm.password|attr:'required:true'  class="form-control" placeholder="Password" %}
-                  </div>
-                  <label>Email</label>
-                  <div class="mb-3">
-                    {% render_field customerForm.email|attr:'required:true'  class="form-control" placeholder="Email" %}
-                  </div>
-                  <!-- <label>First Name</label>
-                  <div class="mb-3">
-                    {% render_field userForm.first_name|attr:'required:true'  class="form-control" placeholder="First Name" %}
-                  </div>
-                  <label>Last Name</label>
-                  <div class="mb-3">
-                    {% render_field userForm.last_name|attr:'required:true'  class="form-control" placeholder="Last Name" %}
-                  </div>
-                  <label>Mobile</label>
-                  <div class="mb-3">
-                    {% render_field customerForm.mobile|attr:'required:true'  class="form-control" placeholder="Mobile" %}
-                  </div>
-                  <label>Address</label>
-                  <div class="mb-3">
-                    {% render_field customerForm.address|attr:'required:true'  class="form-control" placeholder="Address" %}
-                  </div>
-                  <label>Profession</label>
-                  <div class="mb-3">
-                    {% render_field customerForm.profession|attr:'required:false'  class="form-control" placeholder="Profession" %}
-                  </div>
-                  <label>Facebook</label>
-                  <div class="mb-3">
-                    {% render_field customerForm.fb|attr:'required:false'  class="form-control" placeholder="Facebook URL" %}
-                  </div>
-                  <label>Instagram</label>
-                  <div class="mb-3">
-                    {% render_field customerForm.ig|attr:'required:false'  class="form-control" placeholder="Instagram URL" %}
-                  </div>
-                  <label>Twitter</label>
-                  <div class="mb-3">
-                    {% render_field customerForm.twitter|attr:'required:false'  class="form-control" placeholder="Twitter URL" %}
-                  </div>
-                  <label>Profile Picture</label>
-                  <div class="mb-3">
-                    {% render_field customerForm.profile_pic|attr:'required:true' class="form-control" placeholder="" %}
-                  </div> -->
-                  <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" id="rememberMe"  >
-                    <label class="form-check-label" for="rememberMe" style="margin-top: 14px;"> I agree to the <a href="">Terms and Conditions</a>
-                                        and the <a href="/privacy/">Privacy and Cookies Policy</a></label>
+
+                     <div class="input-group-append">
+    <span class="input-group-text"><svg width="22px" height="22px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M20 18L14 18M17 15V21M4 21C4 17.134 7.13401 14 11 14C11.695 14 12.3663 14.1013 13 14.2899M15 7C15 9.20914 13.2091 11 11 11C8.79086 11 7 9.20914 7 7C7 4.79086 8.79086 3 11 3C13.2091 3 15 4.79086 15 7Z" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg></span>
+  </div>
+
+
+</div>
+
+
+            <div class="input-group mb-2 mt-3">
+ 
+                  {% render_field userForm.password|attr:'required:true'  class="form-control" placeholder="Password" %}
+
+               <div class="input-group-append">
+    <span class="input-group-text"><svg width="22px" height="22px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M14 6V5C14 3.89543 13.1046 3 12 3C10.8954 3 10 3.89543 10 5V6M9 11H15C15.5523 11 16 10.5523 16 10V7C16 6.44772 15.5523 6 15 6H9C8.44772 6 8 6.44772 8 7V10C8 10.5523 8.44772 11 9 11ZM5 21H19C20.1046 21 21 20.1046 21 19V16C21 14.8954 20.1046 14 19 14H5C3.89543 14 3 14.8954 3 16V19C3 20.1046 3.89543 21 5 21Z" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> <circle cx="7.5" cy="17.5" r="1.5" fill="#000000"></circle> <circle cx="12" cy="17.5" r="1.5" fill="#000000"></circle> <circle cx="16.5" cy="17.5" r="1.5" fill="#000000"></circle> </g></svg></span>
+  </div>
+  
+
+</div>
+
+
+
+
+
+
+
+                  <div class="form-check form-switch" >
+                    <input class="form-check-input " type="checkbox" id="rememberMe"  >
+                    <label class="form-check-label" for="rememberMe" style="margin-top: 10px;"> I agree to the <a href="">Terms and Conditions</a>
+                                        and the <a href="/privacy/">Privacy and Cookies Policy.</a></label>
                   </div>
 
 
               <div class="text-center">
-                <button type="submit" class="btn btn-success w-100 mt-4 py-3" style="background-color: #0053a6;">Register</button>
+                <button type="submit" class="btn btn-success w-100 mt-4 py-2 text-capitalize " style="background-color: #04042d;border-radius: 1.17647rem; ">Register</button>
               </div>
             </form>
           </div>
-          <div class="card-foote text-center pt-0">
-           <p class="mb-4 mt-2 text-sm mx-auto">
-                  Already have an account?
-                  <a href="/customer/login" class="text-success font-weight-bold  ">Sign In</a>
-                </p>
+
+
+
+             <div  class="bg-white " style="width: 530px; padding: 20px;box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;">
+                
+ <a href="/customer/login" type="submit" class="btn btn-success w-100 text-capitalize "  style="border-radius: 1.17647rem;"   >Already have an account ? Login</a>
+
+             
           </div>
-        </div>
-      </div>
     </section>
 
 
 
  
-  </div>
-  
-
-
   </div>
 
     <!-- jQuery Frameworks
@@ -351,105 +324,7 @@
     <script src="{% static 'assets/js/main.js' %}"></script>
  
 </body>
-<style>
-    .highlight {
-        background-color: #007bff;
-        color: #fff;
-        padding: 8px 12px;
-        border-radius: 100px;
-    }    
-    .highlight1 {
-        color: #000;
-        padding: 10px 12px;
-        border-radius: 4px;
-    }
-    .highlight0 {
-        background-color: #000000e6;
-        color: #fff;
-        padding: 8px 12px;
-        border-radius: 4px;
-    }
-    .highlight2 {
-        background-color: #1289dd;
-        color: #fff;
-        padding: 8px 12px;
-        border-radius: 4px;
-    }
-        .btn-rounded {
-        border-radius: 10px;
-    }
-
-    .btn-black-white {
-        background-color: #dadee3;
-        color: #fff;
-    }
-     .blue-text {
-        color: blue;
-    }
-</style>
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <form action="/customer/connector" method="POST">
-        {% csrf_token %}
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content" style="border-radius: 20px;">
-                <div class="modal-header" style="background-color: #dadee3; color: #fff; border-radius: 10px;">
-                    <h5 class="modal-title text-uppercase" id="exampleModalLabel" style="font-weight: bold; font-family: 'Arial', sans-serif; text-transform: uppercase;">Your plan</h5>
-                    <button type="button" class="btn btn-secondary btn-advanced btn-rounded btn-black-white" data-dismiss="modal" onclick="fadeButton(this)">
-                        <span aria-hidden="true" class="blue-text icon">&times;</span>
-                        <span class="blue-text">Close</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-6">
-                                <p class="lead"><span class="highlight1">Free Plan</span></p>
-                                <p class="lead"><span class="highlight0">Your current plan.</span></p>
-                            </p>
-                            <ul class="text-start">
-                                <li>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2 text-success" viewBox="0 0 16 16">
-                                        <path d="M0 7.477l4.096 4.096L11.74 1.28 10.32 0l-6 6L1.28 4.32 0 5.736V7.48zm13.06-5.354l1.06 1.06L6 12.628.896 7.525l1.061-1.06L6 10.508l5.043-5.042z"/>
-                                    </svg>
-                                    Available when demand is low
-                                </li>
-                                <li>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2 text-success" viewBox="0 0 16 16">
-                                        <path d="M0 7.477l4.096 4.096L11.74 1.28 10.32 0l-6 6L1.28 4.32 0 5.736V7.48zm13.06-5.354l1.06 1.06L6 12.628.896 7.525l1.061-1.06L6 10.508l5.043-5.042z"/>
-                                    </svg>
-                                    Standard response speed
-                                </li>
-                                <li>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2 text-success" viewBox="0 0 16 16">
-                                        <path d="M0 7.477l4.096 4.096L11.74 1.28 10.32 0l-6 6L1.28 4.32 0 5.736V7.48zm13.06-5.354l1.06 1.06L6 12.628.896 7.525l1.061-1.06L6 10.508l5.043-5.042z"/>
-                                    </svg>
-                                    Regular Transformer updates
-                                </li>
-                                <!-- <li>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2 text-success" viewBox="0 0 16 16">
-                                        <path d="M0 7.477l4.096 4.096L11.74 1.28 10.32 0l-6 6L1.28 4.32 0 5.736V7.48zm13.06-5.354l1.06 1.06L6 12.628.896 7.525l1.061-1.06L6 10.508l5.043-5.042z"/>
-                                    </svg>
-                                     Up <span id="jobCount"></span> running jobs
-                                </li> -->
-                                <li>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2 text-success" viewBox="0 0 16 16">
-                                        <path d="M0 7.477l4.096 4.096L11.74 1.28 10.32 0l-6 6L1.28 4.32 0 5.736V7.48zm13.06-5.354l1.06 1.06L6 12.628.896 7.525l1.061-1.06L6 10.508l5.043-5.042z"/>
-                                    </svg>
-                                    Up to <span id="jobCount" class="jobCount"></span> running jobs
-                                </li>
-
-                            </ul>
-                        </div>
-                    
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <hr style="border-top: 1px solid #999;">
-                    <a href="billing-issue-page" style="text-decoration: underline;">I need help with a billing issue</a>
-                </div>
-            </div>
-        </div>
-    </form>
-</div>
+  
 <style>
 @keyframes jobCountAnimation {
     0% {
@@ -536,3 +411,5 @@ if ( getSystemDimensions()  < '1100 x 930'){
   </script>
 
 {% endblock javascripts %}
+
+
