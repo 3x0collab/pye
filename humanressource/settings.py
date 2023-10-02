@@ -178,13 +178,4 @@ X_FRAME_OPTIONS = 'SAMEORIGIN'
 
 
 Q_CLUSTER = {
-   'name': 'mycluster',
-    'workers': 8,
-    'recycle': 500,
-    'timeout': 300,
-    'retry': 3600,
-    'queue_limit': 50,
-    'bulk': 10,
-    'compress': True,
-   'redis':  'redis://default:O4Zw7OKGVtd0nhW11R6ebh4E0yzmqL8p@redis-14385.c263.us-east-1-2.ec2.cloud.redislabs.com:14385',  # RedisLite URL
-}
+   }
